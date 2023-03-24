@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/memu_data_1"
+        android:title="Thêm thông tin"
+        />
+    <item
+        android:id="@+id/memu_data_2"
+        android:title="Chỉnh sửa thông tin" />
+    <item
+        android:id="@+id/memu_data_3"
+        android:title="Xóa dữ liệu" />
+</menu>
