@@ -82,57 +82,60 @@
             />
         <Button
             android:id="@+id/admin_login_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"
             android:text="Đăng Nhập"
             android:layout_gravity="center"
             android:textSize="16sp"
-            android:backgroundTint="@color/app_main2"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn chưa có tài khoản?"
-            android:textSize="16sp"
 
             />
 
-        <TextView
-            android:id="@+id/loginNavRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="16sp"
-            android:text="Đăng ký ở đây !"
-            android:textColor="@color/blue"
-             />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
         <Button
             android:id="@+id/btnSignInGG"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="50dp"
             android:text="Đăng nhập bằng Google"
-            android:layout_marginEnd="50dp"
-            android:layout_marginStart="50dp"
-
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             app:backgroundTint="@null"
             android:background="@drawable/button_outline"
 
             android:drawableLeft="@drawable/ic_google"
             android:textColor="@color/white"
             />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bạn chưa có tài khoản?"
+                android:textSize="16sp"
+
+                />
+
+            <TextView
+                android:id="@+id/loginNavRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textSize="16sp"
+                android:text="Đăng ký ở đây !"
+                android:textColor="@color/blue"
+                />
+
         </LinearLayout>
 
     </LinearLayout>
