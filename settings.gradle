@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CSC13009-Android-CKDP"
+rootProject.name = "csc13009_android_ckdp"
 include ':app'
