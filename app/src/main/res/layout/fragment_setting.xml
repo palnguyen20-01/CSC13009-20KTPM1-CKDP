@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:background="@color/app_main1"
-    tools:context=".MainActivity">
+     >
 
 
     <include

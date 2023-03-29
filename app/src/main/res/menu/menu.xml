@@ -20,7 +20,7 @@
         />
 
     <item
-        android:id="@+id/itemProfile"
+        android:id="@+id/itemSetting"
         android:title="Tài khoản"
         android:icon="@drawable/ic_action_profile"
         />
