@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main2"
+    tools:context=".BMI.BMIActivity">
+
+    <NumberPicker
+        android:id="@+id/ageNumberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="74dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="@+id/ageTextView"
+        app:layout_constraintStart_toStartOf="@+id/ageTextView"
+        app:layout_constraintTop_toBottomOf="@+id/ageTextView" />
+
+    <NumberPicker
+        android:id="@+id/heightNumberPicker"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="-30dp"
+        android:layout_marginEnd="-30dp"
+        android:layout_weight="1"
+        app:layout_constraintEnd_toEndOf="@+id/heightTextView"
+        app:layout_constraintStart_toStartOf="@+id/heightTextView"
+        app:layout_constraintTop_toBottomOf="@+id/heightTextView" />
+
+    <TextView
+        android:id="@+id/ageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:text="Age"
+        android:textColor="@color/app_main1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/heightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="30dp"
+        android:text="Height"
+        android:textColor="@color/app_main1"
+        app:layout_constraintStart_toEndOf="@+id/ageTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/heightSpinner"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="height"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/heightNumberPicker"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/genderRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="horizontal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/weightNumberPicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ageNumberPicker">
+
+        <RadioButton
+            android:id="@+id/maleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/male_radio_custom"
+            android:textAlignment="center" />
+
+        <RadioButton
+            android:id="@+id/femaleRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:button="@null"
+            android:drawableTop="@drawable/female_radio_custom" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/weightTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Weight"
+        android:textColor="@color/app_main1"
+        app:layout_constraintEnd_toEndOf="@+id/heightTextView"
+        app:layout_constraintStart_toStartOf="@+id/heightTextView"
+        app:layout_constraintTop_toBottomOf="@+id/heightNumberPicker" />
+
+    <NumberPicker
+        android:id="@+id/weightNumberPicker"
+        android:layout_width="0dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="-30dp"
+        android:layout_marginEnd="-30dp"
+        app:layout_constraintEnd_toEndOf="@+id/weightTextView"
+        app:layout_constraintStart_toStartOf="@+id/weightTextView"
+        app:layout_constraintTop_toBottomOf="@+id/weightTextView" />
+
+    <Spinner
+        android:id="@+id/weightSpinner"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="65dp"
+        android:contentDescription="weight"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/weightNumberPicker"
+        app:layout_constraintTop_toBottomOf="@+id/heightSpinner" />
+
+    <com.ekn.gruzer.gaugelibrary.HalfGauge
+        android:id="@+id/bmiHalfGauge"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weightNumberPicker" />
+
+    <TextView
+        android:id="@+id/categoryTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="Category"
+        android:textColor="@color/app_main1"
+        app:layout_constraintEnd_toStartOf="@+id/differenceTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bmiHalfGauge" />
+
+    <TextView
+        android:id="@+id/differenceTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="Difference"
+        android:textColor="@color/app_main1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/categoryTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/bmiHalfGauge" />
+
+    <TextView
+        android:id="@+id/categoryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="CATEGORY"
+        android:textColor="@color/app_main1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/categoryTitleTextView"
+        app:layout_constraintStart_toStartOf="@+id/categoryTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/categoryTitleTextView" />
+
+    <TextView
+        android:id="@+id/differenceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="DIFFERENCE"
+        android:textColor="@color/app_main1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/differenceTitleTextView"
+        app:layout_constraintStart_toStartOf="@+id/differenceTitleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/differenceTitleTextView" />
+</androidx.constraintlayout.widget.ConstraintLayout>
