@@ -9,7 +9,8 @@
     android:layout_marginRight="10dp"
     android:layout_marginLeft="10dp"
     app:cardUseCompatPadding="true"
-    card_view:cardCornerRAdius="5dp">
+    card_view:cardCornerRAdius="5dp"
+    android:id="@+id/card_phone">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -21,12 +22,12 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:padding="2dp"
-                android:src="@drawable/ic_email"
+                android:src="@drawable/ic_phone"
                 android:layout_marginStart="5dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
             <TextView
-                android:text="Email"
+                android:text="Mobile"
                 android:layout_marginStart="10dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -37,11 +38,12 @@
 
 
         </LinearLayout>
-        <TextView
-            android:text="abc@gmail.com"
+        <EditText
+            android:text="+91 9800000"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"
+
             android:layout_marginStart="25dp"
             android:layout_marginBottom="15dp"
             android:layout_width="wrap_content"

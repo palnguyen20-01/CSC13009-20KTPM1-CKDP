@@ -11,12 +11,11 @@ import com.example.csc13009_android_ckdp.adapter.HomeAdapter
 
 class HomeFragment : Fragment {
     private var main: MainActivity? = null
-    private var featureNames = arrayOf<String>("Apple", "Mango", "Banana", "Orange")
-    private var featureImageIds = arrayOf<Int>(R.drawable.ic_home, R.drawable.ic_home,R.drawable.ic_home, R.drawable.ic_home)
+    private var featureNames = arrayOf<String>("First Aid", "BMI", "Alarm", "Orange")
+    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.ic_home, R.drawable.ic_home)
 
     constructor(main: MainActivity?) : super() {
         this.main = main
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

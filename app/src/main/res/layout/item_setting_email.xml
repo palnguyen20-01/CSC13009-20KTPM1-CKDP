@@ -10,7 +10,7 @@
     android:layout_marginLeft="10dp"
     app:cardUseCompatPadding="true"
     card_view:cardCornerRAdius="5dp"
-    android:id="@+id/card_password">
+    android:id="@+id/card_email">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -22,12 +22,12 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:padding="2dp"
-                android:src="@drawable/ic_lock"
+                android:src="@drawable/ic_email"
                 android:layout_marginStart="5dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"/>
             <TextView
-                android:text="Password"
+                android:text="Email"
                 android:layout_marginStart="10dp"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -39,7 +39,7 @@
 
         </LinearLayout>
         <TextView
-            android:text="Change password"
+            android:text="abc@gmail.com"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"

@@ -17,6 +17,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        selectedFragment = HomeFragment(this)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentHolder, selectedFragment!!)
+            .commit()
         initiateApp()
     }
 
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView?.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item: MenuItem ->
             val itemId = item.itemId
-            selectedFragment = HomeFragment(this)
+
             if (R.id.itemHome === itemId) {
                 selectedFragment = HomeFragment(this)
             } else if (R.id.itemMessage=== itemId) {

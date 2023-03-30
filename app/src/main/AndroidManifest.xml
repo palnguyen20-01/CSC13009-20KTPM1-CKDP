@@ -14,17 +14,18 @@
         <activity
             android:name=".AlarmActivity"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".BMI.BMIActivity"
             android:exported="true">
 
         </activity>
+
+        <activity android:name=".Profile.InfoChange"
+            android:exported="true"/>
+        <activity android:name=".Profile.PasswordChange"
+            android:exported="true"/>
         <activity
             android:name=".FirstAid.FirstAidInfo"
             android:exported="true" />
@@ -33,7 +34,14 @@
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

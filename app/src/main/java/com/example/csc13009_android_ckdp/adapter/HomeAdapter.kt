@@ -2,18 +2,19 @@ package com.example.csc13009_android_ckdp.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.csc13009_android_ckdp.HomeFragment
+import com.example.csc13009_android_ckdp.AlarmActivity
+import com.example.csc13009_android_ckdp.BMI.BMIActivity
+import com.example.csc13009_android_ckdp.FirstAid.FirstAidActivity
 import com.example.csc13009_android_ckdp.MyFeatures
 import com.example.csc13009_android_ckdp.R
 
-class HomeAdapter(private val contextMain: Context,
+class HomeAdapter(private val context: Context,
                   private val studentList: List<MyFeatures>
     ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>(){
     var onItemClick: ((MyFeatures) -> Unit)? = null
@@ -50,8 +51,25 @@ class HomeAdapter(private val contextMain: Context,
         val avatar = holder.imageView
         name.text = contact.getFeatureName()
         avatar.setImageResource(contact.getImageId())
+        val index: Int = holder.absoluteAdapterPosition
+        //.getAdapterPosition()
         holder.itemView.setOnClickListener {
-
+            if(index == 0) {
+                val intent = Intent(context, FirstAidActivity::class.java)
+                context.startActivity(intent)
+            }
+            else if(index == 1){
+                val intent = Intent(context, BMIActivity::class.java)
+                context.startActivity(intent)
+            }
+            else if(index == 2){
+                val intent = Intent(context, AlarmActivity::class.java)
+                context.startActivity(intent)
+            }
+            else if(index == 3){
+                val intent = Intent(context, BMIActivity::class.java)
+                context.startActivity(intent)
+            }
         }
     }
 

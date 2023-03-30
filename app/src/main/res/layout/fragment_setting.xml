@@ -19,6 +19,7 @@
         android:layout_marginRight="16dp"
         android:layout_width="match_parent" />
     <ScrollView
+        android:id="@+id/profileScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,10 +27,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/item_add"/>
-            <include layout="@layout/item_info"/>
+            <include layout="@layout/item_setting_info"/>
+            <include layout="@layout/item_setting_phone"/>
             <include layout="@layout/item_password"/>
-            <include layout="@layout/item_email"/>
+            <include layout="@layout/item_setting_email"/>
 
         </LinearLayout>
     </ScrollView>
