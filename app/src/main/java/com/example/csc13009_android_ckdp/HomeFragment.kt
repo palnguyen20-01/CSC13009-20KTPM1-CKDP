@@ -20,15 +20,7 @@ class HomeFragment : Fragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        main = try {
-            activity as MainActivity?
-        } catch (e: IllegalStateException) {
-            throw IllegalStateException("MainActivity must implement callbacks")
-        }
-        (activity as MainActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
-        (activity as MainActivity).supportActionBar!!.setDisplayUseLogoEnabled(true)
-        (activity as MainActivity).supportActionBar!!.setDisplayShowHomeEnabled(true)
     }
 
     override fun onCreateView(
@@ -51,10 +43,10 @@ class HomeFragment : Fragment {
     private fun prepareData(): ArrayList<MyFeatures> {
         val featureArrayList: ArrayList<MyFeatures> = ArrayList()
         for (i in featureNames.indices) {
-            val newspaper = MyFeatures()
-            newspaper.setNewspaperName(featureNames[i])
-            newspaper.setImageId(featureImageIds[i])
-            featureArrayList.add(newspaper)
+            val feats = MyFeatures()
+            feats.setNewspaperName(featureNames[i])
+            feats.setImageId(featureImageIds[i])
+            featureArrayList.add(feats)
         }
         return featureArrayList
     }

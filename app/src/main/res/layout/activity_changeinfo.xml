@@ -14,13 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_person"
-            android:layout_gravity="center"
-            />
         <TextView
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -32,6 +25,17 @@
             android:gravity="center"
             android:layout_marginTop="10sp"
             />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageChangeProfile"
+            android:src="@drawable/burn"
+            app:shapeAppearanceOverlay="@style/Circular"
+            android:elevation="15dp"
+            android:padding="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/admin_id"
@@ -113,7 +117,7 @@
             </RadioGroup>
         </LinearLayout>
         <Button
-            android:id="@+id/btnChangeProfile"
+            android:id="@+id/btnSaveChangeProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Save"

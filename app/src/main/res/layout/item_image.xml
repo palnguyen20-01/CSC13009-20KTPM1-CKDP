@@ -101,6 +101,7 @@
 
     </RelativeLayout>
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageProfile"
         android:src="@drawable/burn"
         app:shapeAppearanceOverlay="@style/Circular"
         android:elevation="15dp"
@@ -108,4 +109,5 @@
         android:layout_centerHorizontal="true"
         android:layout_width="98dp"
         android:layout_height="98dp"/>
+
 </RelativeLayout>
