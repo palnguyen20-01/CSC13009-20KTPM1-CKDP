@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main1"
+    tools:context=".Health_Advice">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/RVHealthAdvice"
+        android:layout_above="@id/RLMessageBox"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/TVWelcome"
+        android:gravity="center"
+        android:text="Hello friend, I'm a Health Counseling Assistant.\n What health issue do you need advice on?"
+        android:textSize="25dp"
+
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/edit_clear_outline"
+        android:id="@+id/RLMessageBox">
+
+        <EditText
+            android:id="@+id/ETMessageBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/IBTSendMessage"
+            android:background="@drawable/round_corner"
+            android:hint="Type Here"
+            android:padding="16dp" />
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:padding="8dp"
+            android:id="@+id/IBTSendMessage"
+            android:src="@drawable/image_send_messagebox_24"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Send message button"
+            />
+    </RelativeLayout>
+
+
+</RelativeLayout>
