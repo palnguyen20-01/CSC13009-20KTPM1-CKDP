@@ -8,6 +8,31 @@
     <fragment
         android:id="@+id/alarmListFragment"
         android:name="com.example.csc13009_android_ckdp.Alarm.AlarmList.AlarmListFragment"
-        android:label="fragment_alarm_list"
-        tools:layout="@layout/fragment_alarm_list" />
+        android:label="Setting Alarm"
+        tools:layout="@layout/fragment_alarm_list">
+        <action
+            android:id="@+id/action_alarmListFragment_to_createAlarmFragment"
+            app:destination="@id/createAlarmFragment" />
+        <action
+            android:id="@+id/action_alarmListFragment_to_editAlarmFragment"
+            app:destination="@id/editAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAlarmFragment"
+        android:name="com.example.csc13009_android_ckdp.Alarm.CreateAlarm.CreateAlarmFragment"
+        android:label="Create Alarm"
+        tools:layout="@layout/fragment_create_alarm">
+        <action
+            android:id="@+id/action_createAlarmFragment_to_alarmListFragment"
+            app:destination="@id/alarmListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editAlarmFragment"
+        android:name="com.example.csc13009_android_ckdp.Alarm.EditAlarm.EditAlarmFragment"
+        android:label="Edit Alarm"
+        tools:layout="@layout/fragment_edit_alarm">
+        <argument
+            android:name="Alarm"
+            app:argType="com.example.csc13009_android_ckdp.Alarm.Model.Alarm" />
+    </fragment>
 </navigation>
