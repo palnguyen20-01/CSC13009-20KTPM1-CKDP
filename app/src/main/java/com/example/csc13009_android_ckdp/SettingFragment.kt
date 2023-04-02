@@ -1,6 +1,7 @@
 package com.example.csc13009_android_ckdp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,8 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.csc13009_android_ckdp.Profile.InfoChange
 import com.example.csc13009_android_ckdp.Profile.PasswordChange
+import com.example.csc13009_android_ckdp.utilities.PreferenceManager
+import com.firebase.ui.auth.AuthUI
 import java.util.*
 
 class SettingFragment : Fragment() {
@@ -22,11 +25,12 @@ class SettingFragment : Fragment() {
     private var main: MainActivity? = null
 
     lateinit var imageProfile : ImageView
-    lateinit var card_pass : CardView
-    lateinit var card_info : CardView
-    lateinit var card_email : CardView
-    lateinit var card_phone : CardView
-
+    lateinit var cardPass : CardView
+    lateinit var cardInfo : CardView
+    lateinit var cardEmail : CardView
+    lateinit var cardPhone : CardView
+    lateinit var cardLogout : CardView
+    lateinit var preferenceManager: PreferenceManager
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +39,8 @@ class SettingFragment : Fragment() {
         } catch (e: IllegalStateException) {
             throw IllegalStateException("MainActivity must implement callbacks")
         }
-        (activity as MainActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
-        (activity as MainActivity).supportActionBar!!.setDisplayUseLogoEnabled(true)
-        (activity as MainActivity).supportActionBar!!.setDisplayShowHomeEnabled(true)
-
-
+        preferenceManager = PreferenceManager(requireContext())
 
     }
 
@@ -72,29 +72,40 @@ class SettingFragment : Fragment() {
         val settingsFragment: View = inflater.inflate(R.layout.fragment_setting, container, false)
         var lin =  settingsFragment.findViewById<ScrollView>(R.id.profileScrollView);
 
-        card_pass = settingsFragment.findViewById<CardView>(R.id.card_password);
-        card_info = settingsFragment.findViewById<CardView>(R.id.card_info);
-        card_email = settingsFragment.findViewById<CardView>(R.id.card_email);
-        card_phone = settingsFragment.findViewById<CardView>(R.id.card_phone);
+        cardPass = settingsFragment.findViewById<CardView>(R.id.card_password);
+        cardInfo = settingsFragment.findViewById<CardView>(R.id.card_info);
+        cardEmail = settingsFragment.findViewById<CardView>(R.id.card_email);
+        cardPhone = settingsFragment.findViewById<CardView>(R.id.card_phone);
+        cardLogout = settingsFragment.findViewById<CardView>(R.id.card_logout);
 
 
-        card_pass.setOnClickListener {
+        cardPass.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
             startActivityForResult(intent, 0)
         }
-        card_info.setOnClickListener {
+        cardInfo.setOnClickListener {
             val intent = Intent(context, InfoChange::class.java)
             startActivityForResult(intent, 1)
         }
-        card_email.setOnClickListener {
+        cardEmail.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
             startActivityForResult(intent, 2)
         }
-        card_phone.setOnClickListener {
+        cardPhone.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
             startActivityForResult(intent, 3)
         }
 
+        cardLogout.setOnClickListener {
+            preferenceManager.clear()
+            AuthUI.getInstance()
+                .signOut(requireContext())
+                .addOnCompleteListener {
+                    print("addOnCompleteListener")
+                }
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
+        }
         return settingsFragment
     }
 

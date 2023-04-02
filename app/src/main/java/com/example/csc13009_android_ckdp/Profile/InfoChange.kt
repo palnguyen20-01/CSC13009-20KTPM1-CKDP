@@ -9,20 +9,27 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
+import com.example.csc13009_android_ckdp.utilities.PreferenceManager
+import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import java.util.*
 
 class InfoChange : AppCompatActivity() {
+    lateinit var txtName : TextView
+    lateinit var txtEmail : TextView
     lateinit var btnCancel : Button
     lateinit var btnSave : Button
     var encodedImage : String = ""
     lateinit var imageProfile : ImageView
+
+    lateinit var preferenceManager: PreferenceManager
     @RequiresApi(Build.VERSION_CODES.O)
     public
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +39,14 @@ class InfoChange : AppCompatActivity() {
         btnCancel = findViewById(R.id.btnCancelChangeProfile)
         btnSave = findViewById(R.id.btnSaveChangeProfile)
         imageProfile = findViewById(R.id.imageChangeProfile)
+        txtName = findViewById(R.id.txtProfileName)
+        txtEmail = findViewById(R.id.txtProfileEmail)
+        preferenceManager = PreferenceManager(applicationContext)
 
         imageProfile.setOnClickListener {
             var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickImage.launch(intent)
-
         }
 
         btnSave.setOnClickListener {
@@ -50,6 +59,16 @@ class InfoChange : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
+
+        loadUserInfo()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun loadUserInfo() {
+        txtName.text = preferenceManager.getString("name")
+        txtEmail.text = preferenceManager.getString("email")
+        var bytes = Base64.getDecoder().decode(preferenceManager.getString("image"))
+        imageProfile.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

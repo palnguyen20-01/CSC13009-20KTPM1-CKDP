@@ -2,7 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs.kotlin'
 }
+
+apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.example.csc13009_android_ckdp'
@@ -20,6 +23,14 @@ android {
 
     buildFeatures {
         viewBinding true
+    }
+
+    sourceSets {
+        main{
+            java{
+                srcDirs += 'build/generated/source/navigation-args'
+            }
+        }
     }
 
     buildTypes {
