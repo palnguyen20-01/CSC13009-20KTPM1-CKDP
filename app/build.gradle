@@ -1,10 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
-
-apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.example.csc13009_android_ckdp'
@@ -16,20 +14,12 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
         viewBinding true
-    }
-
-    sourceSets {
-        main{
-            java{
-                srcDirs += 'build/generated/source/navigation-args'
-            }
-        }
     }
 
     buildTypes {
@@ -55,25 +45,34 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //Alarm
+    implementation 'androidx.room:room-common:2.4.2'
+    implementation 'androidx.room:room-ktx:2.4.2'
+    //View Model
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.1"
 
-    // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
-
-    // Room components
-    implementation "androidx.room:room-runtime:2.5.1"
-    kapt "androidx.room:room-compiler:2.5.1"
-    implementation "androidx.room:room-ktx:2.5.1"
-    androidTestImplementation "androidx.room:room-testing:2.5.1"
-//Room DB
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
-    // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
 
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+// When using the BoM, don't specify versions in Firebase dependencies
+// Declare the dependencies for any other desired Firebase products
+    implementation 'com.google.firebase:firebase-auth'
+// gradle_firebase_ui_auth
+    implementation "com.firebaseui:firebase-ui-auth:8.0.0"
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
+
+    //MultiDex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
 }

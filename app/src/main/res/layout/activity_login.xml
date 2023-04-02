@@ -41,6 +41,7 @@
             app:boxBackgroundMode="outline">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textLoginEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_email_gray"
@@ -63,6 +64,7 @@
             app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textLoginPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
@@ -80,20 +82,32 @@
             android:text="Forgot password ?"
             android:textSize="16sp"
             />
-        <Button
-            android:id="@+id/admin_login_btn"
+
+        <FrameLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            app:backgroundTint="@null"
-            android:background="@drawable/button_outline"
-            android:text="Login"
-            android:layout_gravity="center"
-            android:textSize="16sp"
+            android:animateLayoutChanges="true">
 
-            />
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:backgroundTint="@null"
+                android:background="@drawable/button_outline"
+                android:text="LOGIN"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressSignInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
+        </FrameLayout>
 
 
         <Button
@@ -127,7 +141,7 @@
                 />
 
             <TextView
-                android:id="@+id/loginNavRegister"
+                android:id="@+id/txtLoginSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

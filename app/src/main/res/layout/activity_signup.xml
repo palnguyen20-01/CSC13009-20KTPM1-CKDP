@@ -78,10 +78,10 @@
 
                 <EditText
                     android:inputType="textEmailAddress"
-                    android:id="@+id/etEmailAddress"
+                    android:id="@+id/textSignUpEmail"
                     android:background="@drawable/edit_clear"
                     android:hint="Enter your email"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -102,10 +102,10 @@
 
                 <EditText
                     android:inputType="textPersonName"
-                    android:id="@+id/etFullName"
+                    android:id="@+id/textSignUpName"
                     android:background="@drawable/edit_clear"
                     android:hint="Enter your full name"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -127,10 +127,10 @@
 
                 <EditText
                     android:inputType="textPassword"
-                    android:id="@+id/etPassword"
+                    android:id="@+id/textSignUpPassword"
                     android:background="@drawable/edit_clear"
                     android:hint="Enter your password"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -151,33 +151,41 @@
 
                 <EditText
                     android:inputType="textPassword"
-                    android:id="@+id/etConfirmPassword"
+                    android:id="@+id/textSignUpConfirmPassword"
                     android:background="@drawable/edit_clear"
                     android:hint="Confirm your password"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
 
                 <Button
-                    android:id="@+id/btnSignIn"
+                    android:id="@+id/btnSignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="50dp"
                     app:backgroundTint="@null"
                     android:background="@drawable/button_outline"
-                    android:text="Register"
+                    android:text="Sign Up"
                     android:textAllCaps="false"
                      />
 
-            </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/progressSignUpButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="invisible"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
