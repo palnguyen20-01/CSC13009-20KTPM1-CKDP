@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
 import com.example.csc13009_android_ckdp.utilities.PreferenceManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -29,7 +32,9 @@ class InfoChange : AppCompatActivity() {
     var encodedImage : String = ""
     lateinit var imageProfile : ImageView
 
+    lateinit var imageUri: Uri
     lateinit var preferenceManager: PreferenceManager
+    var user: FirebaseUser? = null
     @RequiresApi(Build.VERSION_CODES.O)
     public
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +44,8 @@ class InfoChange : AppCompatActivity() {
         btnCancel = findViewById(R.id.btnCancelChangeProfile)
         btnSave = findViewById(R.id.btnSaveChangeProfile)
         imageProfile = findViewById(R.id.imageChangeProfile)
-        txtName = findViewById(R.id.txtProfileName)
-        txtEmail = findViewById(R.id.txtProfileEmail)
+        txtName = findViewById(R.id.textChangeProfileName)
+        txtEmail = findViewById(R.id.textChangProfileEmail)
         preferenceManager = PreferenceManager(applicationContext)
 
         imageProfile.setOnClickListener {
@@ -50,10 +55,18 @@ class InfoChange : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            val intent = Intent(this, PasswordChange::class.java)
-            intent.putExtra("image", encodedImage)
-            setResult(1, intent);
-            finish()
+            user = FirebaseAuth.getInstance().currentUser
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                .setPhotoUri(imageUri)
+                .build()
+            user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val intent = Intent(this, PasswordChange::class.java)
+                    intent.putExtra("image", encodedImage)
+                    setResult(5201, intent);
+                    finish()
+                }
+            }
         }
 
         btnCancel.setOnClickListener {
@@ -88,7 +101,9 @@ class InfoChange : AppCompatActivity() {
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             if(result.data != null){
-                var imageUri = result.data!!.data!!
+
+                imageUri = result.data!!.data!!
+
                 try{
                     var inputStream = contentResolver.openInputStream(imageUri)
                     var bitmap = BitmapFactory.decodeStream(inputStream)

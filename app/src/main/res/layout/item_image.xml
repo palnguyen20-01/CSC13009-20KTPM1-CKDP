@@ -102,13 +102,13 @@
 
 
     </RelativeLayout>
-    <com.google.android.material.imageview.ShapeableImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageProfile"
-        android:src="@drawable/user"
-        app:shapeAppearanceOverlay="@style/Circular"
-        android:elevation="1dp"
-        android:padding="5dp"
+        android:src="@drawable/user_avatar"
         android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        app:riv_oval="true"
+
         android:layout_width="100dp"
         android:layout_height="100dp"/>
 

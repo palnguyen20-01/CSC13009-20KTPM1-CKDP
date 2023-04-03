@@ -75,6 +75,10 @@
         <activity
             android:name=".FirstAid.FirstAidActivity"
             android:exported="true" />
+        <activity android:name=".ForgetPassword.ForgetPasswordActivity"
+            android:exported="true" />
+        <activity android:name=".ForgetPassword.PasswordUpdatedActivity"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

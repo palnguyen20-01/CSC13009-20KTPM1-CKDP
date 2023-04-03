@@ -4,8 +4,7 @@ package com.example.csc13009_android_ckdp
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +18,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -53,6 +52,7 @@ class SignUpActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             if(isValidSignUp()){
                 signUp()
+
             }
         }
     }
@@ -70,7 +70,7 @@ class SignUpActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun signUp() {
         loading(true)
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.user)
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.user_avatar)
         encodedImage = encodeImage(bitmap)
 
         var database = FirebaseFirestore.getInstance()
@@ -80,13 +80,11 @@ class SignUpActivity : AppCompatActivity() {
         user["password"] = textPassword.text.toString()
         user["image"] = encodedImage
 
-
         auth.createUserWithEmailAndPassword(textEmail.text.toString(), textPassword.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    updateUserInfo()
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("Sign up", "createUserWithEmail:success")
-                    val userAuth = auth.currentUser
                     database.collection("users").add(user)
                         .addOnSuccessListener {documentReference ->
                             loading(false)
@@ -105,13 +103,25 @@ class SignUpActivity : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.d("Sign up", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
+                    loading(false)
+                    Toast.makeText(baseContext, "Your email already existed",
                         Toast.LENGTH_SHORT).show()
 
                 }
             }
+    }
 
-
+    private fun updateUserInfo(){
+        val user = auth.currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(textName.text.toString())
+            .setPhotoUri(Uri.parse("android.resource://com.example.csc13009_android_ckdp/drawable/user_avatar"))
+            .build()
+        user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                showToast("\nUser profile updated.")
+            }
+        }
     }
 
     private fun showToast(message: String){
@@ -144,7 +154,7 @@ class SignUpActivity : AppCompatActivity() {
             showToast("Confirm your password")
             return false
         }
-        else if(textPassword.text.toString().equals(textConfirm.text.toString()))
+        else if(!textPassword.text.toString().equals(textConfirm.text.toString()))
         {
             showToast("Password & confirm password must be same")
             return false
