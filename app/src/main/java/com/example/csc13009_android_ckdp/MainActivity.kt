@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             } else if (R.id.itemMessage=== itemId) {
                 //selectedFragment = Fragment
             } else if (R.id.itemSetting === itemId) {
-                selectedFragment = SettingFragment()
+                selectedFragment = SettingFragment(this)
             }
             // Use addToBackStack to return the previous fragment when the Back button is pressed
             // Checking null was just a precaution
