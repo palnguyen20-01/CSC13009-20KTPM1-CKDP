@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_main2"
     tools:context=".BMI.BMIActivity">
 
     <NumberPicker
@@ -34,7 +33,6 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="30dp"
         android:text="Age"
-        android:textColor="@color/app_main1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,7 +43,6 @@
         android:layout_marginStart="80dp"
         android:layout_marginTop="30dp"
         android:text="Height"
-        android:textColor="@color/app_main1"
         app:layout_constraintStart_toEndOf="@+id/ageTextView"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,7 +93,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Weight"
-        android:textColor="@color/app_main1"
         app:layout_constraintEnd_toEndOf="@+id/heightTextView"
         app:layout_constraintStart_toStartOf="@+id/heightTextView"
         app:layout_constraintTop_toBottomOf="@+id/heightNumberPicker" />
@@ -142,7 +138,6 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:text="Category"
-        android:textColor="@color/app_main1"
         app:layout_constraintEnd_toStartOf="@+id/differenceTitleTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bmiHalfGauge" />
@@ -155,7 +150,6 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
         android:text="Difference"
-        android:textColor="@color/app_main1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/categoryTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/bmiHalfGauge" />
@@ -166,7 +160,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="CATEGORY"
-        android:textColor="@color/app_main1"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/categoryTitleTextView"
@@ -179,7 +172,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="DIFFERENCE"
-        android:textColor="@color/app_main1"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/differenceTitleTextView"
