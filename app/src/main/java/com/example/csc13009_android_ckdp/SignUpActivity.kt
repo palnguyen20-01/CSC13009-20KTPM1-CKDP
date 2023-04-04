@@ -16,10 +16,14 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.csc13009_android_ckdp.Models.Users
 import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+
 
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -35,6 +39,9 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var preferenceManager: PreferenceManager
     lateinit var auth : FirebaseAuth
     var encodedImage : String = ""
+
+    lateinit var database: FirebaseDatabase
+    var storageReference: StorageReference? = null
     @RequiresApi(Build.VERSION_CODES.O)
     public
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +56,9 @@ class SignUpActivity : AppCompatActivity() {
         progressBtn = findViewById(R.id.progressSignUpButton)
         preferenceManager = PreferenceManager(applicationContext)
         auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance()
+
+
         btnSignUp.setOnClickListener {
             if(isValidSignUp()){
                 signUp()
@@ -73,33 +83,23 @@ class SignUpActivity : AppCompatActivity() {
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.user_avatar)
         encodedImage = encodeImage(bitmap)
 
-        var database = FirebaseFirestore.getInstance()
-        var user = HashMap<String, String>()
-        user["email"] = textEmail.text.toString()
-        user["name"] = textName.text.toString()
-        user["password"] = textPassword.text.toString()
-        user["image"] = encodedImage
-
         auth.createUserWithEmailAndPassword(textEmail.text.toString(), textPassword.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     updateUserInfo()
-                    // Sign in success, update UI with the signed-in user's information
-                    database.collection("users").add(user)
-                        .addOnSuccessListener {documentReference ->
-                            loading(false)
-                            preferenceManager.putBoolean("isLogin", true)
-                            preferenceManager.putString("id", documentReference.id)
-                            preferenceManager.putString("email", textEmail.text.toString())
-                            preferenceManager.putString("name", textName.text.toString())
-                            preferenceManager.putString("image", encodedImage)
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                    val user = Users(textEmail.text.toString(),textName.text.toString(), textPassword.text.toString())
+                    val id = task.result.user?.uid
 
-                        }
-                        .addOnFailureListener{exception ->
-                            loading(false)
-                            exception.message?.let { showToast(it) }
-                        }
+
+                    Log.d("ID", id.toString())
+                    database.reference.child("Users").child(id!!).setValue(user)
+                        .addOnSuccessListener {
+                        Log.d("firebase", "Got value")
+                    }.addOnFailureListener{
+                        Log.d("firebase", "Error getting data")
+                    }
+                    // Sign in success, update UI with the signed-in user's information
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.d("Sign up", "createUserWithEmail:failure", task.exception)

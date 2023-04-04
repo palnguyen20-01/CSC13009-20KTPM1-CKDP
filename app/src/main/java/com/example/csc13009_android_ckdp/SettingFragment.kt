@@ -68,6 +68,8 @@ class SettingFragment : Fragment {
         if(requestCode == 5201){
             val authUser = auth.currentUser
             val photoUrl = authUser!!.photoUrl
+            Log.d("Profile", authUser.displayName.toString())
+            Log.d("Profile", photoUrl.toString())
             imageProfile?.setImageURI(photoUrl)
 
 //            var encodedImage = data?.getStringExtra("image")
@@ -135,11 +137,7 @@ class SettingFragment : Fragment {
 
         cardLogout.setOnClickListener {
             preferenceManager.clear()
-            AuthUI.getInstance()
-                .signOut(requireContext())
-                .addOnCompleteListener {
-                    print("Complete")
-                }
+            auth.signOut()
             val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
         }
