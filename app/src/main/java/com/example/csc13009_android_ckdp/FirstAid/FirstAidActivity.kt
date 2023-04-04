@@ -2,6 +2,7 @@ package com.example.csc13009_android_ckdp.FirstAid
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,14 @@ class FirstAidActivity : AppCompatActivity() {
     lateinit var firstAidGridView : RecyclerView
     lateinit var firstAids : ArrayList<FirstAid>
     lateinit var adapter : FirstAidAdapter
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        androidx.appcompat.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,5 +60,7 @@ class FirstAidActivity : AppCompatActivity() {
 
         val itemDecoration: RecyclerView.ItemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         firstAidGridView.addItemDecoration(itemDecoration)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }

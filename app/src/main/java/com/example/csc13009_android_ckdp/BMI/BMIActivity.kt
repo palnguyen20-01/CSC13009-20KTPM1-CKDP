@@ -3,11 +3,14 @@ package com.example.csc13009_android_ckdp.BMI
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.ekn.gruzer.gaugelibrary.HalfGauge
 import com.ekn.gruzer.gaugelibrary.Range
 import com.example.csc13009_android_ckdp.R
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.MapStyleOptions
 import kotlin.math.pow
 import kotlin.math.roundToInt
 
@@ -241,6 +244,14 @@ class BMIActivity : AppCompatActivity() {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        androidx.appcompat.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bmiactivity)
@@ -262,5 +273,7 @@ class BMIActivity : AppCompatActivity() {
         initHeightSpinner()
         initWeightSpinner()
         initGenderRadioGroup()
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }

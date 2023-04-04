@@ -33,8 +33,12 @@
 
         <activity
             android:name=".HospitalMap.HospitalMapActivity"
-            android:exported="true">
-
+            android:exported="true"
+            android:label="@string/title_activity_hospital_map"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name ="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Alarm.RingAlarmActivity"
@@ -57,8 +61,12 @@
             android:exported="true" />
         <activity
             android:name=".BMI.BMIActivity"
-            android:exported="true" >
-
+            android:exported="true"
+            android:label = "@string/title_activity_bmi"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name ="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Profile.InfoChange"
@@ -68,10 +76,22 @@
             android:exported="true" />
         <activity
             android:name=".FirstAid.FirstAidInfo"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/title_activity_first_aid"
+            android:parentActivityName=".FirstAid.FirstAidActivity">
+            <meta-data
+                android:name ="android.support.PARENT_ACTIVITY"
+                android:value=".FirstAid.FirstAidActivity" />
+        </activity>
         <activity
             android:name=".FirstAid.FirstAidActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="@string/title_activity_first_aid"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name ="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name=".ForgetPassword.ForgetPasswordActivity"
             android:exported="true" />
         <activity android:name=".ForgetPassword.PasswordUpdatedActivity"

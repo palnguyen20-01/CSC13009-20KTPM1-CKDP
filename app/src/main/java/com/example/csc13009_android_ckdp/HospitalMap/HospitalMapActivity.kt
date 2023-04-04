@@ -76,6 +76,8 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return false
             }
         })
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -101,6 +103,10 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         R.id.terrain_map -> {
             map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            true
+        }
+        androidx.appcompat.R.id.home -> {
+            finish()
             true
         }
         else -> super.onOptionsItemSelected(item)

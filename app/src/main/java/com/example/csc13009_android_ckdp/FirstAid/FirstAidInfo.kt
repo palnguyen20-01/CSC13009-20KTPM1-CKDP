@@ -1,6 +1,7 @@
 package com.example.csc13009_android_ckdp.FirstAid
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,15 @@ class FirstAidInfo: AppCompatActivity() {
     lateinit var iconImageView : ImageView
     lateinit var titleTextView: TextView
     lateinit var contentTextView: TextView
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        androidx.appcompat.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_aid_info)
@@ -26,5 +36,7 @@ class FirstAidInfo: AppCompatActivity() {
 
         contentTextView = findViewById(R.id.contentTextView)
         contentTextView.setText(code)
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }
