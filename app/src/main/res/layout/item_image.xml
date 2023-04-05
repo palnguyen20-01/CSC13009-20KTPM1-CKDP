@@ -106,9 +106,8 @@
         android:id="@+id/imageProfile"
         android:src="@drawable/user_avatar"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
+        app:tint="#fff"
         app:riv_oval="true"
-
         android:layout_width="100dp"
         android:layout_height="100dp"/>
 

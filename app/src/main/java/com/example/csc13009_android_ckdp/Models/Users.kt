@@ -24,18 +24,6 @@ class Users {
         this.image = image
     }
 
-    constructor()
-    constructor(
-        email: String,
-        name: String,
-        password: String,
-
-    ) {
-        this.email = email
-        this.name = name
-        this.password = password
-    }
-
     constructor(
         email: String,
         name: String
@@ -43,5 +31,27 @@ class Users {
         this.email = email
         this.name = name
 
+    }
+
+    constructor()
+    constructor(
+        email: String,
+        name: String,
+        image: String
+        ) {
+        this.email = email
+        this.name = name
+        this.image = image
+    }
+    constructor(
+        email: String,
+        name: String,
+        image: String,
+        uid: String
+    ) {
+        this.email = email
+        this.name = name
+        this.image = image
+        this.userId = uid
     }
 }

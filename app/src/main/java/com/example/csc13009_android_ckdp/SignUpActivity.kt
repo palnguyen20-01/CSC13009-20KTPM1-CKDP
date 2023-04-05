@@ -86,18 +86,26 @@ class SignUpActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(textEmail.text.toString(), textPassword.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    updateUserInfo()
-                    val user = Users(textEmail.text.toString(),textName.text.toString(), textPassword.text.toString())
+
+
                     val id = task.result.user?.uid
+                    storageReference = FirebaseStorage.getInstance().reference.child("images/" + "user.png")
 
+                    storageReference!!.downloadUrl.addOnSuccessListener {uri ->
+                        val user = Users(textEmail.text.toString(),textName.text.toString(), uri.toString(), id!!)
 
-                    Log.d("ID", id.toString())
-                    database.reference.child("Users").child(id!!).setValue(user)
-                        .addOnSuccessListener {
-                        Log.d("firebase", "Got value")
-                    }.addOnFailureListener{
-                        Log.d("firebase", "Error getting data")
+                        database.reference.child("Users").child(id!!).setValue(user)
+                            .addOnSuccessListener {
+                                Log.d("firebase", "Got value")
+                            }.addOnFailureListener{
+                                Log.d("firebase", "Error getting data")
+                            }
+
+                        updateUserInfo(uri)
                     }
+
+
+
                     // Sign in success, update UI with the signed-in user's information
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                 } else {
@@ -111,17 +119,23 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    private fun updateUserInfo(){
+    private fun updateUserInfo(uri: Uri){
         val user = auth.currentUser
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(textName.text.toString())
-            .setPhotoUri(Uri.parse("android.resource://com.example.csc13009_android_ckdp/drawable/user_avatar"))
+            .setPhotoUri(uri)
             .build()
         user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 showToast("\nUser profile updated.")
             }
         }
+
+
+
+
+
+
     }
 
     private fun showToast(message: String){
