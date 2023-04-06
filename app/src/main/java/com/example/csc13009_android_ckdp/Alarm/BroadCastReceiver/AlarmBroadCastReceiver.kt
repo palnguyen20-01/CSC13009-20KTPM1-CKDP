@@ -53,32 +53,32 @@ val calendar=Calendar.getInstance()
                 return false
             }
             Calendar.TUESDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(TUESDAY,false))
                     return true
                 return false
             }
             Calendar.WEDNESDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(WEDNESDAY,false))
                     return true
                 return false
             }
             Calendar.THURSDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(THURSDAY,false))
                     return true
                 return false
             }
             Calendar.FRIDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(FRIDAY,false))
                     return true
                 return false
             }
             Calendar.SATURDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(SATUDAY,false))
                     return true
                 return false
             }
             Calendar.SUNDAY ->{
-                if(intent.getBooleanExtra(MONDAY,false))
+                if(intent.getBooleanExtra(SUNDAY,false))
                     return true
                 return false
             }
