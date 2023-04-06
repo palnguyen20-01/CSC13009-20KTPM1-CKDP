@@ -96,7 +96,7 @@ class BMIActivity : AppCompatActivity() {
         with(heightSpinner){
             adapter = heightUnitArray
             setSelection(0, true)
-            prompt = "Choose Height Unit"
+            prompt = getString(R.string.bmi_height_unit)
         }
         heightSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -117,7 +117,7 @@ class BMIActivity : AppCompatActivity() {
         with(weightSpinner){
             adapter = weightUnitArray
             setSelection(0, true)
-            prompt = "Choose Weight Unit"
+            prompt = getString(R.string.bmi_weight_unit)
         }
         weightSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -218,22 +218,22 @@ class BMIActivity : AppCompatActivity() {
             }
 
             if(BMI < 16){
-                result = "Severe Thinness"
+                result = getString(R.string.bmi_severe_thin)
             }else if(BMI < 17){
-                result = "Moderate Thinness"
+                result = getString(R.string.bmi_moderate_thin)
             }else if(BMI < 18.5){
-                result = "Mild Thinness"
+                result = getString(R.string.bmi_mild_thin)
             }else if(BMI <= 25){
-                result = "Normal"
+                result = getString(R.string.bmi_normal)
                 weight_difference = "-"
             }else if(BMI < 30){
-                result = "Overweight"
+                result = getString(R.string.bmi_overweight)
             }else if(BMI < 35){
-                result = "Obese Class I"
+                result = getString(R.string.bmi_obese_1)
             }else if(BMI < 40){
-                result = "Obese Class II"
+                result = getString(R.string.bmi_obese_2)
             }else if(BMI > 40){
-                result = "Obese Class III"
+                result = getString(R.string.bmi_obese_3)
             }
 
             bmiHalfGauge.value = roundDouble(bmiHalfGaugeValue)

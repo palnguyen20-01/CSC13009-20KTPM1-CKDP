@@ -2,6 +2,22 @@
     <string name="app_name">CSC13009-Android-CKDP</string>
 
     //Firts Aid
+    <string name="title_firstaid">First Aid</string>
+    <string name="title_anaphylaxis">Anaphulaxis</string>
+    <string name="title_animalbite">Animal Bites</string>
+    <string name="title_brokenbone">Broken Bone</string>
+    <string name="title_burn">Burn</string>
+    <string name="title_choking">Choking</string>
+    <string name="title_cut">Cut</string>
+    <string name="title_drowning">Drowning</string>
+    <string name="title_electricshock">Electric Shock</string>
+    <string name="title_emergency">Emergency</string>
+    <string name="title_heartattack">Heart Attack</string>
+    <string name="title_nosebleeding">Nose Bleed</string>
+    <string name="title_poisonousplant">Poisonous Plant</string>
+    <string name="title_sprain">Sprain</string>
+    <string name="title_stroke">Stroke</string>
+    <string name="title_thorns">Thorns</string>
     <string name="firstaid">
 How do I make a first aid kit.\n\u0009\u0009\u0009\u0009A well-stocked first aid kit is a must-have for treating minor injuries at home and on the go. You can buy a first aid kit or put one together on your own. Keep your supplies in a sturdy, clear plastic box so you can see what’s inside.\n
 
@@ -54,6 +70,24 @@ The FAST guide is the most important thing to remember when dealing with people 
     <string name="thorns">
 How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an annoyance than a real health problem, but if you’ve got one stuck in a finger or toe, you’ll want to get it out. How you remove a splinter depends on how deep it is.\n\u0009\u0009\u0009\u0009If the splinter is sticking out of the skin:\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Wash the skin around the splinter with soap and water.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Clean a pair of tweezers with a cotton swab dipped in alcohol.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Grab the end of the splinter with the tweezers.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Pull it out at the same angle as the splinter went in.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Clean the skin again with soap and water.\n\u0009\u0009\u0009\u0009If the splinter is under the skin:\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Wash the skin around the splinter with soap and water.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Clean a needle and tweezers with alcohol.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Gently scrape away the skin above the splinter with the needle until you can see the top of the splinter.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Grab the end of the splinter with the tweezers and pull it out at the same angle it went in.\n\u0009\u0009\u0009\u0009\u0009\u0009\u0009\u0009- Clean the skin again with soap and water.
     </string>
+    //BMI
+    <string name="bmi_age">Age</string>
+    <string name="bmi_height">Height</string>
+    <string name="bmi_weight">Weight</string>
+    <string name="bmi_category">Category</string>
+    <string name="bmi_difference">Difference</string>
+    <string name="bmi_height_unit">Choose Height Unit</string>
+    <string name="bmi_weight_unit">Choose Weight Unit</string>
+    <string name="bmi_severe_thin">Severe Thinness</string>
+    <string name="bmi_moderate_thin">Moderate Thinness</string>
+    <string name="bmi_mild_thin">Mild Thinness</string>
+    <string name="bmi_normal">Normal</string>
+    <string name="bmi_overweight">Overweight</string>
+    <string name="bmi_obese_1">Obese Class I"</string>
+    <string name="bmi_obese_2">Obese Class II"</string>
+    <string name="bmi_obese_3">Obese Class III"</string>
+
+    //
     <!-- TODO: Remove or change this placeholder text -->
     <string name="create">Create</string>
     <!-- TODO: Remove or change this placeholder text -->

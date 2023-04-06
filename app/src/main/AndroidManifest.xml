@@ -67,6 +67,7 @@
             <meta-data
                 android:name ="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
         </activity>
         <activity
             android:name=".Profile.InfoChange"
@@ -82,6 +83,7 @@
             <meta-data
                 android:name ="android.support.PARENT_ACTIVITY"
                 android:value=".FirstAid.FirstAidActivity" />
+
         </activity>
         <activity
             android:name=".FirstAid.FirstAidActivity"
@@ -91,6 +93,11 @@
             <meta-data
                 android:name ="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ForgetPassword.ForgetPasswordActivity"
             android:exported="true" />
@@ -99,11 +106,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <receiver android:name=".Alarm.BroadCastReceiver.AlarmBroadCastReceiver"/>

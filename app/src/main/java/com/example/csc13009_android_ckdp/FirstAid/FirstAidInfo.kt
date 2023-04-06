@@ -24,7 +24,7 @@ class FirstAidInfo: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_aid_info)
         val intent = intent
-        val name = intent.getStringExtra("name")
+        val name = intent.getStringExtra("name")!!.toInt()
         val image = intent.getStringExtra("image")!!.toInt()
         val code = intent.getStringExtra("code")!!.toInt()
 
@@ -32,7 +32,7 @@ class FirstAidInfo: AppCompatActivity() {
         iconImageView.setImageResource(image)
 
         titleTextView = findViewById(R.id.titleTextView)
-        titleTextView.setText(name)
+        titleTextView.setText(getString(name))
 
         contentTextView = findViewById(R.id.contentTextView)
         contentTextView.setText(code)
