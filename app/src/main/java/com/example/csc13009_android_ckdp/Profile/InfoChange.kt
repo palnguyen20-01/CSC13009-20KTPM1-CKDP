@@ -8,15 +8,14 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.BoringLayout
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.csc13009_android_ckdp.GlideApp
 import com.example.csc13009_android_ckdp.Models.Users
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
@@ -32,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.tasks.await
 import org.w3c.dom.Text
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -43,19 +43,21 @@ import java.util.logging.SimpleFormatter
 
 class InfoChange : AppCompatActivity() {
     lateinit var txtName : EditText
-    lateinit var txtEmail : EditText
+    lateinit var txtBirthday : EditText
     lateinit var btnCancel : Button
     lateinit var btnSave : Button
     var encodedImage : String = ""
     lateinit var imageProfile : ImageView
-
+    var birth: String? = null
     var imageUri: Uri? = null
+    var isChooseImage: Boolean = false
     lateinit var preferenceManager: PreferenceManager
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
     lateinit var database: FirebaseDatabase
     lateinit var storageReference: StorageReference
     lateinit var progressDialog: ProgressDialog
+    var userCurrent:FirebaseUser? = null
     @RequiresApi(Build.VERSION_CODES.O)
     public
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,29 +68,19 @@ class InfoChange : AppCompatActivity() {
         btnSave = findViewById(R.id.btnSaveChangeProfile)
         imageProfile = findViewById(R.id.imageChangeProfile)
         txtName = findViewById(R.id.textChangeProfileName)
-        txtEmail = findViewById(R.id.textChangProfileEmail)
+        txtBirthday = findViewById(R.id.textChangProfileBirthday)
         preferenceManager = PreferenceManager(applicationContext)
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Updating")
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
 
-        var userCurrent = auth.currentUser
+        userCurrent = auth.currentUser
 
-        if (userCurrent != null) {
-            txtName.setText(userCurrent.displayName)
-            txtEmail.setText(userCurrent.email)
-            Glide
-                .with(this)
-                .load(userCurrent.photoUrl)
-                .centerCrop()
-                .placeholder(R.drawable.user_avatar)
-                .into(imageProfile)
-
-            storageReference = FirebaseStorage.getInstance().getReference("images/" + userCurrent.uid)
-        }
+        initData()
 
         imageProfile.setOnClickListener {
+            isChooseImage = true
             var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             pickImage.launch(intent)
@@ -99,37 +91,11 @@ class InfoChange : AppCompatActivity() {
 
             progressDialog.show()
 
-            storageReference.putFile(imageUri!!).addOnCompleteListener{
-                storageReference.downloadUrl.addOnSuccessListener { uri ->
-                    var updateUser = HashMap<String, Any>()
-                    updateUser["email"] = txtEmail.text.toString()
-                    updateUser["name"] = txtName.text.toString()
-                    updateUser["image"] = uri.toString()
-
-                    database.reference.child("Users").child(userCurrent!!.uid).updateChildren(updateUser)
-                        .addOnSuccessListener {
-                            updateUserInfo(uri)
-                            val intent = Intent(this, SettingFragment::class.java)
-                            intent.putExtra("name", txtName.text.toString())
-                            intent.putExtra("email", txtEmail.text.toString())
-                            intent.putExtra("image", encodedImage)
-                            setResult(RequestCodeResult.CHANGE_INFORMATION, intent);
-                            if(progressDialog.isShowing)
-                                progressDialog.dismiss()
-
-                            finish()
-                        }
-                        .addOnFailureListener {
-                            if(progressDialog.isShowing)
-                                progressDialog.dismiss()
-                            Log.d("Update", "FAILED!")
-                            finish()
-                        }
-                }
+            if(isChooseImage){
+                saveProfileWithImage()
             }
-            .addOnFailureListener{
-                Log.d("Image", " PUSH FAILED!")
-                finish()
+            else{
+                saveProfile()
             }
         }
 
@@ -139,6 +105,102 @@ class InfoChange : AppCompatActivity() {
 
     }
 
+    private fun initData() {
+        database.reference.child("Users").child(userCurrent!!.uid).get()
+            .addOnCompleteListener {task ->
+
+                if(task.result.exists())
+                {
+                    var dataSnapshot = task.result
+                    birth = dataSnapshot.child("birthday").value.toString()
+
+                    if (userCurrent != null) {
+                        txtName.setText(userCurrent!!.displayName)
+                        txtBirthday.setText(birth)
+                        GlideApp
+                            .with(this)
+                            .load(userCurrent!!.photoUrl)
+                            .centerCrop()
+                            .placeholder(R.drawable.user_avatar)
+                            .into(imageProfile)
+
+                        storageReference = FirebaseStorage.getInstance().getReference("images/" + userCurrent!!.uid)
+                    }
+                }
+            }
+            .addOnFailureListener {
+                showToast("Failed to read data from FirebaseDatabase")
+            }
+
+
+    }
+
+    private fun saveProfileWithImage(){
+        storageReference.putFile(imageUri!!).addOnCompleteListener{
+            storageReference.downloadUrl.addOnSuccessListener { uri ->
+                var updateUser = HashMap<String, Any>()
+                updateUser["birthday"] = txtBirthday.text.toString()
+                updateUser["name"] = txtName.text.toString()
+                updateUser["image"] = uri.toString()
+
+                database.reference.child("Users").child(userCurrent!!.uid).updateChildren(updateUser)
+                    .addOnSuccessListener {
+                        updateUserInfo(uri)
+                        val intent = Intent(this, SettingFragment::class.java)
+                        intent.putExtra("name", txtName.text.toString())
+                        intent.putExtra("birthday", txtBirthday.text.toString())
+                        intent.putExtra("image", encodedImage)
+                        setResult(RequestCodeResult.CHANGE_INFORMATION, intent);
+                        if(progressDialog.isShowing)
+                            progressDialog.dismiss()
+
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        if(progressDialog.isShowing)
+                            progressDialog.dismiss()
+                        showToast("Update FAILED!")
+                        finish()
+                    }
+            }
+        }
+            .addOnFailureListener{
+                showToast("Image push FAILED!")
+                finish()
+            }
+    }
+
+    private fun saveProfile(){
+
+        var updateUser = HashMap<String, Any>()
+        updateUser["birthday"] = txtBirthday.text.toString()
+        updateUser["name"] = txtName.text.toString()
+
+        database.reference.child("Users").child(userCurrent!!.uid).updateChildren(updateUser)
+            .addOnSuccessListener {
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(txtName.text.toString())
+                    .build()
+                user!!.updateProfile(profileUpdates)
+
+                val intent = Intent(this, SettingFragment::class.java)
+                intent.putExtra("name", txtName.text.toString())
+                intent.putExtra("birthday", txtBirthday.text.toString())
+                setResult(RequestCodeResult.CHANGE_INFORMATION, intent);
+                if(progressDialog.isShowing)
+                    progressDialog.dismiss()
+
+                finish()
+            }
+            .addOnFailureListener {
+                if(progressDialog.isShowing)
+                    progressDialog.dismiss()
+                showToast("Update profile FAILED!")
+                finish()
+            }
+
+
+    }
     private fun updateUserInfo(uri: Uri) {
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(txtName.text.toString())
@@ -176,7 +238,12 @@ class InfoChange : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
+            else{
+                isChooseImage = false
+            }
         }
     }
-
+    private fun showToast(message: String){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

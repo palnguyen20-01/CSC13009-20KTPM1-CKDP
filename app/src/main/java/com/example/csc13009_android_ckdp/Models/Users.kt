@@ -4,6 +4,7 @@ class Users {
     var email: String = ""
     var name: String = ""
     var password: String = ""
+    var birthday: String = ""
     var userId: String = ""
     var lastMessage: String = ""
     var image: String = ""
@@ -25,10 +26,10 @@ class Users {
     }
 
     constructor(
-        email: String,
-        name: String
+        name: String,
+        birthday: String
         ) {
-        this.email = email
+        this.birthday = birthday
         this.name = name
 
     }

@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -34,7 +33,7 @@ class SettingFragment : Fragment {
     lateinit var cardPass : CardView
     lateinit var cardInfo : CardView
     lateinit var cardEmail : CardView
-    lateinit var cardPhone : CardView
+    //lateinit var cardPhone : CardView
     lateinit var cardLogout : CardView
     lateinit var preferenceManager: PreferenceManager
 
@@ -54,8 +53,8 @@ class SettingFragment : Fragment {
             throw IllegalStateException("MainActivity must implement callbacks")
         }
 
-        user = FirebaseAuth.getInstance().currentUser
         auth = FirebaseAuth.getInstance()
+
         preferenceManager = PreferenceManager(requireContext())
     }
 
@@ -74,24 +73,13 @@ class SettingFragment : Fragment {
                 imageProfile.setImageBitmap(bitmap)
             }
         }
+        else if(requestCode == 5200){
 
+        }
+        initData()
     }
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
 
-        val settingsFragment: View = inflater.inflate(R.layout.fragment_setting, container, false)
-
-        cardPass = settingsFragment.findViewById<CardView>(R.id.card_password)
-        cardInfo = settingsFragment.findViewById<CardView>(R.id.card_info)
-        cardEmail = settingsFragment.findViewById<CardView>(R.id.card_email)
-        cardPhone = settingsFragment.findViewById<CardView>(R.id.card_phone)
-        cardLogout = settingsFragment.findViewById<CardView>(R.id.card_logout)
-        txtProfileEmail = settingsFragment.findViewById<TextView>(R.id.txtProfileEmail)
-        txtProfileName = settingsFragment.findViewById<TextView>(R.id.txtProfileName)
-        imageProfile = settingsFragment.findViewById<ImageView>(R.id.imageProfile)
+    private fun initData(){
         val authUser = auth.currentUser
 
         if(authUser == null){
@@ -104,16 +92,32 @@ class SettingFragment : Fragment {
             txtProfileEmail.text = email
             txtProfileName.text = name
 
-//            Glide
-//                .with(this)
-//                .load(photoUrl)
-//                .placeholder(R.drawable.user_avatar)
-//                .into(imageProfile)
+            GlideApp.with(this)
+                .load(photoUrl)
+                .placeholder(R.drawable.user_avatar)
+                .into(imageProfile)
+
 
         }
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-// Name, email address, and profile photo Url
+        val settingsFragment: View = inflater.inflate(R.layout.fragment_setting, container, false)
 
+        cardPass = settingsFragment.findViewById<CardView>(R.id.card_password)
+        cardInfo = settingsFragment.findViewById<CardView>(R.id.card_info)
+        cardEmail = settingsFragment.findViewById<CardView>(R.id.card_email)
+        //cardPhone = settingsFragment.findViewById<CardView>(R.id.card_phone)
+        cardLogout = settingsFragment.findViewById<CardView>(R.id.card_logout)
+        txtProfileEmail = settingsFragment.findViewById<TextView>(R.id.txtProfileEmail)
+        txtProfileName = settingsFragment.findViewById<TextView>(R.id.txtProfileName)
+        imageProfile = settingsFragment.findViewById<ImageView>(R.id.imageProfile)
+
+        initData()
 
         cardPass.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
@@ -126,10 +130,6 @@ class SettingFragment : Fragment {
         cardEmail.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
             startActivityForResult(intent, RequestCodeResult.CHANGE_EMAIL)
-        }
-        cardPhone.setOnClickListener {
-            val intent = Intent(context, PasswordChange::class.java)
-            startActivityForResult(intent, 5203)
         }
 
         cardLogout.setOnClickListener {

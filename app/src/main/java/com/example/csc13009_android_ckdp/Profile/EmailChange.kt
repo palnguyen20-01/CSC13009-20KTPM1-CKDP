@@ -6,21 +6,17 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.csc13009_android_ckdp.ForgetPassword.PasswordUpdatedActivity
-import com.example.csc13009_android_ckdp.HomeFragment
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
 import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class PasswordChange : AppCompatActivity() {
+class EmailChange : AppCompatActivity() {
     lateinit var btnCancel : Button
     lateinit var btnSave : Button
     lateinit var btnAuth : Button
@@ -93,11 +89,8 @@ class PasswordChange : AppCompatActivity() {
             if(newPass.text.toString().length < 6){
                 showToast("Your password must be longer than 6")
             }
-            else if(!newPass.text.toString().equals(confirmPass.text.toString())){
-                showToast("Password & confirm password must be same")
-            }
             else{
-                user.updatePassword(newPass.text.toString())
+                user.updateEmail(newPass.text.toString())
                     .addOnCompleteListener{
                         auth.signOut()
                         val intent = Intent(this, PasswordUpdatedActivity::class.java)

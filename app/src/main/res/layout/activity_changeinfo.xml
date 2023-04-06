@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_birthday"
                 android:drawablePadding="10dp"
-                android:id="@+id/textChangProfileEmail"
+                android:id="@+id/textChangProfileBirthday"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
