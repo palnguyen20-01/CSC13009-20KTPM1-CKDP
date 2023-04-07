@@ -66,7 +66,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.hide()
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun encodeImage(bitmap : Bitmap) : String{
@@ -88,15 +88,13 @@ class SignUpActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(textEmail.text.toString(), textPassword.text.toString())
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
-
                     val id = task.result.user?.uid
                     storageReference = FirebaseStorage.getInstance().reference.child("images/" + "user.png")
 
                     storageReference!!.downloadUrl.addOnSuccessListener {uri ->
                         val user = Users(textEmail.text.toString(),textName.text.toString(), uri.toString(), id!!)
 
-                        database.reference.child("Users").child(id!!).setValue(user)
+                        database.reference.child("Users").child(id).setValue(user)
                             .addOnSuccessListener {
                                 Log.d("firebase", "Got value")
                             }.addOnFailureListener{
@@ -106,9 +104,6 @@ class SignUpActivity : AppCompatActivity() {
                         updateUserInfo(uri)
                     }
 
-
-
-                    // Sign in success, update UI with the signed-in user's information
                     startActivity(Intent(applicationContext, MainActivity::class.java))
                 } else {
                     // If sign in fails, display a message to the user.
@@ -127,16 +122,7 @@ class SignUpActivity : AppCompatActivity() {
             .setDisplayName(textName.text.toString())
             .setPhotoUri(uri)
             .build()
-        user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                showToast("\nUser profile updated.")
-            }
-        }
-
-
-
-
-
+        user!!.updateProfile(profileUpdates)
 
     }
 

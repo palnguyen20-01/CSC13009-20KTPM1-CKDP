@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main1">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_email"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_email"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            />
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_email_description"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+
+            />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginBottom="10sp"
+            android:hint="@string/current_password"
+            app:boxBackgroundMode="outline"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_lock"
+                android:drawablePadding="10dp"
+                android:id="@+id/currentPasswordChangeEmail"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnAuthenticateEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/authenticate"
+            android:layout_gravity="center"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_marginTop="5sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginBottom="10sp"
+            android:hint="@string/new_email"
+            app:boxBackgroundMode="outline"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="10dp"
+                android:id="@+id/newEmailChangeEmail"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnChangeEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_email"
+            android:layout_gravity="center"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            />
+        <Button
+            android:id="@+id/btnCancelChangeEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

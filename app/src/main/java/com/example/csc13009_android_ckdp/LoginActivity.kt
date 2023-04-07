@@ -179,8 +179,13 @@ class LoginActivity : AppCompatActivity() {
         loading(true)
 
         auth.signInWithEmailAndPassword(textEmail.text.toString(),textPass.text.toString())
-            .addOnCompleteListener {
-                startActivity(Intent(applicationContext, MainActivity::class.java))
+            .addOnCompleteListener {task ->
+                if(task.isSuccessful)
+                    startActivity(Intent(applicationContext, MainActivity::class.java))
+                else{
+                    loading(false)
+                    showToast("Unable to log in")
+                }
             }
             .addOnFailureListener {
                 loading(false)

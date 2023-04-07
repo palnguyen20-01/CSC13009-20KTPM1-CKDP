@@ -6,19 +6,12 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.example.csc13009_android_ckdp.ForgetPassword.PasswordUpdatedActivity
-import com.example.csc13009_android_ckdp.HomeFragment
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
 import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.EmailAuthProvider
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 
 class PasswordChange : AppCompatActivity() {
     lateinit var btnCancel : Button
@@ -33,7 +26,7 @@ class PasswordChange : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_changepassword)
+        setContentView(R.layout.activity_change_password)
 
         btnCancel = findViewById(R.id.btnCancelChangePass)
         btnSave = findViewById(R.id.btnChangePass)
@@ -74,11 +67,17 @@ class PasswordChange : AppCompatActivity() {
             else{
                 credential = EmailAuthProvider.getCredential(user.email!!,curPass)
                 user.reauthenticate(credential!!)
-                    .addOnCompleteListener {
-                        newPass.isEnabled = true
-                        confirmPass.isEnabled = true
-                        btnSave.isEnabled = true
-                        changePassword()
+                    .addOnCompleteListener {task ->
+                        if(task.isSuccessful){
+                            newPass.isEnabled = true
+                            confirmPass.isEnabled = true
+                            btnSave.isEnabled = true
+                            changePassword()
+                        }
+                        else if(task.exception is FirebaseAuthInvalidCredentialsException){
+                            oldPass.error = "Invalid password"
+                            oldPass.requestFocus()
+                        }
 
                     }
                     .addOnFailureListener{

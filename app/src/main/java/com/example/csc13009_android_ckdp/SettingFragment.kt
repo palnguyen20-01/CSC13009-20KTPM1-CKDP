@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.csc13009_android_ckdp.Profile.EmailChange
 import com.example.csc13009_android_ckdp.Profile.InfoChange
 import com.example.csc13009_android_ckdp.Profile.PasswordChange
 import com.example.csc13009_android_ckdp.utilities.PreferenceManager
@@ -66,7 +67,6 @@ class SettingFragment : Fragment {
             txtProfileName.text = data?.getStringExtra("name")
             txtProfileEmail.text = data?.getStringExtra("email")
             var encodedImage = data?.getStringExtra("image")
-            Log.d("Image profiel", encodedImage.toString())
             if(encodedImage != null) {
                 var bytes = Base64.getDecoder().decode(encodedImage)
                 var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
@@ -96,8 +96,6 @@ class SettingFragment : Fragment {
                 .load(photoUrl)
                 .placeholder(R.drawable.user_avatar)
                 .into(imageProfile)
-
-
         }
     }
     override fun onCreateView(
@@ -121,15 +119,15 @@ class SettingFragment : Fragment {
 
         cardPass.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
-            startActivityForResult(intent, RequestCodeResult.CHANGE_PASSWORD)
+            startActivity(intent)
         }
         cardInfo.setOnClickListener {
             val intent = Intent(context, InfoChange::class.java)
             startActivityForResult(intent, RequestCodeResult.CHANGE_INFORMATION)
         }
         cardEmail.setOnClickListener {
-            val intent = Intent(context, PasswordChange::class.java)
-            startActivityForResult(intent, RequestCodeResult.CHANGE_EMAIL)
+            val intent = Intent(context, EmailChange::class.java)
+            startActivity(intent)
         }
 
         cardLogout.setOnClickListener {

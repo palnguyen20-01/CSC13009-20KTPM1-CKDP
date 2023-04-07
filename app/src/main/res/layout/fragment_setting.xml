@@ -13,7 +13,7 @@
 
     <include
         android:layout_gravity="center"
-        layout="@layout/item_image"
+        layout="@layout/item_profile_image"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -27,10 +27,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/item_setting_info"/>
-            <include layout="@layout/item_password"/>
-            <include layout="@layout/item_setting_email"/>
-            <include layout="@layout/item_setting_logout"/>
+            <include layout="@layout/item_profile_info"/>
+            <include layout="@layout/item_profile_password"/>
+            <include layout="@layout/item_profile_email"/>
+            <include layout="@layout/item_profile_logout"/>
 
         </LinearLayout>
     </ScrollView>

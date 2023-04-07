@@ -24,7 +24,8 @@
             android:gravity="center"
             android:layout_weight="1"
             android:textSize="26sp"
-            android:text="HEALTHCARE APP"
+            android:text="@string/app_name_main"
+            android:textAllCaps="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -51,8 +52,7 @@
                 <TextView
                     android:gravity="center"
                     android:layout_weight="1"
-
-                    android:text="SIGN UP"
+                    android:text="@string/sign_up"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -72,15 +72,16 @@
 
                 <TextView
                     android:textColor="@color/black"
-                    android:text="EMAIL ADDRESS"
+                    android:text="@string/email_address"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="true"/>
 
                 <EditText
                     android:inputType="textEmailAddress"
                     android:id="@+id/textSignUpEmail"
                     android:background="@drawable/edit_clear"
-                    android:hint="Enter your email"
+                    android:hint="@string/email_address_hint"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -96,7 +97,7 @@
 
                 <TextView
                     android:textColor="@color/black"
-                    android:text="FULL NAME"
+                    android:text="@string/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -104,7 +105,7 @@
                     android:inputType="textPersonName"
                     android:id="@+id/textSignUpName"
                     android:background="@drawable/edit_clear"
-                    android:hint="Enter your full name"
+                    android:hint="@string/full_name_hint"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -121,7 +122,8 @@
 
                 <TextView
                     android:textColor="@color/black"
-                    android:text="PASSWORD"
+                    android:text="@string/password"
+                    android:textAllCaps="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
@@ -129,7 +131,7 @@
                     android:inputType="textPassword"
                     android:id="@+id/textSignUpPassword"
                     android:background="@drawable/edit_clear"
-                    android:hint="Enter your password"
+                    android:hint="@string/password_hint"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -153,7 +155,7 @@
                     android:inputType="textPassword"
                     android:id="@+id/textSignUpConfirmPassword"
                     android:background="@drawable/edit_clear"
-                    android:hint="Confirm your password"
+                    android:hint="@string/confirm_password_hint"
                     android:layout_marginTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -174,7 +176,7 @@
                     android:layout_marginEnd="50dp"
                     app:backgroundTint="@null"
                     android:background="@drawable/button_outline"
-                    android:text="Sign Up"
+                    android:text="@string/sign_up"
                     android:textAllCaps="false"
                      />
 
@@ -196,7 +198,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Already have an account?"
+                    android:text="@string/ask_have_account"
                     android:textSize="16sp"
 
                     />
@@ -207,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textSize="16sp"
-                    android:text="Login !"
+                    android:text="@string/login"
                     android:textColor="@color/blue"
                     />
             </LinearLayout>

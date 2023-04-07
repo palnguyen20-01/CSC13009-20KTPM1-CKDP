@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/itemHome"
-        android:title="Trang chủ"
+        android:title="@string/home"
         android:icon="@drawable/ic_home"
         />
 
 
     <item
         android:id="@+id/itemMessage"
-        android:title="Nhắn tin"
+        android:title="@string/message"
         android:icon="@drawable/message"
         />
 
     <item
         android:id="@+id/itemNotice"
-        android:title="Thông báo"
+        android:title="@string/notification"
         android:icon="@drawable/bell"
         />
 
     <item
         android:id="@+id/itemSetting"
-        android:title="Tài khoản"
+        android:title="@string/profile"
         android:icon="@drawable/ic_action_profile"
         />
 </menu>

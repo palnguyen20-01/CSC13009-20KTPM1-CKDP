@@ -104,4 +104,46 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="dropped_pin">Dropped Pin</string>
     <string name="poi">poi</string>
     <string name="delete">Delete</string>
+
+    <string name="app_name_main">Healthcare app</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_info">Change Profile</string>
+    <string name="change_email_description">To change email you need to enter your current password</string>
+    <string name="current_password">Current password</string>
+    <string name="authenticate">Authenticate</string>
+    <string name="new_email">New email</string>
+    <string name="cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="save">Save</string>
+    <string name="email_login">Email Login</string>
+    <string name="password">Password</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password_hint">Confirm your password</string>
+    <string name="forget_password_ask">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="login_google">Login with google</string>
+    <string name="next">Next</string>
+    <string name="home">Home</string>
+    <string name="message">Message</string>
+    <string name="profile">Profile</string>
+    <string name="notification">Notification</string>
+    <string name="email_updated">Email updated</string>
+    <string name="email_updated_description">Your email has been updated!</string>
+    <string name="password_updated_description">Your password has been updated!</string>
+    <string name="password_updated">Password updated</string>
+    <string name="forget_password">Forget password</string>
+    <string name="forget_password_description">Provide your account\'s email for which you want to reset your password!</string>
+    <string name="ask_not_account">Don\'t have an account yet?</string>
+    <string name="ask_have_account">Already have an account?</string>
+    <string name="ask_sign_up">Sign up now!</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email_address">Email address</string>
+    <string name="email_address_hint">Enter your email</string>
+    <string name="full_name">Full name</string>
+    <string name="full_name_hint">Enter your full name</string>
+    <string name="change_password">Change password</string>
+    <string name="information">Information</string>
+
 </resources>
