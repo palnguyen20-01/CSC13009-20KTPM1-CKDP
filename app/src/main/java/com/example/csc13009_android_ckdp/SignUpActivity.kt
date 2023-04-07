@@ -65,6 +65,8 @@ class SignUpActivity : AppCompatActivity() {
 
             }
         }
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun encodeImage(bitmap : Bitmap) : String{

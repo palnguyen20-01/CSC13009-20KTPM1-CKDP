@@ -34,7 +34,6 @@ class ForgetPasswordActivity : AppCompatActivity() {
         btnBack.setOnClickListener {
             finish()
         }
-
     }
 
     private fun sendResetPass() {

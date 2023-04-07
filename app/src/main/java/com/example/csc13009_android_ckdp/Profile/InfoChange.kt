@@ -102,7 +102,6 @@ class InfoChange : AppCompatActivity() {
         btnCancel.setOnClickListener {
             finish()
         }
-
     }
 
     private fun initData() {

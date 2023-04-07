@@ -122,5 +122,7 @@ class Health_Advice : AppCompatActivity() {
             }
 //            Toast.makeText(this,query,Toast.LENGTH_LONG).show()
         }
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 }

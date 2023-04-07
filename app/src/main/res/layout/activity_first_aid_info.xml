@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_main2"
+    android:background="@color/app_main1"
     tools:context=".FirstAid.FirstAidInfo">
 
     <ScrollView
@@ -30,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
                     android:text="TextView"
-                    android:textColor="@color/app_main1"
+                    android:textColor="@color/app_main2"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="@+id/iconImageView"
@@ -56,7 +56,7 @@
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="30dp"
                     android:text="Textview"
-                    android:textColor="@color/app_main1"
+                    android:textColor="@color/app_main2"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

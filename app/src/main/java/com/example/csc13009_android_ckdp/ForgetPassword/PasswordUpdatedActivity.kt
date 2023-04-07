@@ -19,6 +19,5 @@ class PasswordUpdatedActivity : AppCompatActivity() {
 
             startActivity(Intent(applicationContext, LoginActivity::class.java))
         }
-
     }
 }

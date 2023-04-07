@@ -28,7 +28,7 @@ private lateinit var navHostFragment: NavHostFragment
 
         setupActionBarWithNavController(navController)
 
-
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
     }
 
