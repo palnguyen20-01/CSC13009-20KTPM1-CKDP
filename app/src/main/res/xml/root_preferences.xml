@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--below line is to create preference category-->
+    <PreferenceCategory app:title="@string/advanced">
+
+        <ListPreference
+            app:defaultValue="1"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="language"
+            app:title="@string/language"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:title="@string/dark_mode"
+            app:key="switch" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

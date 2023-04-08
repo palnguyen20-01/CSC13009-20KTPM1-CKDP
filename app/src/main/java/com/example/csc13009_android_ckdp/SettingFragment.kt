@@ -24,9 +24,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import java.util.*
 
-class SettingFragment : Fragment {
+class SettingFragment : Fragment() {
 
-    private var main: MainActivity? = null
+    public var main: MainActivity? = null
 
     lateinit var imageProfile : ImageView
     lateinit var txtProfileName: TextView
@@ -40,9 +40,9 @@ class SettingFragment : Fragment {
 
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
-    constructor(main: MainActivity?) : super() {
-        this.main = main
-    }
+//    constructor(main: MainActivity?) : super() {
+//        this.main = main
+//    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {

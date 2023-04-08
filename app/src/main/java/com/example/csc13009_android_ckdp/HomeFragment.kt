@@ -1,5 +1,6 @@
 package com.example.csc13009_android_ckdp
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,21 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.adapter.HomeAdapter
 
-class HomeFragment : Fragment {
-    private var main: MainActivity? = null
-    private var featureNames = arrayOf<String>("First Aid", "BMI", "Alarm", "Orange")
-    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.ic_home, R.drawable.ic_home)
+class HomeFragment : Fragment() {
+    public var main: MainActivity? = null
+    private var featureNames = ArrayList<String>()
+    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.clock, R.drawable.ic_home)
 
-    constructor(main: MainActivity?) : super() {
-        this.main = main
-    }
+//    constructor(main: MainActivity?) : super() {
+//        this.main = main
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        featureNames.add(requireContext().getString(R.string.title_firstaid))
+        featureNames.add(requireContext().getString(R.string.title_activity_bmi))
+        featureNames.add(requireContext().getString(R.string.alarm_tiltle))
+        featureNames.add("Orange")
 
     }
 

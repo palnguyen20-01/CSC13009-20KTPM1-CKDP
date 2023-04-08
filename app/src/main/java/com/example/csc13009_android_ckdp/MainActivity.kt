@@ -1,14 +1,23 @@
 package com.example.csc13009_android_ckdp
 
+
+
+import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.csc13009_android_ckdp.FindFriend.FindFriendActivity
+import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     var selectedFragment: Fragment? = null
@@ -19,14 +28,54 @@ class MainActivity : AppCompatActivity() {
     public
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appSetting()
+
         setContentView(R.layout.activity_home)
 
-        selectedFragment = HomeFragment(this)
+        selectedFragment = HomeFragment()
+        (selectedFragment as HomeFragment).main=this
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentHolder, selectedFragment!!)
             .commit()
         initiateApp()
+    }
+    fun setLocale(activity: Activity, languageCode: String?) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val resources: Resources = activity.resources
+        val config: Configuration = resources.getConfiguration()
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.getDisplayMetrics())
+    }
+    private fun appSetting() {
+        val prefs = PreferenceManager
+            .getDefaultSharedPreferences(this)
+   val mode = prefs.getBoolean("switch",false)
+        if(mode){
+            AppCompatDelegate
+                .setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES
+                )
+        }else{
+            AppCompatDelegate
+                .setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO
+                )
+        }
+
+            val language=prefs?.getString("language","1")
+
+            when (language?.toInt()) {
+                1 ->{
+                    setLocale(this,"en")
+                }
+
+                2 -> {
+                    setLocale(this,"vi")
+                }
+            }
+
     }
 
     private fun initiateApp()
@@ -41,11 +90,14 @@ class MainActivity : AppCompatActivity() {
             val itemId = item.itemId
 
             if (R.id.itemHome === itemId) {
-                selectedFragment = HomeFragment(this)
+                selectedFragment = HomeFragment()
+                (selectedFragment as HomeFragment).main=this
             } else if (R.id.itemMessage=== itemId) {
                 //selectedFragment = Fragment
             } else if (R.id.itemSetting === itemId) {
-                selectedFragment = SettingFragment(this)
+                selectedFragment = SettingFragment()
+                (selectedFragment as SettingFragment).main=this
+
             }
             else if(R.id.itemFriendRequest == itemId){
                 startActivity(Intent(applicationContext, FindFriendActivity::class.java))
@@ -58,5 +110,24 @@ class MainActivity : AppCompatActivity() {
                 .commit()
             true
         })
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                val intent = Intent(
+                    this,
+                    SettingsActivity::class.java
+                )
+                startActivity(intent)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 }

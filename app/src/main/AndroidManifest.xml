@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-
     <application
         android:name=".Alarm.Application.App"
         android:allowBackup="true"
@@ -18,7 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSC13009AndroidCKDP"
         tools:targetApi="31">
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainActivity">
 
+        </activity>
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
              To get one, follow the directions here:
@@ -36,20 +41,16 @@
             android:exported="true"
             android:label="@string/title_activity_hospital_map"
             android:parentActivityName=".MainActivity">
-
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Alarm.RingAlarmActivity"
-            android:exported="true" >
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Health_Advice"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -61,52 +62,53 @@
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:exported="true" >
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
         <activity
             android:name=".AlarmActivity"
-            android:exported="true" >
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".BMI.BMIActivity"
             android:exported="true"
-            android:label = "@string/title_activity_bmi"
+            android:label="@string/title_activity_bmi"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
         </activity>
         <activity
             android:name=".Profile.InfoChange"
-            android:exported="true" >
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Profile.PasswordChange"
-            android:exported="true" >
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".Profile.EmailChange"
-            android:exported="true" >
+        <activity
+            android:name=".Profile.EmailChange"
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".Profile.EmailUpdatedActivity"
-            android:exported="true" >
+        <activity
+            android:name=".Profile.EmailUpdatedActivity"
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity android:name=".FindFriend.FindFriendActivity"
@@ -127,9 +129,8 @@
             android:label="@string/title_activity_first_aid"
             android:parentActivityName=".FirstAid.FirstAidActivity">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".FirstAid.FirstAidActivity" />
-
         </activity>
         <activity
             android:name=".FirstAid.FirstAidActivity"
@@ -137,24 +138,22 @@
             android:label="@string/title_activity_first_aid"
             android:parentActivityName=".MainActivity">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-
-        </activity>
-        <activity android:name=".ForgetPassword.ForgetPasswordActivity"
-            android:exported="true" >
-        </activity>
-        <activity android:name=".ForgetPassword.PasswordUpdatedActivity"
-            android:exported="true" >
         </activity>
         <activity
+            android:name=".ForgetPassword.ForgetPasswordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ForgetPassword.PasswordUpdatedActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" />
 
-        </activity>
+        <receiver android:name=".Alarm.BroadCastReceiver.AlarmBroadCastReceiver" />
 
-        <receiver android:name=".Alarm.BroadCastReceiver.AlarmBroadCastReceiver"/>
-        <service android:name=".Alarm.Service.AlarmService"/>
+        <service android:name=".Alarm.Service.AlarmService" />
         <service
             android:name=".Firebase.MessagingService"
             android:exported="false">
