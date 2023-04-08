@@ -109,6 +109,18 @@
                 android:name ="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity android:name=".FindFriend.FindFriendActivity"
+            android:exported="true" >
+            <meta-data
+                android:name ="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".FindFriend.FriendRequestActivity"
+            android:exported="true" >
+        <meta-data
+            android:name ="android.support.PARENT_ACTIVITY"
+            android:value=".FindFriend.FindFriendActivity" />
+        </activity>
         <activity
             android:name=".FirstAid.FirstAidInfo"
             android:exported="true"

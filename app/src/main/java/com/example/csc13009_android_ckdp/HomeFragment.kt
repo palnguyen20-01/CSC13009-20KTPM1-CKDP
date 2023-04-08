@@ -34,8 +34,8 @@ class HomeFragment : Fragment {
         val layoutManager: RecyclerView.LayoutManager =
             GridLayoutManager(main, 2)
         recyclerView.layoutManager = layoutManager
-        val newspaperArrayList: ArrayList<MyFeatures> = prepareData()
-        val adapter = main?.let { HomeAdapter(it, newspaperArrayList) }
+        val featArrayList: ArrayList<MyFeatures> = prepareData()
+        val adapter = main?.let { HomeAdapter(it, featArrayList) }
         recyclerView.adapter = adapter
         return settingsFragment
     }
@@ -44,7 +44,7 @@ class HomeFragment : Fragment {
         val featureArrayList: ArrayList<MyFeatures> = ArrayList()
         for (i in featureNames.indices) {
             val feats = MyFeatures()
-            feats.setNewspaperName(featureNames[i])
+            feats.setFeatureName(featureNames[i])
             feats.setImageId(featureImageIds[i])
             featureArrayList.add(feats)
         }

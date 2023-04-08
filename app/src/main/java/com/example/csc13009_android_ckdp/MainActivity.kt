@@ -1,11 +1,12 @@
 package com.example.csc13009_android_ckdp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.csc13009_android_ckdp.FindFriend.FindFriendActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -45,6 +46,9 @@ class MainActivity : AppCompatActivity() {
                 //selectedFragment = Fragment
             } else if (R.id.itemSetting === itemId) {
                 selectedFragment = SettingFragment(this)
+            }
+            else if(R.id.itemFriendRequest == itemId){
+                startActivity(Intent(applicationContext, FindFriendActivity::class.java))
             }
             // Use addToBackStack to return the previous fragment when the Back button is pressed
             // Checking null was just a precaution

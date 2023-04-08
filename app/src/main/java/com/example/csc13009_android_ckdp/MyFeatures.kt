@@ -8,8 +8,8 @@ class MyFeatures {
         return featureName
     }
 
-    fun setNewspaperName(newspaperName: String?) {
-        this.featureName = newspaperName
+    fun setFeatureName(featureName: String?) {
+        this.featureName = featureName
     }
 
     fun getImageId(): Int {
