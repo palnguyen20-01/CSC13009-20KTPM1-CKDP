@@ -1,7 +1,6 @@
 package com.example.csc13009_android_ckdp
 
 
-
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
@@ -33,13 +32,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         selectedFragment = HomeFragment()
-        (selectedFragment as HomeFragment).main=this
+        (selectedFragment as HomeFragment).main = this
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentHolder, selectedFragment!!)
             .commit()
         initiateApp()
     }
+
     fun setLocale(activity: Activity, languageCode: String?) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
@@ -48,38 +48,38 @@ class MainActivity : AppCompatActivity() {
         config.setLocale(locale)
         resources.updateConfiguration(config, resources.getDisplayMetrics())
     }
+
     private fun appSetting() {
         val prefs = PreferenceManager
             .getDefaultSharedPreferences(this)
-   val mode = prefs.getBoolean("switch",false)
-        if(mode){
+        val mode = prefs.getBoolean("switch", false)
+        if (mode) {
             AppCompatDelegate
                 .setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_YES
                 )
-        }else{
+        } else {
             AppCompatDelegate
                 .setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO
                 )
         }
 
-            val language=prefs?.getString("language","1")
+        val language = prefs?.getString("language", "1")
 
-            when (language?.toInt()) {
-                1 ->{
-                    setLocale(this,"en")
-                }
-
-                2 -> {
-                    setLocale(this,"vi")
-                }
+        when (language?.toInt()) {
+            1 -> {
+                setLocale(this, "en")
             }
+
+            2 -> {
+                setLocale(this, "vi")
+            }
+        }
 
     }
 
-    private fun initiateApp()
-    {
+    private fun initiateApp() {
         actionBar = supportActionBar
         actionBar!!.setDisplayUseLogoEnabled(true)
         actionBar!!.setDisplayShowHomeEnabled(true)
@@ -91,15 +91,14 @@ class MainActivity : AppCompatActivity() {
 
             if (R.id.itemHome === itemId) {
                 selectedFragment = HomeFragment()
-                (selectedFragment as HomeFragment).main=this
-            } else if (R.id.itemMessage=== itemId) {
+                (selectedFragment as HomeFragment).main = this
+            } else if (R.id.itemMessage === itemId) {
                 //selectedFragment = Fragment
             } else if (R.id.itemSetting === itemId) {
                 selectedFragment = SettingFragment()
-                (selectedFragment as SettingFragment).main=this
+                (selectedFragment as SettingFragment).main = this
 
-            }
-            else if(R.id.itemFriendRequest == itemId){
+            } else if (R.id.itemFriendRequest == itemId) {
                 startActivity(Intent(applicationContext, FindFriendActivity::class.java))
             }
             // Use addToBackStack to return the previous fragment when the Back button is pressed
@@ -111,6 +110,7 @@ class MainActivity : AppCompatActivity() {
             true
         })
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> {
