@@ -15,8 +15,8 @@ class PreferenceManager {
         editor.apply()
     }
 
-    fun getBoolean(key: String): Boolean{
-        return sharedPreferences.getBoolean(key, false)
+    fun getBoolean(key: String, backup: Boolean): Boolean{
+        return sharedPreferences.getBoolean(key, backup)
     }
 
     fun putString(key: String, value: String){
@@ -25,8 +25,8 @@ class PreferenceManager {
         editor.apply()
     }
 
-    fun getString(key: String): String? {
-        return sharedPreferences.getString(key, "")
+    fun getString(key: String, backup: String): String? {
+        return sharedPreferences.getString(key, backup)
     }
 
     fun clear(){

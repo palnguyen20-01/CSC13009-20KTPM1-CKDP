@@ -103,4 +103,10 @@
     <string name="title_activity_settings">Cài đặt</string>
     <string name="advanced">Nâng cao</string>
     <string name="alarm_tiltle">Nhắc uống thuốc</string>
+    <string name="friend_request">Friend request</string>
+    <string name="cancel_friend_request">Hủy lời mời kết bạn</string>
+    <string name="accept_friend_request">Đồng ý lời mời kết bạn</string>
+    <string name="send_friend_request">Gửi lời mời kết bạn</string>
+    <string name="unfriend">Hủy kết bạn</string>
+    <string name="hospital_map">Bản đồ bệnh viện</string>
 </resources>

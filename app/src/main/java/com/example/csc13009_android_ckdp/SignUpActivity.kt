@@ -17,7 +17,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.Models.Users
-import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +35,6 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var textPassword: EditText
     lateinit var textConfirm: EditText
     lateinit var progressBtn: ProgressBar
-    lateinit var preferenceManager: PreferenceManager
     lateinit var auth : FirebaseAuth
     var encodedImage : String = ""
 
@@ -54,7 +52,6 @@ class SignUpActivity : AppCompatActivity() {
         textPassword = findViewById(R.id.textSignUpPassword)
         textConfirm = findViewById(R.id.textSignUpConfirmPassword)
         progressBtn = findViewById(R.id.progressSignUpButton)
-        preferenceManager = PreferenceManager(applicationContext)
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
 

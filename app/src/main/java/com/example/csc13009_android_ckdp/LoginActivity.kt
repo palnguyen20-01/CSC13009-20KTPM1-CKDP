@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.ForgetPassword.ForgetPasswordActivity
-import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -21,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 
-
 class LoginActivity : AppCompatActivity() {
     lateinit var btnSignIn: Button
     lateinit var btnSignInGG: Button
@@ -30,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var textPass: TextView
     lateinit var textSignUp: TextView
     lateinit var txtForgotPass: TextView
-    lateinit var preferenceManager: PreferenceManager
+
 
     lateinit var auth: FirebaseAuth
     lateinit var googleSignInClient : GoogleSignInClient
@@ -49,14 +47,11 @@ class LoginActivity : AppCompatActivity() {
         textPass = findViewById(R.id.textLoginPassword)
         textSignUp = findViewById(R.id.txtLoginSignUp)
         progressBtn = findViewById(R.id.progressSignInButton)
-        preferenceManager = PreferenceManager(applicationContext)
+
         txtForgotPass = findViewById(R.id.txtLoginForgotPassword)
         auth = FirebaseAuth.getInstance()
 
 
-        if(preferenceManager.getBoolean("isLogin")){
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-        }
 
         textSignUp.setOnClickListener {
             startActivity(Intent(applicationContext, SignUpActivity::class.java))
@@ -142,7 +137,6 @@ class LoginActivity : AppCompatActivity() {
                     showToast("\n${e.message.toString()}")
                 }
             }
-
         }
     }
 

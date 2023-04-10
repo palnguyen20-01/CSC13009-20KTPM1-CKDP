@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.GlideApp
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
-import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -37,7 +36,6 @@ class InfoChange : AppCompatActivity() {
     var birth: String? = null
     var imageUri: Uri? = null
     var isChooseImage: Boolean = false
-    lateinit var preferenceManager: PreferenceManager
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
     lateinit var database: FirebaseDatabase
@@ -50,12 +48,7 @@ class InfoChange : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_profile)
 
-        btnCancel = findViewById(R.id.btnCancelChangeProfile)
-        btnSave = findViewById(R.id.btnSaveChangeProfile)
-        imageProfile = findViewById(R.id.imageChangeProfile)
-        txtName = findViewById(R.id.textChangeProfileName)
-        txtBirthday = findViewById(R.id.textChangProfileBirthday)
-        preferenceManager = PreferenceManager(applicationContext)
+        initComponents()
         progressDialog = ProgressDialog(this)
         progressDialog.setTitle("Updating")
         auth = FirebaseAuth.getInstance()
@@ -65,12 +58,7 @@ class InfoChange : AppCompatActivity() {
 
         initData()
 
-        imageProfile.setOnClickListener {
-            isChooseImage = true
-            var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            pickImage.launch(intent)
-        }
+        chooseImage()
 
         btnSave.setOnClickListener {
             user = FirebaseAuth.getInstance().currentUser
@@ -90,6 +78,23 @@ class InfoChange : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun chooseImage() {
+        imageProfile.setOnClickListener {
+            isChooseImage = true
+            var intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            pickImage.launch(intent)
+        }
+    }
+
+    private fun initComponents(){
+        btnCancel = findViewById(R.id.btnCancelChangeProfile)
+        btnSave = findViewById(R.id.btnSaveChangeProfile)
+        imageProfile = findViewById(R.id.imageChangeProfile)
+        txtName = findViewById(R.id.textChangeProfileName)
+        txtBirthday = findViewById(R.id.textChangProfileBirthday)
+    }
     private fun initData() {
         database.reference.child("Users").child(userCurrent!!.uid).get()
             .addOnCompleteListener {task ->
@@ -162,29 +167,30 @@ class InfoChange : AppCompatActivity() {
         updateUser["name"] = txtName.text.toString()
 
         database.reference.child("Users").child(userCurrent!!.uid).updateChildren(updateUser)
-            .addOnSuccessListener {
-                val profileUpdates = UserProfileChangeRequest.Builder()
-                    .setDisplayName(txtName.text.toString())
-                    .build()
-                user!!.updateProfile(profileUpdates)
+            .addOnCompleteListener {
+                task->
+                if(task.isSuccessful) {
+                    val profileUpdates = UserProfileChangeRequest.Builder()
+                        .setDisplayName(txtName.text.toString())
+                        .build()
+                    user!!.updateProfile(profileUpdates)
 
-                val intent = Intent(this, SettingFragment::class.java)
-                intent.putExtra("name", txtName.text.toString())
-                intent.putExtra("birthday", txtBirthday.text.toString())
-                setResult(RequestCodeResult.CHANGE_INFORMATION, intent);
-                if(progressDialog.isShowing)
-                    progressDialog.dismiss()
+                    val intent = Intent(this, SettingFragment::class.java)
+                    intent.putExtra("name", txtName.text.toString())
+                    intent.putExtra("birthday", txtBirthday.text.toString())
+                    setResult(RequestCodeResult.CHANGE_INFORMATION, intent);
+                    if (progressDialog.isShowing)
+                        progressDialog.dismiss()
 
-                finish()
+                    finish()
+                }
+                else{
+                    if(progressDialog.isShowing)
+                        progressDialog.dismiss()
+                    showToast("Update profile FAILED!")
+                    finish()
+                }
             }
-            .addOnFailureListener {
-                if(progressDialog.isShowing)
-                    progressDialog.dismiss()
-                showToast("Update profile FAILED!")
-                finish()
-            }
-
-
     }
     private fun updateUserInfo(uri: Uri) {
         val profileUpdates = UserProfileChangeRequest.Builder()

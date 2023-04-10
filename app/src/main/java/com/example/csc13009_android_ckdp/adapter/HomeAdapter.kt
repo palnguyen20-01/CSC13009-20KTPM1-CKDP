@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.AlarmActivity
 import com.example.csc13009_android_ckdp.BMI.BMIActivity
 import com.example.csc13009_android_ckdp.FirstAid.FirstAidActivity
+import com.example.csc13009_android_ckdp.HospitalMap.HospitalMapActivity
 import com.example.csc13009_android_ckdp.MyFeatures
 import com.example.csc13009_android_ckdp.R
 
@@ -67,7 +68,7 @@ class HomeAdapter(private val context: Context,
                 context.startActivity(intent)
             }
             else if(index == 3){
-                val intent = Intent(context, BMIActivity::class.java)
+                val intent = Intent(context,HospitalMapActivity::class.java)
                 context.startActivity(intent)
             }
         }

@@ -14,11 +14,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.csc13009_android_ckdp.Profile.EmailChange
 import com.example.csc13009_android_ckdp.Profile.InfoChange
 import com.example.csc13009_android_ckdp.Profile.PasswordChange
-import com.example.csc13009_android_ckdp.utilities.PreferenceManager
 import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -36,7 +34,6 @@ class SettingFragment : Fragment() {
     lateinit var cardEmail : CardView
     //lateinit var cardPhone : CardView
     lateinit var cardLogout : CardView
-    lateinit var preferenceManager: PreferenceManager
 
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
@@ -56,7 +53,6 @@ class SettingFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        preferenceManager = PreferenceManager(requireContext())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -131,10 +127,12 @@ class SettingFragment : Fragment() {
         }
 
         cardLogout.setOnClickListener {
-            preferenceManager.clear()
             auth.signOut()
             val intent = Intent(context, LoginActivity::class.java)
+            intent.flags =
+            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+
         }
         return settingsFragment
     }

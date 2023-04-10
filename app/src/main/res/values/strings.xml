@@ -109,6 +109,10 @@
     <string name="change_password">Change password</string>
     <string name="information">Information</string>
     <string name="friend_request">Friend request</string>
+    <string name="cancel_friend_request">Cancel friend request</string>
+    <string name="accept_friend_request">Accept friend request</string>
+    <string name="send_friend_request">Send friend request</string>
+    <string name="unfriend">Unfriend</string>
 
     <!--app  name-->
     <string name="dark_mode">Dark Mode</string>
@@ -131,5 +135,6 @@
     <string name="title_anaphylaxis">Anaphulaxis</string>
     <string name="advanced">Advanced</string>
     <string name="alarm_tiltle">Alarm</string>
+    <string name="hospital_map">Hospital map</string>
 
 </resources>

@@ -97,10 +97,12 @@ class PasswordChange : AppCompatActivity() {
             }
             else{
                 user.updatePassword(newPass.text.toString())
-                    .addOnCompleteListener{
-                        auth.signOut()
-                        val intent = Intent(this, PasswordUpdatedActivity::class.java)
-                        startActivity(intent)
+                    .addOnCompleteListener{task ->
+                        if(task.isSuccessful) {
+                            auth.signOut()
+                            val intent = Intent(this, PasswordUpdatedActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                     .addOnFailureListener {
                         Log.d("TAG", "Can not update Password");

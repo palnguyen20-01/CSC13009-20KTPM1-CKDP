@@ -13,7 +13,7 @@ import com.example.csc13009_android_ckdp.adapter.HomeAdapter
 class HomeFragment : Fragment() {
     public var main: MainActivity? = null
     private var featureNames = ArrayList<String>()
-    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.clock, R.drawable.ic_home)
+    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.clock, R.drawable.map)
 
 //    constructor(main: MainActivity?) : super() {
 //        this.main = main
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         featureNames.add(requireContext().getString(R.string.title_firstaid))
         featureNames.add(requireContext().getString(R.string.title_activity_bmi))
         featureNames.add(requireContext().getString(R.string.alarm_tiltle))
-        featureNames.add("Orange")
+        featureNames.add(requireContext().getString(R.string.hospital_map))
 
     }
 
