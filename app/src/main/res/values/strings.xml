@@ -149,6 +149,9 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="accept_friend_request">Accept friend request</string>
     <string name="send_friend_request">Send friend request</string>
     <string name="unfriend">Unfriend</string>
+    <string name="drug_interaction">Drug interaction</string>
+    <string name="health_advice">Health advice</string>
+    <string name="skin_disease">Skin disease</string>
 
     <!--app  name-->
     <string name="dark_mode">Dark Mode</string>

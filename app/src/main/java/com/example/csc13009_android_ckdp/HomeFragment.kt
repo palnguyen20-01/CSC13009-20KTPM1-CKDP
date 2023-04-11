@@ -1,6 +1,5 @@
 package com.example.csc13009_android_ckdp
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.csc13009_android_ckdp.Models.MyFeatures
 import com.example.csc13009_android_ckdp.adapter.HomeAdapter
 
 class HomeFragment : Fragment() {
     public var main: MainActivity? = null
     private var featureNames = ArrayList<String>()
-    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.clock, R.drawable.map)
+    private var featureImageIds = arrayOf<Int>(R.drawable.first_aid, R.drawable.bmi,R.drawable.clock, R.drawable.map
+                                                ,R.drawable.doctor,R.drawable.medicine,R.drawable.irritation)
 
 //    constructor(main: MainActivity?) : super() {
 //        this.main = main
@@ -25,6 +26,9 @@ class HomeFragment : Fragment() {
         featureNames.add(requireContext().getString(R.string.title_activity_bmi))
         featureNames.add(requireContext().getString(R.string.alarm_tiltle))
         featureNames.add(requireContext().getString(R.string.hospital_map))
+        featureNames.add(requireContext().getString(R.string.health_advice))
+        featureNames.add(requireContext().getString(R.string.drug_interaction))
+        featureNames.add(requireContext().getString(R.string.skin_disease))
 
     }
 

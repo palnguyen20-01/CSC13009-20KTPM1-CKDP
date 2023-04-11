@@ -128,4 +128,7 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="send_friend_request">Gửi lời mời kết bạn</string>
     <string name="unfriend">Hủy kết bạn</string>
     <string name="hospital_map">Bản đồ bệnh viện</string>
+    <string name="drug_interaction">Tra cứu thuốc</string>
+    <string name="health_advice">Tư vấn sức khỏe (GPT)</string>
+    <string name="skin_disease">Bệnh ngoài da</string>
 </resources>

@@ -1,21 +1,12 @@
 package com.example.csc13009_android_ckdp.HealthAdvice
 
 import android.content.Context
-import android.content.Intent
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.csc13009_android_ckdp.AlarmActivity
-import com.example.csc13009_android_ckdp.BMI.BMIActivity
-import com.example.csc13009_android_ckdp.FirstAid.FirstAidActivity
-import com.example.csc13009_android_ckdp.MyFeatures
 import com.example.csc13009_android_ckdp.R
 
 class MessageAdapter(private val context: Context,

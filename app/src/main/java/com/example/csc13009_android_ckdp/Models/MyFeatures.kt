@@ -1,4 +1,4 @@
-package com.example.csc13009_android_ckdp
+package com.example.csc13009_android_ckdp.Models
 
 class MyFeatures {
     private var featureName: String? = null

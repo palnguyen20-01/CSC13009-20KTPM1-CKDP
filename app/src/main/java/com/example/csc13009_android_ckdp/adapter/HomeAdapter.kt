@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.csc13009_android_ckdp.AlarmActivity
+import com.example.csc13009_android_ckdp.*
 import com.example.csc13009_android_ckdp.BMI.BMIActivity
 import com.example.csc13009_android_ckdp.FirstAid.FirstAidActivity
 import com.example.csc13009_android_ckdp.HospitalMap.HospitalMapActivity
-import com.example.csc13009_android_ckdp.MyFeatures
-import com.example.csc13009_android_ckdp.R
+import com.example.csc13009_android_ckdp.Models.MyFeatures
 
 class HomeAdapter(private val context: Context,
                   private val studentList: List<MyFeatures>
@@ -69,6 +68,15 @@ class HomeAdapter(private val context: Context,
             }
             else if(index == 3){
                 val intent = Intent(context,HospitalMapActivity::class.java)
+                context.startActivity(intent)
+            }else if(index == 4){
+                val intent = Intent(context,Health_Advice::class.java)
+                context.startActivity(intent)
+            }else if(index == 5){
+                val intent = Intent(context,DrugInfoActivity::class.java)
+                context.startActivity(intent)
+            }else if(index == 6){
+                val intent = Intent(context,SkinDisease::class.java)
                 context.startActivity(intent)
             }
         }
