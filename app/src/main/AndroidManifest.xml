@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS_PROVIDER" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
+
 
     <application
         android:name=".Alarm.Application.App"
@@ -46,17 +51,24 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".Alarm.RingAlarmActivity"
-            android:exported="true" />
+            android:name=".DrugInfoActivity"
+            android:exported="true" >
+        </activity>
+
+        <activity
+            android:name=".SkinDisease"
+            android:exported="true">
+        </activity>
         <activity
             android:name=".Health_Advice"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

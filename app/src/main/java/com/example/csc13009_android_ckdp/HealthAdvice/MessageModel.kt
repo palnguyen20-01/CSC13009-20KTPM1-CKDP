@@ -7,7 +7,6 @@ class MessageModel {
     }
     var message:String=""
     var sentBy:String=""
-
     constructor(message: String, sentBy: String) {
         this.message = message
         this.sentBy = sentBy

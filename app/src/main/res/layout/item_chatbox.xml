@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="8dp"
+    android:layout_marginTop="1dp"
+    android:background="@drawable/round_assistant">
+    <ImageView
+        android:id="@+id/TVIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_email"/>
+    <TextView
+        android:id="@+id/TVTitle"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:hint="ChatBox Title"/>
+    <ImageButton
+        android:id="@+id/IMGBTNIconEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#cddcc4"
+        android:src="@drawable/edit_icon"/>
+    <ImageButton
+        android:id="@+id/IMGBTNIconDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#cddcc4"
+        android:src="@drawable/delete_icon"/>
+
+</LinearLayout>

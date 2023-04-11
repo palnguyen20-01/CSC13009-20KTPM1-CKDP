@@ -173,4 +173,9 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="alarm_tiltle">Alarm</string>
     <string name="hospital_map">Hospital map</string>
 
+<!--=======-->
+<!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->
+<!--    <string name="navigation_drawer_open">Open navigation drawer</string>-->
+<!--    <string name="navigation_drawer_close">Close navigation drawer</string>-->
+<!--&gt;>>>>>> Stashed changes-->
 </resources>

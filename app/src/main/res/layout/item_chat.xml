@@ -19,7 +19,7 @@
             android:id="@+id/TVUserChat"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:hint="Hello ba con"
+
             >
         </TextView>
     </LinearLayout>
@@ -39,7 +39,7 @@
             android:id="@+id/TVGPTChat"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:hint="Hello ba con"
+
             >
         </TextView>
     </LinearLayout>
