@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.GlideApp
 import com.example.csc13009_android_ckdp.R
 import com.example.csc13009_android_ckdp.SettingFragment
+
 import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -183,6 +184,7 @@ class InfoChange : AppCompatActivity() {
                         progressDialog.dismiss()
 
                     finish()
+
                 }
                 else{
                     if(progressDialog.isShowing)

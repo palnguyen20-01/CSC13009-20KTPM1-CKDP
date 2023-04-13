@@ -34,7 +34,10 @@ class SettingFragment : Fragment() {
     lateinit var cardEmail : CardView
     //lateinit var cardPhone : CardView
     lateinit var cardLogout : CardView
-
+    var isChange : Boolean = false
+    var profileName: String? = null
+    var profileEmail: String? = null
+    var profileImage: ByteArray? = null
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
 //    constructor(main: MainActivity?) : super() {
@@ -60,13 +63,17 @@ class SettingFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d("TEST", "onActivityResult: $requestCode");
         if(requestCode == 5201){
-            txtProfileName.text = data?.getStringExtra("name")
-            txtProfileEmail.text = data?.getStringExtra("email")
+            imageProfile = main!!.findViewById(R.id.imageProfile)
+
+            isChange = true
+            profileName = data?.getStringExtra("name")
+
             var encodedImage = data?.getStringExtra("image")
             if(encodedImage != null) {
                 var bytes = Base64.getDecoder().decode(encodedImage)
                 var bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                 imageProfile.setImageBitmap(bitmap)
+
             }
         }
         else if(requestCode == 5200){
@@ -82,18 +89,25 @@ class SettingFragment : Fragment() {
             showToast("No profile found")
         }
         else{
-            val name = authUser.displayName
-            val email = authUser.email
-            val photoUrl = authUser.photoUrl
-            txtProfileEmail.text = email
-            txtProfileName.text = name
+            if(isChange) {
+                txtProfileName.text = profileName
 
-            GlideApp.with(this)
-                .load(photoUrl)
-                .placeholder(R.drawable.user_avatar)
-                .into(imageProfile)
+            }
+            else{
+                profileName = authUser.displayName
+                profileEmail = authUser.email
+                val photoUrl = authUser.photoUrl
+                txtProfileEmail.text = profileEmail
+                txtProfileName.text = profileName
+
+                GlideApp.with(this)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.user_avatar)
+                    .into(imageProfile)
+            }
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
