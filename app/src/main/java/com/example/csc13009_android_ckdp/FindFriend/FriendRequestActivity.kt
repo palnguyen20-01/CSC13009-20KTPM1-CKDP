@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.GlideApp
 import com.example.csc13009_android_ckdp.Models.Users
+import com.example.csc13009_android_ckdp.Notification.NotificationFragment
+import com.example.csc13009_android_ckdp.Notification.NotificationService
 import com.example.csc13009_android_ckdp.R
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
@@ -33,6 +35,7 @@ class FriendRequestActivity : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
     lateinit var mUser: FirebaseUser
     lateinit var adapter: FirebaseRecyclerAdapter<Users, FindFriendViewHolder>
+    lateinit var notifyService : NotificationService
 
     lateinit var userId: String
     var imageUrl: String? = null
@@ -52,6 +55,7 @@ class FriendRequestActivity : AppCompatActivity() {
         userRef = FirebaseDatabase.getInstance().reference.child("Users").child(userId)
         requestRef = FirebaseDatabase.getInstance().reference.child("Requests")
         friendRef = FirebaseDatabase.getInstance().reference.child("Friends")
+        notifyService = NotificationService()
 
         loadUser()
 
@@ -104,6 +108,7 @@ class FriendRequestActivity : AppCompatActivity() {
                     btnCancel.visibility = View.GONE
                     currentState = "i_sent_pending"
                     btnAccept.text = resources.getString(R.string.cancel_friend_request)
+                    notifyService.notifyForThatPerson(userId,"friendReq",mUser.uid,System.currentTimeMillis().toString())
                 }
 
             }
@@ -134,6 +139,7 @@ class FriendRequestActivity : AppCompatActivity() {
                         btnCancel.visibility = View.VISIBLE
 
                     }
+                    notifyService.notifyForThatPerson(userId, "friendAc", mUser.uid, System.currentTimeMillis().toString())
                 }
 
             }

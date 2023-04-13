@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.csc13009_android_ckdp.FindFriend.FindFriendActivity
 import androidx.preference.PreferenceManager
+import com.example.csc13009_android_ckdp.Notification.NotificationFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import java.util.*
@@ -98,7 +99,10 @@ class MainActivity : AppCompatActivity() {
                 selectedFragment = SettingFragment()
                 (selectedFragment as SettingFragment).main = this
 
-            } else if (R.id.itemFriendRequest == itemId) {
+            }else if (R.id.itemNotice == itemId) {
+                selectedFragment = NotificationFragment()
+                (selectedFragment as NotificationFragment).main = this
+            }else if (R.id.itemFriendRequest == itemId) {
                 startActivity(Intent(applicationContext, FindFriendActivity::class.java))
             }
             // Use addToBackStack to return the previous fragment when the Back button is pressed
