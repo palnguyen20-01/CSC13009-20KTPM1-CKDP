@@ -11,7 +11,6 @@
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS_PROVIDER" />
     <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
 
-
     <application
         android:name=".Alarm.Application.App"
         android:allowBackup="true"
@@ -23,12 +22,29 @@
         android:theme="@style/Theme.CSC13009AndroidCKDP"
         tools:targetApi="31">
         <activity
+            android:name=".Message.ChatActivity"
+            android:exported="false"
+            android:parentActivityName=".Message.MessageActivity"
+            />
+        <activity
+            android:name=".Message.NewMessageActivity"
+            android:exported="false"
+            android:parentActivityName=".Message.MessageActivity" />
+        <activity
+            android:name=".Message.MessageActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
              To get one, follow the directions here:
@@ -52,25 +68,26 @@
         </activity>
         <activity
             android:name=".DrugInfoActivity"
-            android:exported="true" >
-        </activity>
-
+            android:exported="true" />
+        <activity
+            android:name=".Alarm.RingAlarmActivity"
+            android:exported="true" />
         <activity
             android:name=".SkinDisease"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Health_Advice"
-            android:exported="true" >
-        </activity>
-
+            android:exported="true" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".SignUpActivity"
@@ -123,17 +140,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".FindFriend.FindFriendActivity"
-            android:exported="true" >
+        <activity
+            android:name=".FindFriend.FindFriendActivity"
+            android:exported="true">
             <meta-data
-                android:name ="android.support.PARENT_ACTIVITY"
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".FindFriend.FriendRequestActivity"
-            android:exported="true" >
-        <meta-data
-            android:name ="android.support.PARENT_ACTIVITY"
-            android:value=".FindFriend.FindFriendActivity" />
+        <activity
+            android:name=".FindFriend.FriendRequestActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FindFriend.FindFriendActivity" />
         </activity>
         <activity
             android:name=".FirstAid.FirstAidInfo"
