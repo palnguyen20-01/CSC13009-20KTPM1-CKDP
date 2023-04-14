@@ -137,8 +137,25 @@ class FriendRequestActivity : AppCompatActivity() {
                         btnAccept.visibility = View.GONE
                         btnCancel.text  = resources.getString(R.string.unfriend)
                         btnCancel.visibility = View.VISIBLE
-
                     }
+
+                    userRef.child(mUser.uid).child("name").get()
+                        .addOnCompleteListener{task->
+                            if(task.result.exists()){
+                                val dataSnapshot = task.result
+                                val name = dataSnapshot.value.toString()
+                                reqMap["name"] = name
+                                userRef.child(mUser.uid).child("image").get()
+                                    .addOnCompleteListener{task->
+                                        if(task.result.exists()){
+                                            val dataSnapshot = task.result
+                                            val image = dataSnapshot.value.toString()
+                                            reqMap["image"] = image
+                                            friendRef.child(userId).child(mUser.uid).updateChildren(reqMap)
+                                        }
+                                    }
+                            }
+                        }
                     notifyService.notifyForThatPerson(userId, "friendAc", mUser.uid, System.currentTimeMillis().toString())
                 }
 

@@ -72,7 +72,9 @@ class NotificationFragment : Fragment() {
                                 if(snapshot.value.toString() != dataSnapshot.value.toString()){
                                     notiList.clear()
                                     prepareData()
-                                    notificationService.seenNoti(main, user.uid)
+                                    Log.i("phuc4570","notiListener")
+                                    if(this@NotificationFragment == main.selectedFragment)
+                                        notificationService.seenNoti(main, user.uid)
                                 }
                             }
                         }
@@ -106,15 +108,25 @@ class NotificationFragment : Fragment() {
                                         var dataSnapshot = task.result
                                         val otherName = dataSnapshot.value.toString()
                                         var content = ""
-                                        if (type == "friendReq") {
-                                            content = otherName + " has sent you a friend request"
-                                        }else if(type == "friendAc"){
-                                            content = otherName + " has accepted your friend request"
-                                        }else if (type == "clock") {
-                                            content = otherName + " remind you to take medicine"
-                                        }
-                                        notiList.add(Notification(i.toString(), type, content, timeAgo))
-                                        adapter.notifyDataSetChanged()
+                                        userRef.child(user.uid).child("name").get()
+                                            .addOnCompleteListener {task->
+                                                if(task.result.exists()){
+                                                    var dataSnapshot = task.result
+                                                    val srcName = dataSnapshot.value.toString()
+                                                    if (type == "friendReq") {
+                                                        content = otherName + " has sent you a friend request"
+                                                    }else if(type == "friendAc"){
+                                                        content = otherName + " has accepted your friend request"
+                                                    }else if(type == "acFriend"){
+                                                        content = "You have accepted ${srcName}'s friend request"
+                                                    }else if (type == "clock") {
+                                                        content = otherName + " remind you to take medicine"
+                                                    }
+                                                    notiList.add(Notification(i.toString(), srcID, type, content, timeAgo))
+                                                    adapter.notifyDataSetChanged()
+                                                }
+                                            }
+
                                     }
                                 }
                         }

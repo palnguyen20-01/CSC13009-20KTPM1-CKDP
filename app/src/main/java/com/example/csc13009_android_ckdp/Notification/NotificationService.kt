@@ -90,6 +90,7 @@ class NotificationService {
     }
 
     public fun seenNoti(activity: Activity, userID : String){
+        Log.i("phuc4570","seenNoti")
         changeNotiIcon(activity, false)
         var seenNotiIDMap = HashMap<String, Any>()
         notiRef.child(userID).child("lastNotiID").get()
