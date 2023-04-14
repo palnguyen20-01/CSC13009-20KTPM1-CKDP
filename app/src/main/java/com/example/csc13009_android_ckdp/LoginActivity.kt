@@ -3,6 +3,7 @@ package com.example.csc13009_android_ckdp
 import android.content.Intent
 import android.content.IntentSender
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
@@ -10,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.ForgetPassword.ForgetPasswordActivity
+import com.example.csc13009_android_ckdp.Models.Users
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -19,6 +21,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
 
 class LoginActivity : AppCompatActivity() {
     lateinit var btnSignIn: Button
@@ -31,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     lateinit var auth: FirebaseAuth
+    lateinit var database: FirebaseDatabase
     lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
@@ -51,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
         txtForgotPass = findViewById(R.id.txtLoginForgotPassword)
         auth = FirebaseAuth.getInstance()
 
-
+        database = FirebaseDatabase.getInstance()
 
         textSignUp.setOnClickListener {
             startActivity(Intent(applicationContext, SignUpActivity::class.java))
@@ -149,6 +153,15 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success
                     // update UI with the signed-in user's information
                     val user = auth.currentUser
+
+                    val userData = Users(user!!.email!!,user.displayName!!, user.photoUrl!!.toString(), user.uid)
+
+                    database.reference.child("Users").child(user.uid).setValue(userData)
+                        .addOnSuccessListener {
+                            Log.d("firebase", "Login by GG success")
+                        }.addOnFailureListener{
+                            Log.d("firebase", "Error getting data")
+                        }
                     updateUI(user)
                 } else {
                     loadingGG(false)
@@ -186,30 +199,6 @@ class LoginActivity : AppCompatActivity() {
                 showToast("Unable to log in")
             }
 
-//        var database = FirebaseFirestore.getInstance()
-//        database.collection("users")
-//            .whereEqualTo("email", textEmail.text.toString())
-//            .whereEqualTo("password", textPass.text.toString())
-//            .get()
-//            .addOnCompleteListener {task ->
-//                if(task.isSuccessful && task.result != null && task.result.documents.size > 0){
-//                    val documentSnapshot = task.result.documents[0]
-//                    preferenceManager.putBoolean("isLogin", true)
-//                    preferenceManager.putString("id", documentSnapshot.id)
-//                    preferenceManager.putString("email", documentSnapshot.getString("email")!!)
-//                    preferenceManager.putString("name", documentSnapshot.getString("name")!!)
-//                    startActivity(Intent(applicationContext, MainActivity::class.java))
-//                }
-//                else
-//                {
-//                    loading(false)
-//                    showToast("Unable to log in")
-//                }
-//            }
-//            .addOnFailureListener{exception ->
-//                loading(false)
-//                exception.message?.let { showToast(it) }
-//            }
     }
 
     private fun showToast(message: String){

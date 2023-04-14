@@ -10,10 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.Models.Users
@@ -22,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import org.w3c.dom.Text
 
 
 import java.io.ByteArrayOutputStream
@@ -35,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var textPassword: EditText
     lateinit var textConfirm: EditText
     lateinit var progressBtn: ProgressBar
+    lateinit var txtLoginRegister: TextView
     lateinit var auth : FirebaseAuth
     var encodedImage : String = ""
 
@@ -52,6 +51,7 @@ class SignUpActivity : AppCompatActivity() {
         textPassword = findViewById(R.id.textSignUpPassword)
         textConfirm = findViewById(R.id.textSignUpConfirmPassword)
         progressBtn = findViewById(R.id.progressSignUpButton)
+        txtLoginRegister = findViewById(R.id.loginNavRegister)
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
 
@@ -59,10 +59,12 @@ class SignUpActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             if(isValidSignUp()){
                 signUp()
-
             }
         }
 
+        txtLoginRegister.setOnClickListener {
+            startActivity(Intent(applicationContext, LoginActivity::class.java))
+        }
         supportActionBar?.hide()
     }
     @RequiresApi(Build.VERSION_CODES.O)
