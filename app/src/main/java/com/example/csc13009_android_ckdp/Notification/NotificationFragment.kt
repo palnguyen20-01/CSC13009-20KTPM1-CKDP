@@ -18,8 +18,7 @@ import com.example.csc13009_android_ckdp.Models.MyFeatures
 import com.example.csc13009_android_ckdp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.nio.charset.Charset
@@ -29,6 +28,7 @@ class NotificationFragment : Fragment() {
     lateinit var user : FirebaseUser
     lateinit var notiRef : DatabaseReference
     lateinit var userRef : DatabaseReference
+    val notificationService = NotificationService()
 
     var notiList = ArrayList<Notification>()
     lateinit var adapter: NotificationAdapter
@@ -38,6 +38,8 @@ class NotificationFragment : Fragment() {
         user = FirebaseAuth.getInstance().currentUser!!
         notiRef = FirebaseDatabase.getInstance().reference.child("Notifications")
         userRef = FirebaseDatabase.getInstance().reference.child("Users")
+        notificationService.seenNoti(main,user.uid)
+        createNotiListener()
     }
 
     override fun onCreateView(
@@ -58,6 +60,31 @@ class NotificationFragment : Fragment() {
         return view
     }
 
+    private fun createNotiListener(){
+        notiRef.child(user.uid).child("lastNotiID").addValueEventListener( object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    notiRef.child(user.uid).child("seenNotiID").get()
+                        .addOnCompleteListener {task->
+                            if(task.result.exists()){
+                                val dataSnapshot = task.result
+                                if(snapshot.value.toString() != dataSnapshot.value.toString()){
+                                    notiList.clear()
+                                    prepareData()
+                                    notificationService.seenNoti(main, user.uid)
+                                }
+                            }
+                        }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+        }
+        )
+    }
+
     private fun prepareData(){
         notiRef.child(user.uid).get()
             .addOnCompleteListener{task ->
@@ -65,9 +92,8 @@ class NotificationFragment : Fragment() {
                 {
                     var dataSnapshot = task.result
                     val lastNotiID = dataSnapshot.child("lastNotiID").value.toString().toInt()
-                    for(i in 1..lastNotiID){
+                    for(i in lastNotiID downTo 1){
                         val notiInfo = dataSnapshot.child("Noti_List").child(i.toString())
-                        Log.i("phuc4570",notiInfo.toString())
                         if(notiInfo.value != null) {
                             val type = notiInfo.child("type").value.toString()
                             val srcID = notiInfo.child("srcID").value.toString()

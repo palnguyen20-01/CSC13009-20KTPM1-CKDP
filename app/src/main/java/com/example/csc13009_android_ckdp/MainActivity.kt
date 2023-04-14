@@ -2,19 +2,25 @@ package com.example.csc13009_android_ckdp
 
 
 import android.app.Activity
+import android.content.ClipData.Item
 import android.content.Intent
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle
+import android.text.Layout
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.csc13009_android_ckdp.FindFriend.FindFriendActivity
 import androidx.preference.PreferenceManager
 import com.example.csc13009_android_ckdp.Notification.NotificationFragment
+import com.example.csc13009_android_ckdp.Notification.NotificationService
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import java.util.*
@@ -39,6 +45,9 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragmentHolder, selectedFragment!!)
             .commit()
         initiateApp()
+
+        val notificationService = NotificationService()
+        notificationService.checkStartNoti(this)
     }
 
     fun setLocale(activity: Activity, languageCode: String?) {
