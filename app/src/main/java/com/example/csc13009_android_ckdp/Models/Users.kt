@@ -1,6 +1,9 @@
 package com.example.csc13009_android_ckdp.Models
 
-class Users {
+import android.os.Parcel
+import android.os.Parcelable
+
+class Users :Parcelable {
     var email: String = ""
     var name: String = ""
     var password: String = ""
@@ -8,6 +11,16 @@ class Users {
     var userId: String = ""
     var lastMessage: String = ""
     var image: String = ""
+
+    constructor(parcel: Parcel) : this() {
+        email = parcel.readString().toString()
+        name = parcel.readString().toString()
+        password = parcel.readString().toString()
+        birthday = parcel.readString().toString()
+        userId = parcel.readString().toString()
+        lastMessage = parcel.readString().toString()
+        image = parcel.readString().toString()
+    }
 
     constructor(
         email: String,
@@ -54,5 +67,29 @@ class Users {
         this.name = name
         this.image = image
         this.userId = uid
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(email)
+        parcel.writeString(name)
+        parcel.writeString(password)
+        parcel.writeString(birthday)
+        parcel.writeString(userId)
+        parcel.writeString(lastMessage)
+        parcel.writeString(image)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Users> {
+        override fun createFromParcel(parcel: Parcel): Users {
+            return Users(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Users?> {
+            return arrayOfNulls(size)
+        }
     }
 }

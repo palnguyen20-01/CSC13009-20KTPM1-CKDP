@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.GlideApp
+import com.example.csc13009_android_ckdp.Message.MessageActivity
 import com.example.csc13009_android_ckdp.Models.Users
 import com.example.csc13009_android_ckdp.Notification.NotificationFragment
 import com.example.csc13009_android_ckdp.Notification.NotificationService
@@ -139,6 +140,17 @@ class FriendRequestActivity : AppCompatActivity() {
                         btnCancel.visibility = View.VISIBLE
 
                     }
+                    FirebaseDatabase.getInstance().getReference("/Users/${mUser.uid}").get().addOnSuccessListener {
+                        var user=it.getValue(Users::class.java)
+                        var reqMaptoRef = HashMap<String, Any>()
+                        reqMaptoRef["status"] = "friend"
+                        reqMaptoRef["name"] = user!!.name
+                        reqMaptoRef["image"] = user!!.image
+                        friendRef.child(userId).child(mUser.uid).setValue(reqMaptoRef)
+                    }.addOnFailureListener{
+                        Log.e("firebase", "Error getting data", it)
+                    }
+
                     notifyService.notifyForThatPerson(userId, "friendAc", mUser.uid, System.currentTimeMillis().toString())
                 }
 
