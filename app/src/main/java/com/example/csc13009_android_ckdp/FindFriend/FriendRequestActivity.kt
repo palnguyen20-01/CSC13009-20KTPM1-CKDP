@@ -92,6 +92,7 @@ class FriendRequestActivity : AppCompatActivity() {
                     btnCancel.visibility = View.GONE
                     currentState = "he_sent_decline"
                     btnAccept.visibility = View.GONE
+                    notifyService.answerFriendRequest(mUser.uid,userId,"rejFriend")
                 }
 
             }
@@ -100,7 +101,7 @@ class FriendRequestActivity : AppCompatActivity() {
 
 
     private fun performAction() {
-        if(currentState.equals("nothing")){
+        if(currentState.equals("nothing") || currentState.equals("he_sent_decline")){
             var reqMap = HashMap<String, Any>()
             reqMap["status"] = "pending"
             requestRef.child(mUser.uid).child(userId).updateChildren(reqMap).addOnCompleteListener {task->
@@ -114,13 +115,14 @@ class FriendRequestActivity : AppCompatActivity() {
 
             }
         }
-        else if(currentState.equals("i_sent_pending") || currentState.equals("i_sent_decline")){
+        else if(currentState.equals("i_sent_pending")){
             requestRef.child(mUser.uid).child(userId).removeValue().addOnCompleteListener { task->
                 if(task.isSuccessful){
                     showToast("You have canceled a friend request")
                     currentState = "nothing"
                     btnAccept.text = resources.getString(R.string.send_friend_request)
                     btnCancel.visibility = View.GONE
+                    notifyService.handleFriendRequest(userId, mUser.uid, false)
                 }
 
             }
@@ -138,6 +140,7 @@ class FriendRequestActivity : AppCompatActivity() {
                         btnAccept.visibility = View.GONE
                         btnCancel.text  = resources.getString(R.string.unfriend)
                         btnCancel.visibility = View.VISIBLE
+                        notifyService.answerFriendRequest(mUser.uid, userId, "acFriend")
                     }
 
                     FirebaseDatabase.getInstance().getReference("/Users/${mUser.uid}").get().addOnSuccessListener {
@@ -226,8 +229,8 @@ class FriendRequestActivity : AppCompatActivity() {
                         btnCancel.visibility = View.GONE
                     }
                     else if(snapshot.child("status").value.toString().equals("decline")){
-                        currentState = "i_sent_decline"
-                        btnAccept.text = resources.getString(R.string.cancel_friend_request)
+                        currentState = "he_sent_decline"
+                        btnAccept.text = resources.getString(R.string.send_friend_request)
                         btnCancel.visibility = View.GONE
                     }
                 }

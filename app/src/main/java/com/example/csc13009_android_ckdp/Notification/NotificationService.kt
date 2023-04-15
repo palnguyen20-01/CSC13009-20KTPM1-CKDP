@@ -13,8 +13,10 @@ import com.google.firebase.database.*
 
 class NotificationService {
     var notiRef : DatabaseReference
+    var requestRef : DatabaseReference
     constructor(){
         notiRef = FirebaseDatabase.getInstance().reference.child("Notifications")
+        requestRef = FirebaseDatabase.getInstance().reference.child("Requests")
     }
 
     public fun notifyForThatPerson(uid : String, type : String, srcID : String, time : String){
@@ -39,6 +41,47 @@ class NotificationService {
             .addOnFailureListener {
                 Log.i("phuc4570","Failed")
             }
+    }
+
+    public fun handleFriendRequest(uid : String, srcID : String, answer: Boolean){
+        notiRef.child(uid).child("lastNotiID").get()
+            .addOnCompleteListener { task ->
+                var lastNotiID = 0
+                if (task.result.exists()) {
+                    val dataSnapshot = task.result
+                    lastNotiID = dataSnapshot.value.toString().toInt()
+                    notiRef.child(uid).child("Noti_List").get()
+                        .addOnCompleteListener {task->
+                            if(task.result.exists()){
+                                val dataSnapshot = task.result
+                                for(i in 1..lastNotiID){
+                                    if(dataSnapshot.child(i.toString()).child("srcID").value.toString() == srcID
+                                        && dataSnapshot.child(i.toString()).child("type").value.toString() == "friendReq"){
+                                        if(!answer) {
+                                            notiRef.child(uid).child("Noti_List").child(i.toString()).removeValue()
+                                        }else{
+                                            var notiMap = HashMap<String, Any>()
+                                            notiMap["type"] = "acFriend"
+                                            notiRef.child(uid).child("Noti_List").child(i.toString()).updateChildren(notiMap)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                }
+            }
+
+    }
+
+    public fun answerFriendRequest(uid : String, srcID : String, answer : String){
+        if(answer == "rejFriend"){
+            handleFriendRequest(uid, srcID, false)
+            var reqMap = HashMap<String, Any>()
+            reqMap["status"] = "decline"
+            requestRef.child(srcID).child(uid).updateChildren(reqMap)
+        }else if(answer == "acFriend"){
+            handleFriendRequest(uid, srcID, true)
+        }
     }
 
     private fun changeNotiIcon(activity: Activity, isNoti : Boolean){
