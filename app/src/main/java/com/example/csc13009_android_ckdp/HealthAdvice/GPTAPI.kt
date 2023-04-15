@@ -69,7 +69,7 @@ class GPTAPI {
         val body = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
             put("messages", queriesJSON)
-            put("max_tokens", 230)
+            put("max_tokens", 220)
             put("n", 1)
             put("temperature", 0.3)
         }.toString().toRequestBody(mediaType)

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,10 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.DrugInfo.DrugAPI
 import com.example.csc13009_android_ckdp.DrugInfo.DrugAdapter
 import com.example.csc13009_android_ckdp.DrugInfo.DrugModel
-import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseAdapter
-import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseModel
+import com.example.csc13009_android_ckdp.DrugInfo.DrugDAO
+import com.example.csc13009_android_ckdp.HealthAdvice.ChatBoxAdapter
+import com.example.csc13009_android_ckdp.HealthAdvice.ChatBoxModel
+import com.example.csc13009_android_ckdp.HealthAdvice.MessageModel
+
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -38,6 +44,13 @@ class DrugInfoActivity : AppCompatActivity() {
     lateinit var context: Context
     lateinit var DrugUIDB: DrugModel
     lateinit var DrugHistory: ArrayList<DrugModel>
+
+    val DrugDAO = DrugDAO()
+    lateinit var auth : FirebaseAuth
+    lateinit var database: FirebaseDatabase
+
+
+    private lateinit var DrugAdapter : DrugAdapter
 
     fun getInfo(nameDrug: String) {
         runOnUiThread {
@@ -76,23 +89,45 @@ class DrugInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drug_info2)
         context = this
+
+        database=FirebaseDatabase.getInstance()
+        auth = FirebaseAuth.getInstance()
         supportActionBar?.hide()
 
-        //todo use DAO load database
-
         DrugHistory = ArrayList<DrugModel>()
-        DrugHistory.add(DrugModel("1", "1", "1", "1", "1"))
-        DrugUIDB = DrugHistory[0]
-        DrugHistory.add(DrugModel("2", "2", "2", "2", "2"))
-        DrugHistory.add(DrugModel("3", "3", "3", "3", "3"))
-        DrugHistory.add(DrugModel("4", "4", "4", "4", "4"))
+        DrugDAO.loadSync(database, auth.uid!!) { Drugs ->
+            DrugHistory.clear()
+            DrugHistory.addAll(Drugs)
+            if (DrugHistory.isEmpty()) {
+                DrugHistory.add(DrugModel("No title"))
+            }
 
-        //end todo
+            DrugAdapter?.notifyDataSetChanged()
+
+
+            DrugUIDB=DrugHistory[0]
+
+            tvTitle.setText(DrugUIDB.Name)
+            tvDrugInteractionsDetails.setText(DrugUIDB.indications)
+            tvIndicationsDetails.setText(DrugUIDB.dosage)
+            tvDosageDetails.setText(DrugUIDB.interactions)
+
+        }
+        if (DrugHistory.isEmpty()) {
+            DrugHistory.add(DrugModel("No title"))
+        }
+
 
         tvTitle = findViewById(R.id.tvTitle)
         tvDrugInteractionsDetails = findViewById(R.id.tvDrugInteractionsDetails)
         tvIndicationsDetails = findViewById(R.id.tvIndicationsDetails)
         tvDosageDetails = findViewById(R.id.tvDosageDetails)
+
+        DrugUIDB = DrugHistory[0]
+        tvTitle.setText(DrugUIDB.Name)
+        tvDrugInteractionsDetails.setText(DrugUIDB.indications)
+        tvIndicationsDetails.setText(DrugUIDB.dosage)
+        tvDosageDetails.setText(DrugUIDB.interactions)
 
 
         ETNameofDrug = findViewById(R.id.ETNameofDrug)
@@ -111,7 +146,7 @@ class DrugInfoActivity : AppCompatActivity() {
         val chatboxList: RecyclerView = navigationView.findViewById(R.id.RVChatBox)
 
 
-        val DrugAdapter = DrugAdapter(
+        DrugAdapter = DrugAdapter(
             this, DrugHistory, tvTitle, tvDrugInteractionsDetails,
             tvIndicationsDetails, tvDosageDetails,
             DrugUIDB
@@ -148,6 +183,11 @@ class DrugInfoActivity : AppCompatActivity() {
                     DrugUIDB=tempModel
                     DrugHistory.add(tempModel)
 
+                    tvTitle.setText(DrugUIDB.Name)
+                    tvDrugInteractionsDetails.setText(DrugUIDB.indications)
+                    tvIndicationsDetails.setText(DrugUIDB.dosage)
+                    tvDosageDetails.setText(DrugUIDB.interactions)
+
                     DrugAdapter?.notifyDataSetChanged()
                     dialog.dismiss()
                 }
@@ -159,6 +199,16 @@ class DrugInfoActivity : AppCompatActivity() {
             dialog.show()
         }
 
+        val ICBacktoHome: ImageView = findViewById(R.id.ICBacktoHome)
+        ICBacktoHome.setOnClickListener {
+            finish()
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        var id=auth.uid
+        Log.d("Store Chat Boxes", "Storing")
+        DrugDAO.save(database,id!!,DrugHistory)
     }
 
 }

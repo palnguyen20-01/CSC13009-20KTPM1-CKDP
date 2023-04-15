@@ -11,6 +11,7 @@ import com.example.csc13009_android_ckdp.R
 
 class MessageAdapter(private val context: Context,
                     private val messages: List<MessageModel>
+
 ) : RecyclerView.Adapter<MessageAdapter.ViewHolder>(){
     var onItemClick: ((MessageModel) -> Unit)? = null
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
@@ -66,6 +67,5 @@ class MessageAdapter(private val context: Context,
 
 
     }
-
 
 }

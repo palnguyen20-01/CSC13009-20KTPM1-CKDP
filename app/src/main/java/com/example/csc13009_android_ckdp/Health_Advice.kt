@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.HealthAdvice.*
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.StorageReference
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -28,9 +31,18 @@ class Health_Advice : AppCompatActivity() {
     lateinit var Messages: ArrayList<MessageModel>
     lateinit var currentMessagesModel: ArrayList<MessageModel>
 
+
+
     val chatGPTAPI = GPTAPI()
+    val ChatBoxDAO =ChatBoxDAO()
+
     private lateinit var context: Context
     var messageadapter:MessageAdapter?=null
+    private lateinit var chatboxArrayAdapter : ChatBoxAdapter
+
+    lateinit var auth : FirebaseAuth
+    lateinit var database: FirebaseDatabase
+//    var storageReference: StorageReference? = null
 
     fun sendMessage(Messages: ArrayList<MessageModel>) {
         runOnUiThread {
@@ -85,45 +97,48 @@ class Health_Advice : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.hide()
 
-        //todo use ChatBoxes DAO load message from Data base
+        database=FirebaseDatabase.getInstance()
+        auth = FirebaseAuth.getInstance()
         ChatBoxes=ArrayList<ChatBoxModel>()
-        ChatBoxes.add(ChatBoxModel("Dau Rang"))
+        ChatBoxDAO.loadSync(database, auth.uid!!) { chatBoxes ->
+            ChatBoxes.clear()
+            ChatBoxes.addAll(chatBoxes)
+            if (ChatBoxes.isEmpty()) {
+                ChatBoxes.add(ChatBoxModel("No title"))
+            }
+
+            chatboxArrayAdapter?.notifyDataSetChanged()
+            Messages.clear()
+            Messages.addAll(ChatBoxes[0].messages)
+            if (!Messages.isEmpty()){
+                
+                TVWelcome.visibility= View.GONE
+            }
+            else{
+                TVWelcome.visibility= View.VISIBLE
+            }
+            currentMessagesModel=ChatBoxes[0].messages
+            messageadapter?.notifyDataSetChanged()
+        }
 
         Messages= ArrayList<MessageModel>()
-
-        ChatBoxes[0].messages.add(MessageModel("hello GPT",MessageModel.SENT_BY_USER))
-        ChatBoxes[0].messages.add(MessageModel("hello USER, Can I help you?",MessageModel.SENT_BY_BOT))
-        ChatBoxes[0].messages.add(MessageModel("I hurt",MessageModel.SENT_BY_USER))
-        ChatBoxes[0].messages.add(MessageModel("Where",MessageModel.SENT_BY_BOT))
-        currentMessagesModel=ChatBoxes[0].messages
+        if (ChatBoxes.isEmpty()) {
+            ChatBoxes.add(ChatBoxModel("No title"))
+        }
+        currentMessagesModel = ChatBoxes[0].messages
         Messages.addAll(currentMessagesModel)
-
-        ChatBoxes.add(ChatBoxModel("Dau Bung"))
-        ChatBoxes[1].messages.add(MessageModel("hello GPT1",MessageModel.SENT_BY_USER))
-        ChatBoxes[1].messages.add(MessageModel("hello USER, Can I help you?1",MessageModel.SENT_BY_BOT))
-        ChatBoxes[1].messages.add(MessageModel("I hurt1",MessageModel.SENT_BY_USER))
-        ChatBoxes[1].messages.add(MessageModel("Where1",MessageModel.SENT_BY_BOT))
-
-        ChatBoxes.add(ChatBoxModel("Dau Dau"))
-        ChatBoxes[2].messages.add(MessageModel("hello GPT2",MessageModel.SENT_BY_USER))
-        ChatBoxes[2].messages.add(MessageModel("hello USER, Can I help you?2",MessageModel.SENT_BY_BOT))
-        ChatBoxes[2].messages.add(MessageModel("I hurt2",MessageModel.SENT_BY_USER))
-        ChatBoxes[2].messages.add(MessageModel("Where2",MessageModel.SENT_BY_BOT))
-
-        //end todo
-
-
 
 
         RVHealthAdvice=findViewById(R.id.RVHealthAdvice)
         TVWelcome=findViewById(R.id.TVWelcome)
         ETMessageBox=findViewById(R.id.ETNameofDrug)
         IBTSendMessage=findViewById(R.id.BTNSearch)
-
-
         if (!Messages.isEmpty()){
-            TVWelcome.setText("")
+            
             TVWelcome.visibility= View.GONE
+        }
+        else{
+            TVWelcome.visibility= View.VISIBLE
         }
 
         val rvStudents = findViewById<RecyclerView>(R.id.RVHealthAdvice) as RecyclerView
@@ -135,13 +150,20 @@ class Health_Advice : AppCompatActivity() {
         IBTSendMessage.setOnClickListener{
             var query:String=ETMessageBox.text.toString().trim()
             if (query!=""){
-                TVWelcome.setText("")
-                TVWelcome.visibility= View.GONE
+
+
                 Messages.add(MessageModel(query,MessageModel.SENT_BY_USER))
                 messageadapter?.notifyDataSetChanged()
+                if (!Messages.isEmpty()){
+                    
+                    TVWelcome.visibility= View.GONE
+                }
+                else{
+                    TVWelcome.visibility= View.VISIBLE
+                }
+
 
                 currentMessagesModel.add(MessageModel(query,MessageModel.SENT_BY_USER))
-
 
                 RVHealthAdvice.smoothScrollToPosition(messageadapter!!.getItemCount())
                 ETMessageBox.setText("")
@@ -160,19 +182,26 @@ class Health_Advice : AppCompatActivity() {
         val chatboxList: RecyclerView = navigationView.findViewById(R.id.RVChatBox)
 
 
-        val chatboxArrayAdapter = ChatBoxAdapter(this, ChatBoxes,messageadapter,Messages,currentMessagesModel)
+        chatboxArrayAdapter = ChatBoxAdapter(this, ChatBoxes,messageadapter,Messages,currentMessagesModel)
         chatboxList.adapter = chatboxArrayAdapter
         chatboxList.layoutManager = LinearLayoutManager(this)
 
         chatboxArrayAdapter.onItemClick = { ChatBox ->
             Messages.clear()
             Messages.addAll(ChatBox.messages)
+            if (!Messages.isEmpty()){
+                
+                TVWelcome.visibility= View.GONE
+            }
+            else{
+                TVWelcome.visibility= View.VISIBLE
+            }
+
             currentMessagesModel=ChatBox.messages
             messageadapter?.notifyDataSetChanged()
 
         }
         val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
-
         toolbar.setNavigationOnClickListener {
             drawerLayout.openDrawer(navigationView)
         }
@@ -192,6 +221,13 @@ class Health_Advice : AppCompatActivity() {
 
                     Messages.clear()
                     Messages.addAll(temp.messages)
+                    if (!Messages.isEmpty()){
+                        
+                        TVWelcome.visibility= View.GONE
+                    }
+                    else{
+                        TVWelcome.visibility= View.VISIBLE
+                    }
 
                     ChatBoxes.add(temp)
                     currentMessagesModel=temp.messages
@@ -206,5 +242,16 @@ class Health_Advice : AppCompatActivity() {
 
             dialog.show()
         }
+        val ICBacktoHome: ImageView = findViewById(R.id.ICBacktoHome)
+        ICBacktoHome.setOnClickListener {
+            finish()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        var id=auth.uid
+        Log.d("Store Chat Boxes", "Storing")
+        ChatBoxDAO.save(database,id!!,ChatBoxes)
     }
 }

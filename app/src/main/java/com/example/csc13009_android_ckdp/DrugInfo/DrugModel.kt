@@ -2,7 +2,7 @@ package com.example.csc13009_android_ckdp.DrugInfo
 
 
 class DrugModel {
-    var title: String=""
+    var title: String="No Title"
     var interactions: String="No infomation"
     var indications: String="No infomation"
     var dosage: String="No infomation"
