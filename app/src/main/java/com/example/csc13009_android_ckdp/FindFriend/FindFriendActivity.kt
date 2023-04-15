@@ -89,6 +89,7 @@ class FindFriendActivity : AppCompatActivity() {
         }
         adapter.startListening()
         recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     override fun onStart() {

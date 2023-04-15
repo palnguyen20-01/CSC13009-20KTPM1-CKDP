@@ -66,8 +66,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
-4
         txtForgotPass.setOnClickListener {
             startActivity(Intent(this, ForgetPasswordActivity::class.java))
 

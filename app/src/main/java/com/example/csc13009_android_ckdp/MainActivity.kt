@@ -19,6 +19,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.csc13009_android_ckdp.FindFriend.FindFriendActivity
 import androidx.preference.PreferenceManager
+import com.example.csc13009_android_ckdp.Message.ChatActivity
+import com.example.csc13009_android_ckdp.Message.MessageActivity
+import com.example.csc13009_android_ckdp.Message.NewMessageActivity
 import com.example.csc13009_android_ckdp.Notification.NotificationFragment
 import com.example.csc13009_android_ckdp.Notification.NotificationService
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 selectedFragment = HomeFragment()
                 (selectedFragment as HomeFragment).main = this
             } else if (R.id.itemMessage === itemId) {
-                //selectedFragment = Fragment
+                startActivity(Intent(applicationContext, MessageActivity::class.java))
             } else if (R.id.itemSetting === itemId) {
                 selectedFragment = SettingFragment()
                 (selectedFragment as SettingFragment).main = this
