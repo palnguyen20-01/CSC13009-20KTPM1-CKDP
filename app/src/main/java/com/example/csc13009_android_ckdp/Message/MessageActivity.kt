@@ -43,9 +43,11 @@ class MessageActivity : AppCompatActivity() {
 
             val userItem = item as LatestMessageRow
 
+if(FirebaseAuth.getInstance().uid != userItem.toUser?.userId){
             val intent= Intent(view.context,ChatActivity::class.java)
             intent.putExtra(USER_KEY, userItem.toUser)
             startActivity(intent)
+        }
         }
 
         listenForLatestMessages()
@@ -87,9 +89,11 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
     private fun refreshRecyclerViewMessages() {
         adapter.clear()
         latestMessagesMap.values.forEach {task ->
+            val friendId= if (FirebaseAuth.getInstance().uid==task.fromId) task.toId else task.fromId
+            FirebaseDatabase.getInstance().getReference("/Users/$friendId").get().addOnSuccessListener {
+                var toUser=it.getValue(Users::class.java)
 
-            FirebaseDatabase.getInstance().getReference("/Users/${task.toId}").get().addOnSuccessListener {
-                val toUser=it.getValue(Users::class.java)
+
                 adapter.add(LatestMessageRow(task,toUser))
             }.addOnFailureListener{
                 Log.e("firebase", "Error getting data", it)
