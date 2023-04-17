@@ -38,5 +38,6 @@ class FirstAidInfo: AppCompatActivity() {
         contentTextView.setText(code)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(R.string.title_activity_first_aid)
     }
 }

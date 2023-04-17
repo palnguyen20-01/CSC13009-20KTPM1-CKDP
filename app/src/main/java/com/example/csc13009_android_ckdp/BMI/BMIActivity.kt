@@ -275,5 +275,6 @@ class BMIActivity : AppCompatActivity() {
         initGenderRadioGroup()
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(R.string.title_activity_bmi)
     }
 }

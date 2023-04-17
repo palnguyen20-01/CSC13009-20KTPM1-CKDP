@@ -2,6 +2,7 @@ package com.example.csc13009_android_ckdp.Message
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.widget.TextView
 import com.example.csc13009_android_ckdp.Models.Users
@@ -101,6 +102,7 @@ private var toUser :Users? =null
     private fun performSendMessage() {
 // how do we actually send a message to firebase...
         val text = binding.edittextChatLog.text.toString()
+        binding.edittextChatLog.setText("")
 
         val fromId = FirebaseAuth.getInstance().uid
         val user = intent.getParcelableExtra<Users>(NewMessageActivity.USER_KEY)

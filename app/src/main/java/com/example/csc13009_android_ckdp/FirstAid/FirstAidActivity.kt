@@ -62,5 +62,6 @@ class FirstAidActivity : AppCompatActivity() {
         firstAidGridView.addItemDecoration(itemDecoration)
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(R.string.title_activity_first_aid)
     }
 }

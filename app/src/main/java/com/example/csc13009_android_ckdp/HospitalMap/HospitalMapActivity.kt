@@ -78,6 +78,7 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(R.string.title_activity_hospital_map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
