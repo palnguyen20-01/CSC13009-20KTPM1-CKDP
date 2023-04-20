@@ -38,7 +38,6 @@ class NotificationFragment : Fragment() {
         user = FirebaseAuth.getInstance().currentUser!!
         notiRef = FirebaseDatabase.getInstance().reference.child("Notifications")
         userRef = FirebaseDatabase.getInstance().reference.child("Users")
-        Log.i("phuc4570","seenOnCreate")
         notificationService.seenNoti(main,user.uid)
         createNotiListener()
     }
@@ -107,13 +106,13 @@ class NotificationFragment : Fragment() {
                                         val otherName = dataSnapshot.value.toString()
                                         var content = ""
                                         if (type == "friendReq") {
-                                            content = otherName + " has sent you a friend request"
+                                            content = otherName + getString(R.string.noti_friendreq)
                                         }else if(type == "friendAc"){
-                                            content = otherName + " has accepted your friend request"
+                                            content = otherName + getString(R.string.noti_friendac)
                                         }else if(type == "acFriend"){
-                                            content = "You have accepted ${otherName}'s friend request"
+                                            content = getString(R.string.noti_acfriend) + "${otherName}"
                                         }else if (type == "clock") {
-                                            content = otherName + " remind you to take medicine"
+                                            content = otherName + getString(R.string.noti_clock)
                                         }
                                         notiList.add(Notification(i.toString(), srcID, type, content, timeAgo))
                                         adapter.notifyDataSetChanged()
