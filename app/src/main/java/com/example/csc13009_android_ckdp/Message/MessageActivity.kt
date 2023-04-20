@@ -1,6 +1,10 @@
 package com.example.csc13009_android_ckdp.Message
 
 import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +13,9 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.LoginActivity
 import com.example.csc13009_android_ckdp.Message.NewMessageActivity.Companion.USER_KEY
 import com.example.csc13009_android_ckdp.Models.Users
@@ -19,6 +26,7 @@ import com.example.csc13009_android_ckdp.databinding.ActivityMessageBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import com.xwray.groupie.Group
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -31,6 +39,9 @@ class MessageActivity : AppCompatActivity() {
     }
     lateinit private var binding: ActivityMessageBinding
 
+    private lateinit var colorDrawableBackground: ColorDrawable
+    private lateinit var deleteIcon: Drawable
+    private var mList:ArrayList<LatestMessageRow> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessageBinding.inflate(layoutInflater)
@@ -55,10 +66,67 @@ if(FirebaseAuth.getInstance().uid != userItem.toUser?.userId){
 
         fetchCurrentUser()
 
+
+        colorDrawableBackground = ColorDrawable(Color.parseColor("#ff0000"))
+        deleteIcon = ContextCompat.getDrawable(this, R.drawable.delete)!!
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
+                adapter.removeItem(viewHolder.bindingAdapterPosition,mList)
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val itemView = viewHolder.itemView
+                val iconMarginVertical = (viewHolder.itemView.height - deleteIcon.intrinsicHeight) / 2
+
+                if (dX > 0) {
+                    colorDrawableBackground.setBounds(itemView.left, itemView.top, dX.toInt(), itemView.bottom)
+                    deleteIcon.setBounds(itemView.left + iconMarginVertical, itemView.top + iconMarginVertical,
+                        itemView.left + iconMarginVertical + deleteIcon.intrinsicWidth, itemView.bottom - iconMarginVertical)
+                } else {
+                    colorDrawableBackground.setBounds(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+                    deleteIcon.setBounds(itemView.right - iconMarginVertical - deleteIcon.intrinsicWidth, itemView.top + iconMarginVertical,
+                        itemView.right - iconMarginVertical, itemView.bottom - iconMarginVertical)
+                    deleteIcon.level = 0
+                }
+
+                colorDrawableBackground.draw(c)
+
+                c.save()
+
+                if (dX > 0)
+                    c.clipRect(itemView.left, itemView.top, dX.toInt(), itemView.bottom)
+                else
+                    c.clipRect(itemView.right + dX.toInt(), itemView.top, itemView.right, itemView.bottom)
+
+                deleteIcon.draw(c)
+
+                c.restore()
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerviewLatestMessages)
+
     }
 
     class LatestMessageRow(val chatMessage: ChatMessage,val toUser:Users?): Item<ViewHolder>() {
         override fun bind(viewHolder: ViewHolder, position: Int) {
+
             val lastestChat=viewHolder.itemView.findViewById<TextView>(R.id.message_textview_latest_message)
 lastestChat.text = chatMessage.text
 
@@ -88,6 +156,7 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
 
     private fun refreshRecyclerViewMessages() {
         adapter.clear()
+        mList.clear()
         latestMessagesMap.values.forEach {task ->
             val friendId= if (FirebaseAuth.getInstance().uid==task.fromId) task.toId else task.fromId
             FirebaseDatabase.getInstance().getReference("/Users/$friendId").get().addOnSuccessListener {
@@ -95,6 +164,7 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
 
 
                 adapter.add(LatestMessageRow(task,toUser))
+                mList.add(LatestMessageRow(task,toUser))
             }.addOnFailureListener{
                 Log.e("firebase", "Error getting data", it)
             }
@@ -171,4 +241,14 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
         return super.onCreateOptionsMenu(menu)
     }
 
+}
+
+private fun <VH : ViewHolder?> GroupAdapter<VH>.removeItem(id:Int,list:ArrayList<MessageActivity.LatestMessageRow>) {
+    var temp=this.getItem(id)
+    var removeItem=list[id].toUser
+    var myId=if (list[id].chatMessage.fromId == removeItem?.userId) list[id].chatMessage.toId else list[id].chatMessage.fromId
+list.remove(list[id])
+    val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/Latest_Messages/$myId/${removeItem?.userId}").removeValue()
+this.remove(temp)
+    this.notifyDataSetChanged()
 }

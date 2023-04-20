@@ -68,12 +68,12 @@ private var toUser :Users? =null
                 if (chatMessage != null) {
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        adapter.add(ChatToItem(chatMessage.text,toUser))
+                        val currentUser = MessageActivity.currentUser ?:return
+                        adapter.add(ChatToItem(chatMessage.text,currentUser))
 
                     } else {
 
-                        val currentUser = MessageActivity.currentUser ?:return
-                        adapter.add(ChatFromItem(chatMessage.text,currentUser))
+                        adapter.add(ChatFromItem(chatMessage.text,toUser))
                     }
                 }
 
