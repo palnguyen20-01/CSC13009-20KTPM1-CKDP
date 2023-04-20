@@ -96,6 +96,7 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="forget_password_ask">Quên mật khẩu</string>
     <string name="login">Đăng nhập</string>
     <string name="login_google">Đăng nhập với google</string>
+    <string name="login_facebook">Đăng nhập với facebook</string>
     <string name="next">Tiếp tục</string>
     <string name="home">Trang chủ</string>
     <string name="message">Tin nhắn</string>

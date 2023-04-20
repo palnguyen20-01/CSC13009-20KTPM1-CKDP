@@ -126,7 +126,20 @@
             android:drawableLeft="@drawable/ic_google"
             android:textColor="@color/white"
             />
+        <Button
+            android:id="@+id/btnSignInFb"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/login_facebook"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/button_outline"
 
+            android:drawableLeft="@drawable/ic_facebook"
+            android:textColor="@color/white"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
