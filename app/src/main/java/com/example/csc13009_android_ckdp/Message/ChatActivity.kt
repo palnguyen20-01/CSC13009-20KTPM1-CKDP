@@ -76,6 +76,7 @@ private var toUser :Users? =null
                         adapter.add(ChatFromItem(chatMessage.text,toUser))
                     }
                 }
+                binding.recyclerviewChatLog.scrollToPosition(adapter.itemCount - 1)
 
             }
 

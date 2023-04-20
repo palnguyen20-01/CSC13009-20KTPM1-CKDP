@@ -136,4 +136,6 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="drug_interaction">Tra cứu thuốc</string>
     <string name="health_advice">Tư vấn sức khỏe (GPT)</string>
     <string name="skin_disease">Bệnh ngoài da</string>
+    <string name="alarm">Báo thức</string>
+    <string name="alarm_setting">Cài đặt báo thức</string>
 </resources>
