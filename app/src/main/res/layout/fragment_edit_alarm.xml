@@ -89,5 +89,26 @@
             android:text="S"
             tools:layout_editor_absoluteX="301dp"
             tools:layout_editor_absoluteY="326dp" />
+
     </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <Button
+        android:id="@+id/cancelAlarmBTN"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/timePicker"
+        app:layout_constraintTop_toBottomOf="@+id/repeatGroup" />
+
+    <Button
+        android:id="@+id/saveAlarmBTN"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancelAlarmBTN"
+        app:layout_constraintTop_toTopOf="@+id/cancelAlarmBTN" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

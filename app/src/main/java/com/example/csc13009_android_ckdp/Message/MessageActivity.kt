@@ -56,7 +56,6 @@ class MessageActivity : AppCompatActivity() {
         binding.recyclerviewLatestMessages.adapter=adapter
 
         adapter.setOnItemClickListener { item, view ->
-
             val userItem = item as LatestMessageRow
 
 if(FirebaseAuth.getInstance().uid != userItem.friendId){
@@ -224,29 +223,6 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
 
             }
         })
-    }
-    private fun Count() {
-        val uid = FirebaseAuth.getInstance().uid
-        val ref = FirebaseDatabase.getInstance().getReference("/Latest_Messages/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-            override fun onDataChange(p0: DataSnapshot) {
-                count= p0.childrenCount.toInt()
-              Log.d("count",p0.childrenCount.toString())
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-        })
-    }
-    private fun verifyUserIsLoggedIn(){
-        val uid=FirebaseAuth.getInstance().uid
-        if(uid==null){
-            val intent= Intent(this,LoginActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
