@@ -126,7 +126,7 @@
             android:drawableLeft="@drawable/ic_google"
             android:textColor="@color/white"
             />
-        <Button
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/btnSignInFb"
             android:layout_width="match_parent"
             android:layout_height="50dp"

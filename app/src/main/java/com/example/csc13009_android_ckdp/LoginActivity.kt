@@ -1,6 +1,7 @@
 package com.example.csc13009_android_ckdp
 
 import android.content.Intent
+import android.content.IntentSender
 import android.media.FaceDetector.Face
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -32,20 +34,21 @@ import java.util.*
 open class LoginActivity : AppCompatActivity() {
     lateinit var btnSignIn: Button
     lateinit var btnSignInGG: Button
-    lateinit var btnSignInFb: Button
+    lateinit var btnSignInFb: LoginButton
     lateinit var progressBtn: ProgressBar
     lateinit var textEmail: TextView
     lateinit var textPass: TextView
     lateinit var textSignUp: TextView
     lateinit var txtForgotPass: TextView
 
+    private lateinit var callbackManager: CallbackManager
     lateinit var auth: FirebaseAuth
     lateinit var database: FirebaseDatabase
     lateinit var gsc : GoogleSignInClient
     lateinit var gso: GoogleSignInOptions
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
-    private val REQ_ONE_TAP = 3445
+    private val REQ_ONE_TAP = 3763
     private val REQ_FORGET_PASSWORD = 3440
     public
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,10 +68,10 @@ open class LoginActivity : AppCompatActivity() {
 
         database = FirebaseDatabase.getInstance()
 
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.my_web_client_id))
-            .requestEmail().build()
-        gsc = GoogleSignIn.getClient(this, gso)
+//        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(getString(R.string.my_web_client_id))
+//            .requestEmail().build()
+//        gsc = GoogleSignIn.getClient(this, gso)
 
         textSignUp.setOnClickListener {
             startActivity(Intent(applicationContext, SignUpActivity::class.java))
@@ -84,16 +87,70 @@ open class LoginActivity : AppCompatActivity() {
 
         }
 
+        oneTapClient = Identity.getSignInClient(this)
+        signInRequest = BeginSignInRequest.builder()
+            .setGoogleIdTokenRequestOptions(
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                    .setSupported(true)
+                    // Your server's client ID, not your Android client ID.
+                    .setServerClientId(getString(R.string.default_web_client_id))
+                    // Only show accounts previously used to sign in.
+                    .setFilterByAuthorizedAccounts(false)
+                    .build())
+            // Automatically sign in when exactly one credential is retrieved.
+            .setAutoSelectEnabled(true)
+            .build()
+
         btnSignInGG.setOnClickListener {
             loginGG()
 
         }
-        btnSignInFb.setOnClickListener {
-            startActivity(Intent(this, FacebookAuthActivity::class.java))
-
-        }
+        btnSignInFb.setReadPermissions(listOf("public_profile","email"));
         //FacebookSdk.sdkInitialize(applicationContext)
+        callbackManager = CallbackManager.Factory.create()
 
+        btnSignInFb.registerCallback(callbackManager,
+            object : FacebookCallback<LoginResult> {
+                override fun onSuccess(loginResult: LoginResult) {
+                    Log.d("FB", "facebook:onSuccess:$loginResult")
+                    handleFacebookAccessToken(loginResult.accessToken)
+                }
+
+                override fun onCancel() {
+                    Log.d("FB", "facebook:onCancel")
+                }
+
+                override fun onError(error: FacebookException) {
+                    Log.d("FB", "facebook:onError", error)
+                }
+            })
+
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = auth.currentUser
+//                    Log.d("FACEBOOK", user!!.email!!)
+//                    Log.d("FACEBOOK", user.photoUrl!!.toString())
+//                    val userData = Users(user!!.email!!,user.displayName!!, user.photoUrl!!.toString(), user.uid)
+//
+//                    database.reference.child("Users").child(user.uid).setValue(userData)
+//                        .addOnSuccessListener {
+//                            Log.d("firebase", "Login by Facebook success")
+//                        }.addOnFailureListener{
+//                            Log.d("firebase", "Error getting data")
+//                        }
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    updateUI(null)
+                }
+
+            }
     }
 
     public override fun onStart() {
@@ -107,38 +164,28 @@ open class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginGG() {
-        val signInIntent = gsc.signInIntent
-        startActivityForResult(signInIntent, 1789)
-//        signInRequest = BeginSignInRequest.builder()
-//            .setGoogleIdTokenRequestOptions(
-//                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-//                    .setSupported(true)
-//                    // Your server's client ID, not your Android client ID.
-//                    .setServerClientId(getString(R.string.my_web_client_id))
-//                    // Only show accounts previously used to sign in.
-//                    .setFilterByAuthorizedAccounts(true)
-//                    .build())
-//            // Automatically sign in when exactly one credential is retrieved.
-//            .setAutoSelectEnabled(true)
-//            .build()
-//
-//        oneTapClient = Identity.getSignInClient(this)
-//        oneTapClient.beginSignIn(signInRequest)
-//            .addOnSuccessListener { result ->
-//                try {
-//                    startIntentSenderForResult(
-//                        result.pendingIntent.intentSender,
-//                        REQ_ONE_TAP, null, 0, 0, 0)
-//                } catch (e: IntentSender.SendIntentException) {
-//                    showToast( e.localizedMessage)
-//                }
-//            }
-//            .addOnFailureListener {
-//                showToast( it.localizedMessage)
-//            }
+//        val signInIntent = gsc.signInIntent
+//        startActivityForResult(signInIntent, 1789)
+
+        Log.d("GOOGLE", "DANG dang nhap")
+
+        oneTapClient.beginSignIn(signInRequest)
+            .addOnSuccessListener { result ->
+                try {
+                    startIntentSenderForResult(
+                        result.pendingIntent.intentSender,
+                        REQ_ONE_TAP, null, 0, 0, 0)
+                } catch (e: IntentSender.SendIntentException) {
+                    showToast( e.localizedMessage)
+                }
+            }
+            .addOnFailureListener {
+                showToast( it.localizedMessage)
+            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode,resultCode,data)
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_ONE_TAP -> {
@@ -165,14 +212,11 @@ open class LoginActivity : AppCompatActivity() {
                 val accountTask: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
 
-                try {
-                    var accountGG = accountTask.getResult(ApiException::class.java)
-                    var credential = GoogleAuthProvider.getCredential(accountGG.idToken, null)
-                    signInWithCredential(credential)
-                } catch (e: ApiException) {
-                    Toast.makeText(applicationContext, "Something went wrong", Toast.LENGTH_SHORT)
-                        .show()
-                }
+
+                var accountGG = accountTask.getResult(ApiException::class.java)
+                var credential = GoogleAuthProvider.getCredential(accountGG.idToken, null)
+                signInWithCredential(credential)
+
             }
         }
 

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
+    </queries>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -74,7 +77,7 @@
             android:name=".Health_Advice"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.csc13009_android_ckdp.LoginActivity"
             android:exported="true">
 
             <intent-filter>
@@ -165,9 +168,6 @@
         </activity>
         <activity
             android:name=".ForgetPassword.ForgetPasswordActivity"
-            android:exported="true" />
-        <activity
-            android:name=".FacebookAuthActivity"
             android:exported="true" />
         <activity
             android:name=".ForgetPassword.PasswordUpdatedActivity"
