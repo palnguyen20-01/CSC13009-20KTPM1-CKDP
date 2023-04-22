@@ -31,17 +31,22 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.w3c.dom.Text
 
 class MessageActivity : AppCompatActivity() {
     companion object {
         var currentUser: Users? = null
+
     }
     lateinit private var binding: ActivityMessageBinding
 
     private lateinit var colorDrawableBackground: ColorDrawable
     private lateinit var deleteIcon: Drawable
     private var mList:ArrayList<LatestMessageRow> = arrayListOf()
+
+    private var count:Int= 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessageBinding.inflate(layoutInflater)
@@ -51,12 +56,11 @@ class MessageActivity : AppCompatActivity() {
         binding.recyclerviewLatestMessages.adapter=adapter
 
         adapter.setOnItemClickListener { item, view ->
-
             val userItem = item as LatestMessageRow
 
-if(FirebaseAuth.getInstance().uid != userItem.toUser?.userId){
+if(FirebaseAuth.getInstance().uid != userItem.friendId){
             val intent= Intent(view.context,ChatActivity::class.java)
-            intent.putExtra(USER_KEY, userItem.toUser)
+            intent.putExtra(USER_KEY, userItem.friendId)
             startActivity(intent)
         }
         }
@@ -65,7 +69,6 @@ if(FirebaseAuth.getInstance().uid != userItem.toUser?.userId){
 
 
         fetchCurrentUser()
-
 
         colorDrawableBackground = ColorDrawable(Color.parseColor("#ff0000"))
         deleteIcon = ContextCompat.getDrawable(this, R.drawable.delete)!!
@@ -124,7 +127,7 @@ if(FirebaseAuth.getInstance().uid != userItem.toUser?.userId){
 
     }
 
-    class LatestMessageRow(val chatMessage: ChatMessage,val toUser:Users?): Item<ViewHolder>() {
+    class LatestMessageRow(val chatMessage: ChatMessage,val friendId:String): Item<ViewHolder>() {
         override fun bind(viewHolder: ViewHolder, position: Int) {
 
             val lastestChat=viewHolder.itemView.findViewById<TextView>(R.id.message_textview_latest_message)
@@ -133,17 +136,24 @@ lastestChat.text = chatMessage.text
             val image=viewHolder.itemView.findViewById<CircleImageView>(R.id.imageview_latest_message)
 val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_latest_message)
 
-            username.text=toUser?.name
-            Picasso.get().load(toUser?.image).into(image)
-
-            val button: Button =viewHolder.itemView.findViewById(R.id.remindToTakeMedicineBtn)
-            button.setOnClickListener{
-                val notificationService= NotificationService()
-                var mUserId=FirebaseAuth.getInstance().uid
-                if (mUserId != null) {
-                    notificationService.notifyForThatPerson(toUser!!.userId,"clock",mUserId,System.currentTimeMillis().toString())
+            FirebaseDatabase.getInstance().getReference("/Users/$friendId").get().addOnSuccessListener {
+                var toUser=it.getValue(Users::class.java)
+                val button: Button =viewHolder.itemView.findViewById(R.id.remindToTakeMedicineBtn)
+                button.setOnClickListener{
+                    val notificationService= NotificationService()
+                    var mUserId=FirebaseAuth.getInstance().uid
+                    if (mUserId != null) {
+                        notificationService.notifyForThatPerson(toUser!!.userId,"clock",mUserId,System.currentTimeMillis().toString())
+                    }
                 }
+                username.text=toUser?.name
+                Picasso.get().load(toUser?.image).into(image)
+
+            }.addOnFailureListener{
+                Log.e("firebase", "Error getting data", it)
             }
+
+
         }
 
         override fun getLayout(): Int {
@@ -157,18 +167,15 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
     private fun refreshRecyclerViewMessages() {
         adapter.clear()
         mList.clear()
-        latestMessagesMap.values.forEach {task ->
-            val friendId= if (FirebaseAuth.getInstance().uid==task.fromId) task.toId else task.fromId
-            FirebaseDatabase.getInstance().getReference("/Users/$friendId").get().addOnSuccessListener {
-                var toUser=it.getValue(Users::class.java)
 
 
-                adapter.add(LatestMessageRow(task,toUser))
-                mList.add(LatestMessageRow(task,toUser))
-            }.addOnFailureListener{
-                Log.e("firebase", "Error getting data", it)
-            }
-        }
+        latestMessagesMap.forEach {task ->
+            val friendId= if (FirebaseAuth.getInstance().uid==task.value.fromId) task.value.toId else task.value.fromId
+
+            mList.add(LatestMessageRow(task.value, friendId.toString()))
+            adapter.add(LatestMessageRow(task.value, friendId.toString()))
+}
+
     }
 
     private fun listenForLatestMessages() {
@@ -178,6 +185,9 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
                 latestMessagesMap[p0.key!!] = chatMessage
+                latestMessagesMap.forEach {
+                    Log.d("Why",it.key+" : "+it.value)
+                }
                 refreshRecyclerViewMessages()
             }
 
@@ -215,15 +225,6 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
         })
     }
 
-    private fun verifyUserIsLoggedIn(){
-        val uid=FirebaseAuth.getInstance().uid
-        if(uid==null){
-            val intent= Intent(this,LoginActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
                 when (item?.itemId) {
             R.id.menu_new_message -> {
@@ -245,10 +246,10 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
 
 private fun <VH : ViewHolder?> GroupAdapter<VH>.removeItem(id:Int,list:ArrayList<MessageActivity.LatestMessageRow>) {
     var temp=this.getItem(id)
-    var removeItem=list[id].toUser
-    var myId=if (list[id].chatMessage.fromId == removeItem?.userId) list[id].chatMessage.toId else list[id].chatMessage.fromId
+    var removeItemId=list[id].friendId
+    var myId=if (list[id].chatMessage.fromId == removeItemId) list[id].chatMessage.toId else list[id].chatMessage.fromId
 list.remove(list[id])
-    val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/Latest_Messages/$myId/${removeItem?.userId}").removeValue()
+    val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/Latest_Messages/$myId/${removeItemId}").removeValue()
 this.remove(temp)
     this.notifyDataSetChanged()
 }

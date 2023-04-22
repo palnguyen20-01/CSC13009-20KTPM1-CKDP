@@ -100,7 +100,7 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="facebook_app_id" translatable="false">231858022860423</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb231858022860423</string>
     <string name="facebook_client_token" translatable="false">d1677367d8ec13b0d62306e2a214ed17</string>
-    <string name="my_web_client_id" translatable="false">1087708714921-2aqkkui04lu1r214ocogmgbtf7vr4hub.apps.googleusercontent.com</string>
+    <string name="my_web_client_id" translatable="false">1087708714921-ad4mb71gdtd3s54r04mjh6kf4j65cjvc.apps.googleusercontent.com</string>
     <string name="title_activity_first_aid">First Aid</string>
     <string name="title_activity_bmi">BMI Calculator</string>
     <string name="title_activity_hospital_map">Hospital Map</string>
@@ -185,6 +185,8 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="advanced">Advanced</string>
     <string name="alarm_tiltle">Alarm</string>
     <string name="hospital_map">Hospital map</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_setting">Alarm Settings</string>
 
     <!--=======-->
     <!--    <string name="hello_blank_fragment">Hello blank fragment</string>-->

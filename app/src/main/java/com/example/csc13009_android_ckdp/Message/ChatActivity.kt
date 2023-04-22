@@ -29,7 +29,7 @@ class ChatActivity : AppCompatActivity() {
 private val adapter = GroupAdapter<ViewHolder>()
 
 private var toUser :Users? =null
-
+private var toUserId:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -38,10 +38,11 @@ private var toUser :Users? =null
 
         binding.recyclerviewChatLog.adapter=adapter
 
-        toUser = intent.getParcelableExtra<Users>(NewMessageActivity.USER_KEY)
+       toUserId = intent.getStringExtra(NewMessageActivity.USER_KEY)
 
 
-        supportActionBar?.title=toUser?.name
+
+
 
 //setUpDummyData()
         listenForMessages()
@@ -56,46 +57,52 @@ private var toUser :Users? =null
 
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
-        val toId = toUser?.userId
+        FirebaseDatabase.getInstance().getReference("/Users/$toUserId").get().addOnSuccessListener {
+            toUser = it.getValue(Users::class.java)
+            val toId = toUserId
+            supportActionBar?.title=toUser?.name
 
-        val ref = FirebaseDatabase.getInstance().getReference("/Users_Messages/$fromId/$toId")
+            val ref = FirebaseDatabase.getInstance().getReference("/Users_Messages/$fromId/$toId")
 
-        ref.addChildEventListener(object: ChildEventListener {
+            ref.addChildEventListener(object: ChildEventListener {
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                val chatMessage = p0.getValue(ChatMessage::class.java)
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    val chatMessage = p0.getValue(ChatMessage::class.java)
 
-                if (chatMessage != null) {
+                    if (chatMessage != null) {
 
-                    if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        val currentUser = MessageActivity.currentUser ?:return
-                        adapter.add(ChatToItem(chatMessage.text,currentUser))
+                        if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
+                            val currentUser = MessageActivity.currentUser ?:return
+                            adapter.add(ChatToItem(chatMessage.text,currentUser))
 
-                    } else {
+                        } else {
 
-                        adapter.add(ChatFromItem(chatMessage.text,toUser))
+                            adapter.add(ChatFromItem(chatMessage.text,toUser))
+                        }
                     }
+                    binding.recyclerviewChatLog.scrollToPosition(adapter.itemCount - 1)
+
                 }
 
-            }
+                override fun onCancelled(p0: DatabaseError) {
 
-            override fun onCancelled(p0: DatabaseError) {
+                }
 
-            }
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                }
 
-            }
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
 
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                }
 
-            }
+                override fun onChildRemoved(p0: DataSnapshot) {
 
-            override fun onChildRemoved(p0: DataSnapshot) {
+                }
 
-            }
+            })
 
-        })
+        }
 
     }
 
@@ -105,8 +112,7 @@ private var toUser :Users? =null
         binding.edittextChatLog.setText("")
 
         val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<Users>(NewMessageActivity.USER_KEY)
-        val toId = user?.userId
+        val toId = intent.getStringExtra(NewMessageActivity.USER_KEY)
 
         if (fromId == null) return
 

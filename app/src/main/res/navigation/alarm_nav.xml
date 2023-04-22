@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/alarmListFragment"
         android:name="com.example.csc13009_android_ckdp.Alarm.AlarmList.AlarmListFragment"
-        android:label="Setting Alarm"
+        android:label="@string/alarm"
         tools:layout="@layout/fragment_alarm_list">
         <action
             android:id="@+id/action_alarmListFragment_to_createAlarmFragment"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/createAlarmFragment"
         android:name="com.example.csc13009_android_ckdp.Alarm.CreateAlarm.CreateAlarmFragment"
-        android:label="Create Alarm"
+        android:label="@string/alarm_setting"
         tools:layout="@layout/fragment_create_alarm">
         <action
             android:id="@+id/action_createAlarmFragment_to_alarmListFragment"
@@ -29,10 +29,14 @@
     <fragment
         android:id="@+id/editAlarmFragment"
         android:name="com.example.csc13009_android_ckdp.Alarm.EditAlarm.EditAlarmFragment"
-        android:label="Edit Alarm"
+        android:label="@string/alarm_setting"
         tools:layout="@layout/fragment_edit_alarm">
         <argument
             android:name="Alarm"
             app:argType="com.example.csc13009_android_ckdp.Alarm.Model.Alarm" />
+        <action
+            android:id="@+id/action_editAlarmFragment_to_alarmListFragment"
+            app:destination="@id/alarmListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

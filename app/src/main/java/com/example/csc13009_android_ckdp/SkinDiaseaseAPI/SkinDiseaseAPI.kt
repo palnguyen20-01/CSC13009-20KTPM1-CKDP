@@ -34,7 +34,7 @@ class SkinDiseaseAPI {
             .url("https://detect-skin-disease.p.rapidapi.com/facebody/analysis/detect-skin-disease")
             .post(requestBody)
             .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
-            .addHeader("X-RapidAPI-Key", "d445b0c578msh021f9c873a4abf6p11e33cjsnfe22ecb99f87")
+            .addHeader("X-RapidAPI-Key", "8a673e4186msh12af7b4e676a669p10f791jsndfd5ec06c895")
 
             .addHeader("X-RapidAPI-Host", "detect-skin-disease.p.rapidapi.com")
             .build()

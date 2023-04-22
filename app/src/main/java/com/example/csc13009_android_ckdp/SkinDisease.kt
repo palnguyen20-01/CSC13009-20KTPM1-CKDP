@@ -17,11 +17,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.csc13009_android_ckdp.DrugInfo.DrugModel
+import com.example.csc13009_android_ckdp.HealthAdvice.ChatBoxDAO
 import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseAPI
 import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseAdapter
+import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseDAO
 import com.example.csc13009_android_ckdp.SkinDiaseaseAPI.SkinDiseaseModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -34,11 +39,16 @@ import kotlin.collections.ArrayList
 class SkinDisease : AppCompatActivity() {
     lateinit var IBDiseaseSkin: ImageButton
     lateinit var TVDiagnose: TextView
+    lateinit var auth : FirebaseAuth
+    lateinit var database: FirebaseDatabase
     val REQUEST_IMAGE_GET=111
     val SkinDiseaseAPI= SkinDiseaseAPI()
     private lateinit var context: Context
     lateinit var SkinModelUIAndDB: SkinDiseaseModel
     lateinit var SkinDiseaseHistory : ArrayList<SkinDiseaseModel>
+    lateinit var SkinDiseaseAdapter : SkinDiseaseAdapter
+    val SkinDiseaseDAO = SkinDiseaseDAO()
+
 
     fun formatDiseaseProbabilities(diseaseProbabilities: JSONObject,BodyPart:String,topK:Int): String {
         val map = diseaseProbabilities.keys().asSequence().associate { it to diseaseProbabilities.getDouble(it) }
@@ -101,14 +111,39 @@ class SkinDisease : AppCompatActivity() {
         context=this
         supportActionBar?.hide()
         //todo use DAO load database
+        database=FirebaseDatabase.getInstance()
+        auth = FirebaseAuth.getInstance()
+
 
         SkinDiseaseHistory= ArrayList<SkinDiseaseModel>()
-        var imageBytes: ByteArray = byteArrayOf(-1, -40, -1, -32, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0, 72, 0, 0, -1, -31, 0, 76, 69, 120, 105, 102, 0, 0, 77, 77, 0, 42, 0, 0, 0, 8, 0, 2, 1, 18, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, -121, 105, 0, 4, 0, 0, 0, 1, 0, 0, 0, 38, 0, 0, 0, 0, 0, 2, -96, 2, 0, 4, 0, 0, 0, 1, 0, 0, 7, -128, -96, 3, 0, 4, 0, 0, 0, 1, 0, 0, 10, 0, 0, 0, 0, 0, -1, -19, 0, 56, 80, 104, 111, 116, 111, 115, 104, 111, 112, 32, 51, 46, 48, 0, 56, 66, 73, 77, 4, 4, 0, 0, 0, 0, 0, 0, 56, 66, 73, 77, 4, 37, 0, 0, 0, 0, 0, 16, -44, 29, -116, -39, -113, 0, -78, 4, -23, -128, 9, -104, -20, -8, 66, 126, -1, -30, 2, 40, 73, 67, 67, 95, 80, 82, 79, 70, 73, 76, 69, 0, 1, 1, 0, 0, 2, 24, 97, 112, 112, 108, 4, 0, 0, 0, 109, 110, 116, 114, 82, 71, 66, 32, 88, 89, 90, 32, 7, -26, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 97, 99, 115, 112, 65, 80, 80, 76, 0, 0, 0, 0, 65, 80, 80, 76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -10, -42, 0, 1, 0, 0, 0, 0, -45, 45, 97, 112, 112, 108, -20, -3, -93, -114, 56, -123, 71, -61, 109, -76, -67, 79, 122, -38, 24, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 100, 101, 115, 99, 0, 0, 0, -4, 0, 0, 0, 48, 99, 112, 114, 116, 0, 0, 1, 44, 0, 0, 0, 80, 119, 116, 112, 116, 0, 0, 1, 124, 0, 0, 0, 20, 114, 88, 89, 90, 0, 0, 1, -112, 0, 0, 0, 20, 103, 88, 89, 90, 0, 0, 1, -92, 0, 0, 0, 20, 98, 88, 89, 90, 0, 0, 1, -72, 0, 0, 0, 20, 114, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 99, 104, 97, 100, 0, 0, 1, -20, 0, 0, 0, 44, 98, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 103, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 109, 108, 117, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 101, 110, 85, 83, 0, 0, 0, 20, 0, 0, 0, 28, 0, 68, 0, 105, 0, 115, 0, 112, 0, 108, 0, 97, 0, 121, 0, 32, 0, 80, 0, 51, 109, 108, 117, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 101, 110, 85, 83, 0, 0, 0, 52, 0, 0, 0, 28, 0, 67, 0, 111, 0, 112, 0, 121, 0, 114, 0, 105, 0, 103, 0, 104, 0, 116, 0, 32, 0, 65, 0, 112, 0, 112, 0, 108, 0, 101, 0, 32, 0, 73, 0, 110, 0, 99, 0, 46, 0, 44, 0, 32, 0, 50, 0, 48, 0, 50, 0, 50, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, -10, -43, 0, 1, 0, 0, 0, 0, -45, 44, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, -125, -33, 0, 0, 61, -65, -1, -1, -1, -69, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, 74, -65, 0, 0, -79, 55, 0, 0, 10, -71, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, 40, 56, 0, 0, 17, 11, 0, 0, -56, -71, 112, 97, 114, 97, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 102, 102, 0, 0, -14, -89, 0, 0, 13, 89, 0, 0, 19, -48, 0, 0, 10, 91, 115, 102, 51, 50, 0, 0, 0, 0, 0, 1, 12, 66, 0, 0, 5, -34, -1, -1, -13, 38, 0, 0, 7, -109, 0, 0, -3, -112, -1, -1, -5, -94, -1, -1, -3, -93, 0, 0, 3, -36, 0, 0, -64, 110, -1, -64, 0, 17, 8, 10, 0, 7, -128, 3, 1, 34, 0, 2, 17, 1, 3, 17, 1, -1, -60, 0, 31, 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, -60, 0, -75, 16, 0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 125, 1, 2, 3, 0, 4, 17, 5, 18, 33, 49, 65, 6, 19, 81, 97, 7, 34, 113, 20, 50, -127, -111, -95, 8, 35, 66, -79, -63, 21, 82, -47, -16, 36, 51, 98, 114, -126, 9, 10, 22, 23, 24, 25, 26, 37, 38, 39, 40, 41, 42, 52, 53, 54, 55, 56, 57, 58, 67, 68, 69, 70, 71, 72, 73, 74, 83, 84, 85, 86, 87, 88, 89, 90, 99, 100, 101, 102, 103, 104, 105, 106, 115, 116, 117, 118, 119, 120, 121, 122, -125, -124, -123, -122, -121, -120, -119, -118, -110, -109, -108, -107, -106, -105, -104, -103, -102, -94, -93, -92, -91, -90, -89, -88, -87, -86, -78, -77, -76, -75, -74, -73, -72, -71, -70, -62, -61, -60, -59, -58, -57, -56, -55, -54, -46, -45, -44, -43, -42, -41, -40, -39, -38, -31, -30, -29, -28, -27, -26, -25, -24, -23, -22, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -1, -60, 0, 31, 1, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, -60, 0, -75, 17, 0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 119, 0, 1, 2, 3, 17, 4, 5, 33, 49, 6, 18, 65, 81, 7, 97, 113, 19, 34, 50, -127, 8, 20, 66, -111, -95, -79, -63, 9, 35, 51, 82, -16, 21, 98, 114, -47, 10, 22, 36, 52, -31, 37, -15, 23, 24, 25, 26, 38, 39, 40, 41, 42, 53, 54, 55, 56, 57, 58, 67, 68, 69, 70, 71, 72)
-        SkinDiseaseHistory.add(SkinDiseaseModel("sui mao ga",imageBytes,"sui mao ga 90%"))
-        SkinModelUIAndDB=SkinDiseaseHistory[0]
-        SkinDiseaseHistory.add(SkinDiseaseModel("Giang mai",imageBytes,"Giang Mai 100%"))
-        SkinDiseaseHistory.add(SkinDiseaseModel("Me day",imageBytes,"Me day 30%"))
-        SkinDiseaseHistory.add(SkinDiseaseModel("Mun",imageBytes,"Mun 20%"))
+
+        SkinDiseaseDAO.loadSync(database, auth.uid!!) { SkinDisease ->
+            SkinDiseaseHistory.clear()
+            SkinDiseaseHistory.addAll(SkinDisease)
+            if (SkinDiseaseHistory.isEmpty()) {
+                SkinDiseaseHistory.add(SkinDiseaseModel("No title"))
+            }
+
+            SkinDiseaseAdapter?.notifyDataSetChanged()
+            SkinModelUIAndDB=SkinDiseaseHistory[0]
+
+            val bitmap = BitmapFactory.decodeByteArray(SkinModelUIAndDB.imageBytes, 0,
+                SkinModelUIAndDB.imageBytes.size)
+            IBDiseaseSkin.setImageBitmap(bitmap)
+            TVDiagnose.setText(SkinModelUIAndDB.diagnose)
+        }
+        if (SkinDiseaseHistory.isEmpty()) {
+            SkinDiseaseHistory.add(SkinDiseaseModel("No title"))
+            SkinModelUIAndDB=SkinDiseaseHistory[0]
+        }
+
+//        SkinDiseaseHistory= ArrayList<SkinDiseaseModel>()
+//        var imageBytes: ByteArray = byteArrayOf(-1, -40, -1, -32, 0, 16, 74, 70, 73, 70, 0, 1, 1, 0, 0, 72, 0, 72, 0, 0, -1, -31, 0, 76, 69, 120, 105, 102, 0, 0, 77, 77, 0, 42, 0, 0, 0, 8, 0, 2, 1, 18, 0, 3, 0, 0, 0, 1, 0, 1, 0, 0, -121, 105, 0, 4, 0, 0, 0, 1, 0, 0, 0, 38, 0, 0, 0, 0, 0, 2, -96, 2, 0, 4, 0, 0, 0, 1, 0, 0, 7, -128, -96, 3, 0, 4, 0, 0, 0, 1, 0, 0, 10, 0, 0, 0, 0, 0, -1, -19, 0, 56, 80, 104, 111, 116, 111, 115, 104, 111, 112, 32, 51, 46, 48, 0, 56, 66, 73, 77, 4, 4, 0, 0, 0, 0, 0, 0, 56, 66, 73, 77, 4, 37, 0, 0, 0, 0, 0, 16, -44, 29, -116, -39, -113, 0, -78, 4, -23, -128, 9, -104, -20, -8, 66, 126, -1, -30, 2, 40, 73, 67, 67, 95, 80, 82, 79, 70, 73, 76, 69, 0, 1, 1, 0, 0, 2, 24, 97, 112, 112, 108, 4, 0, 0, 0, 109, 110, 116, 114, 82, 71, 66, 32, 88, 89, 90, 32, 7, -26, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 97, 99, 115, 112, 65, 80, 80, 76, 0, 0, 0, 0, 65, 80, 80, 76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -10, -42, 0, 1, 0, 0, 0, 0, -45, 45, 97, 112, 112, 108, -20, -3, -93, -114, 56, -123, 71, -61, 109, -76, -67, 79, 122, -38, 24, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 100, 101, 115, 99, 0, 0, 0, -4, 0, 0, 0, 48, 99, 112, 114, 116, 0, 0, 1, 44, 0, 0, 0, 80, 119, 116, 112, 116, 0, 0, 1, 124, 0, 0, 0, 20, 114, 88, 89, 90, 0, 0, 1, -112, 0, 0, 0, 20, 103, 88, 89, 90, 0, 0, 1, -92, 0, 0, 0, 20, 98, 88, 89, 90, 0, 0, 1, -72, 0, 0, 0, 20, 114, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 99, 104, 97, 100, 0, 0, 1, -20, 0, 0, 0, 44, 98, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 103, 84, 82, 67, 0, 0, 1, -52, 0, 0, 0, 32, 109, 108, 117, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 101, 110, 85, 83, 0, 0, 0, 20, 0, 0, 0, 28, 0, 68, 0, 105, 0, 115, 0, 112, 0, 108, 0, 97, 0, 121, 0, 32, 0, 80, 0, 51, 109, 108, 117, 99, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 12, 101, 110, 85, 83, 0, 0, 0, 52, 0, 0, 0, 28, 0, 67, 0, 111, 0, 112, 0, 121, 0, 114, 0, 105, 0, 103, 0, 104, 0, 116, 0, 32, 0, 65, 0, 112, 0, 112, 0, 108, 0, 101, 0, 32, 0, 73, 0, 110, 0, 99, 0, 46, 0, 44, 0, 32, 0, 50, 0, 48, 0, 50, 0, 50, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, -10, -43, 0, 1, 0, 0, 0, 0, -45, 44, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, -125, -33, 0, 0, 61, -65, -1, -1, -1, -69, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, 74, -65, 0, 0, -79, 55, 0, 0, 10, -71, 88, 89, 90, 32, 0, 0, 0, 0, 0, 0, 40, 56, 0, 0, 17, 11, 0, 0, -56, -71, 112, 97, 114, 97, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 102, 102, 0, 0, -14, -89, 0, 0, 13, 89, 0, 0, 19, -48, 0, 0, 10, 91, 115, 102, 51, 50, 0, 0, 0, 0, 0, 1, 12, 66, 0, 0, 5, -34, -1, -1, -13, 38, 0, 0, 7, -109, 0, 0, -3, -112, -1, -1, -5, -94, -1, -1, -3, -93, 0, 0, 3, -36, 0, 0, -64, 110, -1, -64, 0, 17, 8, 10, 0, 7, -128, 3, 1, 34, 0, 2, 17, 1, 3, 17, 1, -1, -60, 0, 31, 0, 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, -60, 0, -75, 16, 0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 125, 1, 2, 3, 0, 4, 17, 5, 18, 33, 49, 65, 6, 19, 81, 97, 7, 34, 113, 20, 50, -127, -111, -95, 8, 35, 66, -79, -63, 21, 82, -47, -16, 36, 51, 98, 114, -126, 9, 10, 22, 23, 24, 25, 26, 37, 38, 39, 40, 41, 42, 52, 53, 54, 55, 56, 57, 58, 67, 68, 69, 70, 71, 72, 73, 74, 83, 84, 85, 86, 87, 88, 89, 90, 99, 100, 101, 102, 103, 104, 105, 106, 115, 116, 117, 118, 119, 120, 121, 122, -125, -124, -123, -122, -121, -120, -119, -118, -110, -109, -108, -107, -106, -105, -104, -103, -102, -94, -93, -92, -91, -90, -89, -88, -87, -86, -78, -77, -76, -75, -74, -73, -72, -71, -70, -62, -61, -60, -59, -58, -57, -56, -55, -54, -46, -45, -44, -43, -42, -41, -40, -39, -38, -31, -30, -29, -28, -27, -26, -25, -24, -23, -22, -15, -14, -13, -12, -11, -10, -9, -8, -7, -6, -1, -60, 0, 31, 1, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, -60, 0, -75, 17, 0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 119, 0, 1, 2, 3, 17, 4, 5, 33, 49, 6, 18, 65, 81, 7, 97, 113, 19, 34, 50, -127, 8, 20, 66, -111, -95, -79, -63, 9, 35, 51, 82, -16, 21, 98, 114, -47, 10, 22, 36, 52, -31, 37, -15, 23, 24, 25, 26, 38, 39, 40, 41, 42, 53, 54, 55, 56, 57, 58, 67, 68, 69, 70, 71, 72)
+//        SkinDiseaseHistory.add(SkinDiseaseModel("sui mao ga",imageBytes,"sui mao ga 90%"))
+//        SkinModelUIAndDB=SkinDiseaseHistory[0]
+//        SkinDiseaseHistory.add(SkinDiseaseModel("Giang mai",imageBytes,"Giang Mai 100%"))
+//        SkinDiseaseHistory.add(SkinDiseaseModel("Me day",imageBytes,"Me day 30%"))
+//        SkinDiseaseHistory.add(SkinDiseaseModel("Mun",imageBytes,"Mun 20%"))
 
         //end todo
 
@@ -136,7 +171,7 @@ class SkinDisease : AppCompatActivity() {
         val chatboxList: RecyclerView = navigationView.findViewById(R.id.RVChatBox)
 
 
-        val SkinDiseaseAdapter = SkinDiseaseAdapter(this, SkinDiseaseHistory,IBDiseaseSkin,TVDiagnose,
+        SkinDiseaseAdapter = SkinDiseaseAdapter(this, SkinDiseaseHistory,IBDiseaseSkin,TVDiagnose,
                                                     SkinModelUIAndDB)
 
         chatboxList.adapter = SkinDiseaseAdapter
@@ -213,5 +248,10 @@ class SkinDisease : AppCompatActivity() {
         outputStream.close()
         return bytes
     }
-
+    override fun onPause() {
+        super.onPause()
+        var id=auth.uid
+        Log.d("Store Chat Boxes", "Storing")
+        SkinDiseaseDAO.save(database,id!!,SkinDiseaseHistory)
+    }
 }

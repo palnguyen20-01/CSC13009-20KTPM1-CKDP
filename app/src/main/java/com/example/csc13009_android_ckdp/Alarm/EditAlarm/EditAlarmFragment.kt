@@ -1,11 +1,14 @@
 package com.example.csc13009_android_ckdp.Alarm.EditAlarm
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.csc13009_android_ckdp.Alarm.CreateAlarm.TimePickerUtil
 import com.example.csc13009_android_ckdp.Alarm.ViewModel.AlarmViewModel
@@ -70,6 +73,14 @@ private val args:EditAlarmFragmentArgs by navArgs()
             }
         })
 
+        binding.saveAlarmBTN.setOnClickListener {
+            findNavController().navigate(R.id.action_editAlarmFragment_to_alarmListFragment)
+            this.onDestroy()
+        }
+        binding.cancelAlarmBTN.setOnClickListener {
+            findNavController().navigate(R.id.action_editAlarmFragment_to_alarmListFragment)
+        }
+
     }
 
     override fun onDestroy() {
@@ -79,7 +90,6 @@ private val args:EditAlarmFragmentArgs by navArgs()
         args.Alarm.hour=TimePickerUtil.getHour(binding.timePicker)
         args.Alarm.minute=TimePickerUtil.getMinute(binding.timePicker)
 args.Alarm.schedule(requireContext())
-
         viewModel.update(alarm=args.Alarm)
         super.onDestroy()
     }
