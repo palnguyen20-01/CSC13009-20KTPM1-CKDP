@@ -2,7 +2,6 @@ package com.example.csc13009_android_ckdp
 
 import android.content.Intent
 import android.content.IntentSender
-import android.media.FaceDetector.Face
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -16,7 +15,6 @@ import com.example.csc13009_android_ckdp.Models.Users
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -28,13 +26,14 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
 import com.google.firebase.database.FirebaseDatabase
+import org.json.JSONObject
 import java.util.*
 
 
 open class LoginActivity : AppCompatActivity() {
     lateinit var btnSignIn: Button
     lateinit var btnSignInGG: Button
-    lateinit var btnSignInFb: LoginButton
+    lateinit var btnSignInFb: Button
     lateinit var progressBtn: ProgressBar
     lateinit var textEmail: TextView
     lateinit var textPass: TextView
@@ -50,6 +49,8 @@ open class LoginActivity : AppCompatActivity() {
     private lateinit var signInRequest: BeginSignInRequest
     private val REQ_ONE_TAP = 3763
     private val REQ_FORGET_PASSWORD = 3440
+    private var emailFB: String = ""
+    private var nameFB: String = ""
     public
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,26 +106,42 @@ open class LoginActivity : AppCompatActivity() {
             loginGG()
 
         }
-        btnSignInFb.setReadPermissions(listOf("public_profile","email"));
-        //FacebookSdk.sdkInitialize(applicationContext)
         callbackManager = CallbackManager.Factory.create()
 
-        btnSignInFb.registerCallback(callbackManager,
-            object : FacebookCallback<LoginResult> {
-                override fun onSuccess(loginResult: LoginResult) {
-                    Log.d("FB", "facebook:onSuccess:$loginResult")
-                    handleFacebookAccessToken(loginResult.accessToken)
-                }
 
-                override fun onCancel() {
-                    Log.d("FB", "facebook:onCancel")
-                }
+        btnSignInFb.setOnClickListener {
+            LoginManager.getInstance()
+                .logInWithReadPermissions(this, listOf("email","public_profile"))
+            //FacebookSdk.sdkInitialize(applicationContext)
+            LoginManager.getInstance().registerCallback(callbackManager,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        var mGraphRequest = GraphRequest.newMeRequest(
+                            loginResult.accessToken,object : GraphRequest.GraphJSONObjectCallback {
+                                override fun onCompleted(me: JSONObject?, response: GraphResponse?) {
+                                    emailFB = me!!.optString("email")
+                                    nameFB = me!!.optString("name")
+                                }
+                        })
 
-                override fun onError(error: FacebookException) {
-                    Log.d("FB", "facebook:onError", error)
-                }
-            })
+                        var paramenters = Bundle()
+                        paramenters.putString("fields", "email, name, birthday")
+                        mGraphRequest.parameters = paramenters
+                        mGraphRequest.executeAsync()
 
+                        Log.d("FB", "facebook:onSuccess:$loginResult")
+                        handleFacebookAccessToken(loginResult.accessToken)
+                    }
+
+                    override fun onCancel() {
+                        Log.d("FB", "facebook:onCancel")
+                    }
+
+                    override fun onError(error: FacebookException) {
+                        Log.d("FB", "facebook:onError", error)
+                    }
+                })
+        }
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -134,16 +151,16 @@ open class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
-//                    Log.d("FACEBOOK", user!!.email!!)
-//                    Log.d("FACEBOOK", user.photoUrl!!.toString())
-//                    val userData = Users(user!!.email!!,user.displayName!!, user.photoUrl!!.toString(), user.uid)
+
+                   Log.d("FACEBOOK",  user!!.email!!)
+                    val userData = Users(emailFB, nameFB, user!!.photoUrl!!.toString(), user.uid)
 //
-//                    database.reference.child("Users").child(user.uid).setValue(userData)
-//                        .addOnSuccessListener {
-//                            Log.d("firebase", "Login by Facebook success")
-//                        }.addOnFailureListener{
-//                            Log.d("firebase", "Error getting data")
-//                        }
+                    database.reference.child("Users").child(user.uid).setValue(userData)
+                        .addOnSuccessListener {
+                            Log.d("firebase", "Login by Facebook success")
+                        }.addOnFailureListener{
+                            Log.d("firebase", "Error getting data")
+                        }
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
