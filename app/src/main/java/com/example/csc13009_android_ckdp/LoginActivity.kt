@@ -69,10 +69,10 @@ open class LoginActivity : AppCompatActivity() {
 
         database = FirebaseDatabase.getInstance()
 
-//        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.my_web_client_id))
-//            .requestEmail().build()
-//        gsc = GoogleSignIn.getClient(this, gso)
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.my_web_client_id))
+            .requestEmail().build()
+        gsc = GoogleSignIn.getClient(this, gso)
 
         textSignUp.setOnClickListener {
             startActivity(Intent(applicationContext, SignUpActivity::class.java))
@@ -181,24 +181,24 @@ open class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginGG() {
-//        val signInIntent = gsc.signInIntent
-//        startActivityForResult(signInIntent, 1789)
+        val signInIntent = gsc.signInIntent
+        startActivityForResult(signInIntent, 9246)
 
         Log.d("GOOGLE", "DANG dang nhap")
 
-        oneTapClient.beginSignIn(signInRequest)
-            .addOnSuccessListener { result ->
-                try {
-                    startIntentSenderForResult(
-                        result.pendingIntent.intentSender,
-                        REQ_ONE_TAP, null, 0, 0, 0)
-                } catch (e: IntentSender.SendIntentException) {
-                    showToast( e.localizedMessage)
-                }
-            }
-            .addOnFailureListener {
-                showToast( it.localizedMessage)
-            }
+//        oneTapClient.beginSignIn(signInRequest)
+//            .addOnSuccessListener { result ->
+//                try {
+//                    startIntentSenderForResult(
+//                        result.pendingIntent.intentSender,
+//                        REQ_ONE_TAP, null, 0, 0, 0)
+//                } catch (e: IntentSender.SendIntentException) {
+//                    showToast( e.localizedMessage)
+//                }
+//            }
+//            .addOnFailureListener {
+//                showToast( it.localizedMessage)
+//            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -225,10 +225,10 @@ open class LoginActivity : AppCompatActivity() {
                     showToast("\n${e.message.toString()}")
                 }
             }
-            1789 -> {
+            9246 -> {
                 val accountTask: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
-
+                Log.d("Login GG", "Toi dayy!!!")
 
                 var accountGG = accountTask.getResult(ApiException::class.java)
                 var credential = GoogleAuthProvider.getCredential(accountGG.idToken, null)
