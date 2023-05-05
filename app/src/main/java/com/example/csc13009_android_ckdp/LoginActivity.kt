@@ -152,7 +152,8 @@ open class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     val user = auth.currentUser
 
-                   Log.d("FACEBOOK",  user!!.email!!)
+                   Log.d("FACEBOOK",  emailFB)
+                    user!!.updateEmail(emailFB)
                     val userData = Users(emailFB, nameFB, user!!.photoUrl!!.toString(), user.uid)
 //
                     database.reference.child("Users").child(user.uid).setValue(userData)
