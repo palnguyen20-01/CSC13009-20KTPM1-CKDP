@@ -37,6 +37,9 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private val REQUEST_LOCATION_PERMISSION = 1
     private val TAG = HospitalMapActivity::class.java.simpleName
     private var oldPostion : LatLng = LatLng(0.0,0.0)
+    private var type : String = "none"
+    private var lat : Double = 0.0
+    private var lng : Double = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,6 +70,13 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
                         val address = addressList[i]
                         val latLng = LatLng(address!!.latitude,address!!.longitude)
                         map.addMarker(MarkerOptions().position(latLng).title(location))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    }
+
+                    if(addressList!!.size == 0){
+                        val latLng = LatLng(lat,lng)
+                        map.addMarker(MarkerOptions().position(latLng).title(location))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
                     }
                 }
 
@@ -79,6 +89,18 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setTitle(R.string.title_activity_hospital_map)
+    }
+
+    fun checkType(){
+        val intent = intent
+        val type = intent.getStringExtra("type")
+        if(type == "hospital") {
+            val Name = intent.getStringExtra("name")
+            val Address = intent.getStringExtra("address")
+            val Lat = intent.getStringExtra("lat").toString().toDouble()
+            val Lng = intent.getStringExtra("lng").toString().toDouble()
+            mapSearchView.setQuery(Name, true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -206,6 +228,7 @@ class HospitalMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, zoomLevel))
                 map.addMarker(MarkerOptions().position(myLocation))
                 oldPostion = myLocation
+                checkType()
             }
         }
     }

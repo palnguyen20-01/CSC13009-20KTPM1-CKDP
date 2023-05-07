@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <queries>
         <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
         <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
     </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -27,8 +29,7 @@
         <activity
             android:name=".Message.ChatActivity"
             android:exported="false"
-            android:parentActivityName=".Message.MessageActivity"
-            />
+            android:parentActivityName=".Message.MessageActivity" />
         <activity
             android:name=".Message.NewMessageActivity"
             android:exported="false"
@@ -36,9 +37,7 @@
         <activity
             android:name=".Message.MessageActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity">
-
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
@@ -59,7 +58,31 @@
         <activity
             android:name=".HospitalMap.HospitalMapActivity"
             android:exported="true"
+            android:parentActivityName=".HospitalMap.HospitalMapMenu">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HospitalMap.HospitalMapMenu" />
+        </activity>
+        <activity
+            android:name=".HospitalMap.HospitalListActivity"
+            android:exported="true"
+            android:parentActivityName=".HospitalMap.HospitalMapMenu">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HospitalMap.HospitalMapMenu" />
+        </activity>
+        <activity
+            android:name=".HospitalMap.HospitalMapMenu"
+            android:exported="true"
             android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -80,7 +103,6 @@
             android:name="com.example.csc13009_android_ckdp.LoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -206,8 +228,8 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:replace="android:value"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"
+            tools:replace="android:value" />
         <meta-data
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />

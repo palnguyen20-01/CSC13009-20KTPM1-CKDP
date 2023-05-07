@@ -75,6 +75,8 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="title_activity_first_aid">Sơ cứu</string>
     <string name="title_activity_bmi">Đo BMI</string>
     <string name="title_activity_hospital_map">Bản đồ bệnh viện</string>
+    <string name="button_hospital_map">Bản đồ bệnh viện</string>
+    <string name="button_hospital_list">Danh sách bệnh viện</string>
     <string name="normal_map">Bản đồ</string>
     <string name="hybrid_map">Bản đồ hỗn hợp</string>
     <string name="satellite_map">Bản đồ vệ tinh</string>
