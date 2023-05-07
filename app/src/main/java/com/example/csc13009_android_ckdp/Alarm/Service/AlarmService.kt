@@ -11,15 +11,21 @@ import com.example.csc13009_android_ckdp.R
 
 class AlarmService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val CONTENT=intent!!.getStringExtra("CONTENT")
+
         val intent=Intent(this, RingAlarmActivity::class.java)
 
-        val pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_MUTABLE)
+intent.putExtra("CONTENT",CONTENT)
+        intent.setAction("MESSAGE");
+        val pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_ONE_SHOT)
 
         val notification=NotificationCompat.Builder(this, App.ID)
             .setSmallIcon(R.drawable.ic_time)
             .setContentTitle("Time to take medicine")
             .setContentText("Take medicine")
             .setContentIntent(pendingIntent)
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(CONTENT))
             .build()
 
 

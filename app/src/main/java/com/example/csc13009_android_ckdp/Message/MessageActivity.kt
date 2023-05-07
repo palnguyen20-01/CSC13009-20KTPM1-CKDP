@@ -185,9 +185,6 @@ val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_l
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
                 latestMessagesMap[p0.key!!] = chatMessage
-                latestMessagesMap.forEach {
-                    Log.d("Why",it.key+" : "+it.value)
-                }
                 refreshRecyclerViewMessages()
             }
 

@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.content.getSystemService
+import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -25,8 +25,10 @@ data class Alarm(
     @ColumnInfo var fri: Boolean,
     @ColumnInfo var sat: Boolean,
     @ColumnInfo var sun: Boolean,
-    @ColumnInfo var start:Boolean
-):Parcelable{
+    @ColumnInfo var start:Boolean,
+    @ColumnInfo var content: String?
+) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readValue(Long::class.java.classLoader) as? Long,
         parcel.readInt(),
@@ -38,12 +40,26 @@ data class Alarm(
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString()
     ) {
     }
 
-    constructor():this(Random().nextLong(),0,0)
-    constructor(id:Long,hour:Int,minute:Int):this(id,hour,minute,false,false,false,false,false,false,false,false)
+    constructor():this(Random().nextLong(),0,0,null)
+    constructor(id:Long,hour:Int,minute:Int,content: String?):this(
+        id,
+        hour,
+        minute,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        content
+    )
 fun getTime():String{
     return "$hour:$minute"
 }
@@ -84,7 +100,7 @@ fun getTime():String{
         intent.putExtra(AlarmBroadCastReceiver.SATUDAY,sat)
         intent.putExtra(AlarmBroadCastReceiver.SUNDAY,sun)
         intent.putExtra(AlarmBroadCastReceiver.RECURRING,isLoop())
-
+        intent.putExtra(AlarmBroadCastReceiver.CONTENT,content)
         val pendingIntent = PendingIntent.getBroadcast(context,uid?.toInt()!!,intent,PendingIntent.FLAG_IMMUTABLE)
 
         val calendar=Calendar.getInstance()
@@ -93,6 +109,9 @@ fun getTime():String{
         calendar.set(Calendar.MINUTE,minute)
         calendar.set(Calendar.SECOND,0)
         calendar.set(Calendar.MILLISECOND,0)
+
+        intent.putExtra("HOUR",hour)
+        intent.putExtra("MINUTE",minute)
 
         if(calendar.timeInMillis<=System.currentTimeMillis()){
             calendar.set(Calendar.DAY_OF_WEEK,calendar.get(Calendar.DAY_OF_WEEK)+1)
@@ -118,6 +137,8 @@ alarmManager.cancel(pendingIntent)
 return mon||tue||wed||thu||fri||sat||sun
     }
 
+
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(uid)
         parcel.writeInt(hour)
@@ -130,6 +151,7 @@ return mon||tue||wed||thu||fri||sat||sun
         parcel.writeByte(if (sat) 1 else 0)
         parcel.writeByte(if (sun) 1 else 0)
         parcel.writeByte(if (start) 1 else 0)
+        parcel.writeString(content)
     }
 
     override fun describeContents(): Int {

@@ -4,8 +4,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.csc13009_android_ckdp.Alarm.Service.AlarmService
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 class AlarmBroadCastReceiver:BroadcastReceiver() {
@@ -20,12 +23,26 @@ class AlarmBroadCastReceiver:BroadcastReceiver() {
         val SUNDAY="SUNDAY"
         val RECURRING="RECURRING"
         val TITLE="TITLE"
+        val CONTENT=""
     }
 
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {
         val intentService = Intent(context, AlarmService::class.java)
+        intentService.putExtra("CONTENT", intent!!.getStringExtra(CONTENT))
+
+        val c = Calendar.getInstance()
+        val hour = c.get(Calendar.HOUR_OF_DAY)
+        val minute = c.get(Calendar.MINUTE)
+
+        var alarmHour=intent.getIntExtra("HOUR",-1)
+        var alarmMinute=intent.getIntExtra("MINUTE",-1)
+
+        Log.d("ALARM HOUR",alarmHour.toString()+ ": "+alarmMinute.toString())
+        Log.d("HOUR",hour.toString()+ ": "+minute.toString())
+
         if (!intent?.getBooleanExtra(RECURRING, false)!!) {
             if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             context?.startForegroundService(intentService)
