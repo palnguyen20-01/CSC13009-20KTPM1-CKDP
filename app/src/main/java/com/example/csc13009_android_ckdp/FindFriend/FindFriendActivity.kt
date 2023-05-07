@@ -47,7 +47,6 @@ class FindFriendActivity : AppCompatActivity() {
     private fun loadUsers(s: String) {
         Log.d("Search", s)
         var query = userRef.orderByChild("name").startAt(s).endAt(s + "\uf8ff")
-        Log.d("Query", query.toString())
         var options = FirebaseRecyclerOptions.Builder<Users>().setQuery(query, Users::class.java).build()
 
         adapter = object : FirebaseRecyclerAdapter<Users, FindFriendViewHolder>(options){

@@ -4,11 +4,14 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -29,9 +32,16 @@ class SettingFragment : Fragment() {
     lateinit var imageProfile : ImageView
     lateinit var txtProfileName: TextView
     lateinit var txtProfileEmail: TextView
+    lateinit var informationText: TextView
+    lateinit var aboutUsText: TextView
+    lateinit var txtPrivacyItem1: TextView
+    lateinit var privacyText: TextView
     lateinit var cardPass : CardView
     lateinit var cardInfo : CardView
     lateinit var cardEmail : CardView
+    lateinit var profileScrollView : ScrollView
+    lateinit var privacyScrollView : ScrollView
+    lateinit var aboutUsScrollView : ScrollView
     //lateinit var cardPhone : CardView
     lateinit var cardLogout : CardView
     var isChange : Boolean = false
@@ -61,7 +71,6 @@ class SettingFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d("TEST", "onActivityResult: $requestCode");
         if(requestCode == 5201){
             imageProfile = main!!.findViewById(R.id.imageProfile)
 
@@ -119,14 +128,38 @@ class SettingFragment : Fragment() {
         cardPass = settingsFragment.findViewById<CardView>(R.id.card_password)
         cardInfo = settingsFragment.findViewById<CardView>(R.id.card_info)
         cardEmail = settingsFragment.findViewById<CardView>(R.id.card_email)
+        informationText = settingsFragment.findViewById<TextView>(R.id.informationTextProfile)
+        aboutUsText = settingsFragment.findViewById<TextView>(R.id.aboutusTextProfile)
+        privacyText = settingsFragment.findViewById<TextView>(R.id.privacyTextProfile)
+        txtPrivacyItem1 = settingsFragment.findViewById<TextView>(R.id.txtPrivacyItem1)
         //cardPhone = settingsFragment.findViewById<CardView>(R.id.card_phone)
         cardLogout = settingsFragment.findViewById<CardView>(R.id.card_logout)
         txtProfileEmail = settingsFragment.findViewById<TextView>(R.id.txtProfileEmail)
         txtProfileName = settingsFragment.findViewById<TextView>(R.id.txtProfileName)
         imageProfile = settingsFragment.findViewById<ImageView>(R.id.imageProfile)
-
+        profileScrollView = settingsFragment.findViewById<ScrollView>(R.id.profileScrollView)
+        privacyScrollView = settingsFragment.findViewById<ScrollView>(R.id.privacyScrollView)
+        aboutUsScrollView = settingsFragment.findViewById<ScrollView>(R.id.aboutUsScrollView)
+        privacyScrollView.visibility = View.GONE
+        aboutUsScrollView.visibility = View.GONE
         initData()
 
+        informationText.setOnClickListener {
+            profileScrollView.visibility = View.VISIBLE
+            privacyScrollView.visibility = View.GONE
+            aboutUsScrollView.visibility = View.GONE
+        }
+        privacyText.setOnClickListener {
+            profileScrollView.visibility = View.GONE
+            privacyScrollView.visibility = View.VISIBLE
+            aboutUsScrollView.visibility = View.GONE
+        }
+        aboutUsText.setOnClickListener {
+            profileScrollView.visibility = View.GONE
+            privacyScrollView.visibility = View.GONE
+            aboutUsScrollView.visibility = View.VISIBLE
+        }
+        //txtPrivacyItem1.setMovementMethod(LinkMovementMethod.getInstance());
         cardPass.setOnClickListener {
             val intent = Intent(context, PasswordChange::class.java)
             startActivity(intent)

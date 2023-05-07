@@ -35,6 +35,29 @@
         </LinearLayout>
     </ScrollView>
 
+    <ScrollView
+        android:id="@+id/privacyScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/item_privacy"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/aboutUsScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/item_aboutus"/>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

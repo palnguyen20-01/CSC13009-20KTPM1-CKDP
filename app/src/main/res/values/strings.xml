@@ -162,6 +162,15 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="drug_interaction">Drug interaction</string>
     <string name="health_advice">Health advice</string>
     <string name="skin_disease">Skin disease</string>
+    //About us
+    <string name="description">Description about our app</string>
+    <string name="description_script">Our application helps users improve their health through their work. Support searching and consulting for diseases, drugs, medical examination places, etc. anytime, anywhere; At the same time, you can set a schedule to take medicine for yourself and monitor the disease status of a family member.</string>
+    <string name="version">Version 1.0</string>
+    <string name="connect_us">Connect with us!</string>
+    <string name="copyright">Copyright 2023 by CKDP</string>
+    <string name="phone_no">Phone number</string>
+    <string name="_0903612640" translatable="false">0903612640</string>
+    <string name="email_contact" translatable="false">ktphanmem20@gmail.com</string>
 
     <!--app  name-->
     <string name="dark_mode">Dark Mode</string>

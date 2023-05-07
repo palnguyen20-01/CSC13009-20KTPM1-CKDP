@@ -55,40 +55,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <TextView
+                        android:id="@+id/informationTextProfile"
                         android:layout_weight="1"
                         android:text="@string/information"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         android:textColor="@color/black"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
                     <View
                         android:background="#79D6D1D1"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"/>
                     <TextView
+                        android:id="@+id/privacyTextProfile"
                         android:layout_weight="1"
-                        android:text="Gia đình"
+                        android:text="Privacy"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         android:textColor="#636262"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
                     <View
                         android:background="#79D6D1D1"
                         android:layout_width="1dp"
                         android:layout_height="match_parent"/>
                     <TextView
+                        android:id="@+id/aboutusTextProfile"
                         android:layout_weight="1"
-                        android:text="Lịch sử"
+                        android:text="About us"
                         android:gravity="center"
                         android:textStyle="bold"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         android:textColor="#636262"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
 
 
                 </LinearLayout>

@@ -142,7 +142,11 @@ class SignUpActivity : AppCompatActivity() {
         }
         else if(textPassword.text.toString().trim().isEmpty())
         {
-            showToast("Enter your Email")
+            showToast("Enter your Password")
+            return false
+        }
+        else if(textPassword.length() < 6){
+            showToast("Your Password must longer than 6")
             return false
         }
         else if(!Patterns.EMAIL_ADDRESS.matcher(textEmail.text.toString()).matches())

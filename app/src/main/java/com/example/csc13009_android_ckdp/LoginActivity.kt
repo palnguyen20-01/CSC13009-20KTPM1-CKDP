@@ -70,7 +70,7 @@ open class LoginActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
 
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.my_web_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail().build()
         gsc = GoogleSignIn.getClient(this, gso)
 
@@ -88,19 +88,19 @@ open class LoginActivity : AppCompatActivity() {
 
         }
 
-        oneTapClient = Identity.getSignInClient(this)
-        signInRequest = BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    // Your server's client ID, not your Android client ID.
-                    .setServerClientId(getString(R.string.default_web_client_id))
-                    // Only show accounts previously used to sign in.
-                    .setFilterByAuthorizedAccounts(false)
-                    .build())
-            // Automatically sign in when exactly one credential is retrieved.
-            .setAutoSelectEnabled(true)
-            .build()
+//        oneTapClient = Identity.getSignInClient(this)
+//        signInRequest = BeginSignInRequest.builder()
+//            .setGoogleIdTokenRequestOptions(
+//                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+//                    .setSupported(true)
+//                    // Your server's client ID, not your Android client ID.
+//                    .setServerClientId(getString(R.string.default_web_client_id))
+//                    // Only show accounts previously used to sign in.
+//                    .setFilterByAuthorizedAccounts(false)
+//                    .build())
+//            // Automatically sign in when exactly one credential is retrieved.
+//            .setAutoSelectEnabled(true)
+//            .build()
 
         btnSignInGG.setOnClickListener {
             loginGG()
@@ -108,11 +108,11 @@ open class LoginActivity : AppCompatActivity() {
         }
         callbackManager = CallbackManager.Factory.create()
 
-
+        FacebookSdk.sdkInitialize(applicationContext)
         btnSignInFb.setOnClickListener {
             LoginManager.getInstance()
                 .logInWithReadPermissions(this, listOf("email","public_profile"))
-            //FacebookSdk.sdkInitialize(applicationContext)
+
             LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
