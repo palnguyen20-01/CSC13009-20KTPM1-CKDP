@@ -12,6 +12,7 @@ import com.example.csc13009_android_ckdp.*
 import com.example.csc13009_android_ckdp.BMI.BMIActivity
 import com.example.csc13009_android_ckdp.FirstAid.FirstAidActivity
 import com.example.csc13009_android_ckdp.HospitalMap.HospitalMapActivity
+import com.example.csc13009_android_ckdp.HospitalMap.HospitalMapMenu
 import com.example.csc13009_android_ckdp.Models.MyFeatures
 
 class HomeAdapter(private val context: Context,
@@ -67,7 +68,7 @@ class HomeAdapter(private val context: Context,
                 context.startActivity(intent)
             }
             else if(index == 3){
-                val intent = Intent(context,HospitalMapActivity::class.java)
+                val intent = Intent(context,HospitalMapMenu::class.java)
                 context.startActivity(intent)
             }else if(index == 4){
                 val intent = Intent(context,Health_Advice::class.java)

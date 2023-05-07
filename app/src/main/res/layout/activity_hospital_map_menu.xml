@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_main1"
+    tools:context=".HospitalMap.HospitalMapMenu">
+
+    <Button
+        android:id="@+id/hospitalMapButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription=" "
+        android:drawableTop="@drawable/hospital_location_icon"
+        android:fontFamily="sans-serif"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/hospitalListButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/hospitalListButton"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription=" "
+        android:drawableTop="@drawable/hospital_list_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hospitalMapButton" />
+
+    <TextView
+        android:id="@+id/hospitalMapTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/button_hospital_map"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="@+id/hospitalMapButton"
+        app:layout_constraintStart_toStartOf="@+id/hospitalMapButton"
+        app:layout_constraintTop_toBottomOf="@+id/hospitalMapButton" />
+
+    <TextView
+        android:id="@+id/hospitalListTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/button_hospital_list"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="@+id/hospitalListButton"
+        app:layout_constraintStart_toStartOf="@+id/hospitalListButton"
+        app:layout_constraintTop_toBottomOf="@+id/hospitalListButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>
