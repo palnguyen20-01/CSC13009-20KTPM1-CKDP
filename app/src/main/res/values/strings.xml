@@ -173,6 +173,10 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="phone_no">Phone number</string>
     <string name="_0903612640" translatable="false">0903612640</string>
     <string name="email_contact" translatable="false">ktphanmem20@gmail.com</string>
+    <string name="reference" >Our reference</string>
+    <string name="google_reference_item1" >API for map:</string>
+    <string name="google_reference_item2" >API for list of nearby hospitals:</string>
+    <string name="google_reference_item3" >API for calculating distance:</string>
 
     <!--app  name-->
     <string name="dark_mode">Dark Mode</string>

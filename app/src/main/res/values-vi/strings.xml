@@ -146,4 +146,8 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="connect_us">Liên hệ với chúng tôi!</string>
     <string name="copyright">Bản quyền 2023 bởi CKDP</string>
     <string name="phone_no">Số điện thoại</string>
+    <string name="reference" >Các tham khảo của chúng tôi</string>
+    <string name="google_reference_item1" >API cho bản đồ:</string>
+    <string name="google_reference_item2" >API cho danh sách bệnh viện lân cận:</string>
+    <string name="google_reference_item3" >API cho tính toán khoảng cách:</string>
 </resources>
