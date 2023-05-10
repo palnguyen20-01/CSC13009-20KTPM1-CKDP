@@ -42,6 +42,7 @@ class ChatActivity : AppCompatActivity() {
 
     companion object {
         val TAG = "ChatLog"
+        private val ALLOWED_CHARACTERS = "0123456789qwertyuiopasdfghjklzxcvbnm"
     }
 
 private val adapter = GroupAdapter<ViewHolder>()
@@ -62,9 +63,9 @@ private var toUserId:String?=null
         binding.recyclerviewChatLog.adapter=adapter
 
        toUserId = intent.getStringExtra(NewMessageActivity.USER_KEY)
-        val fromId = FirebaseAuth.getInstance().uid
 
-        storageReference = FirebaseStorage.getInstance().getReference("message-images/" + fromId)
+
+        storageReference = FirebaseStorage.getInstance().getReference("message-images/" + getRandomString())
 
 //setUpDummyData()
         listenForMessages()
@@ -83,6 +84,13 @@ private var toUserId:String?=null
         }
     }
 
+    private fun getRandomString(sizeOfRandomString: Int = 100): String {
+        val random = Random()
+        val sb = StringBuilder(sizeOfRandomString)
+        for (i in 0 until sizeOfRandomString)
+            sb.append(ALLOWED_CHARACTERS[random.nextInt(ALLOWED_CHARACTERS.length)])
+        return sb.toString()
+    }
     private fun listenForMessages() {
         val fromId = FirebaseAuth.getInstance().uid
         FirebaseDatabase.getInstance().getReference("/Users/$toUserId").get().addOnSuccessListener {
