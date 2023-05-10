@@ -65,7 +65,6 @@ private var toUserId:String?=null
        toUserId = intent.getStringExtra(NewMessageActivity.USER_KEY)
 
 
-        storageReference = FirebaseStorage.getInstance().getReference("message-images/" + getRandomString())
 
 //setUpDummyData()
         listenForMessages()
@@ -142,6 +141,8 @@ private var toUserId:String?=null
 
     }
 
+
+
     private fun performSendMessage(type:Int=1) {
 // how do we actually send a message to firebase...
         val text = binding.edittextChatLog.text.toString()
@@ -174,6 +175,7 @@ private var toUserId:String?=null
                 FirebaseDatabase.getInstance().getReference("/Latest_Messages/$toId/$fromId")
             latestMessageToRef.setValue(chatMessage)
         }else if(type==2){
+            storageReference = FirebaseStorage.getInstance().getReference("message-images/" + getRandomString())
             storageReference.putFile(imageUri!!).addOnCompleteListener{
                 storageReference.downloadUrl.addOnSuccessListener { uri ->
                     val imageMessage =
