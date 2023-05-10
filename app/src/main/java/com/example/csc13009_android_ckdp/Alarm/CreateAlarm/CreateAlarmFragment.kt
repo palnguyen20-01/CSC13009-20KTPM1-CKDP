@@ -27,6 +27,8 @@ import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
+import kotlin.collections.HashMap
 
 
 class CreateAlarmFragment : Fragment() {
@@ -68,6 +70,16 @@ binding.cancelAlarmBTN.setOnClickListener{
         binding.createAlarmBTN.setOnClickListener{
             alarm.hour=TimePickerUtil.getHour(binding.timePicker)
             alarm.minute=TimePickerUtil.getMinute(binding.timePicker)
+
+//            val c = Calendar.getInstance()
+//            var date=c.get(Calendar.DAY_OF_WEEK)
+//            val hour = c.get(Calendar.HOUR_OF_DAY)
+//            val minute = c.get(Calendar.MINUTE)
+//
+//            if(alarm.hour<hour|| (alarm.hour==hour && alarm.minute<minute)){
+//               date+=1
+//                Log.d("DATE",date.toString())
+//            }
 
             var content:String=""
             medicineContent.forEach{

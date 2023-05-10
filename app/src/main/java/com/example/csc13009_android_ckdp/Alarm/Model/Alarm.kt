@@ -110,9 +110,6 @@ fun getTime():String{
         calendar.set(Calendar.SECOND,0)
         calendar.set(Calendar.MILLISECOND,0)
 
-        intent.putExtra("HOUR",hour)
-        intent.putExtra("MINUTE",minute)
-
         if(calendar.timeInMillis<=System.currentTimeMillis()){
             calendar.set(Calendar.DAY_OF_WEEK,calendar.get(Calendar.DAY_OF_WEEK)+1)
         }

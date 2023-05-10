@@ -131,8 +131,11 @@ if(FirebaseAuth.getInstance().uid != userItem.friendId){
         override fun bind(viewHolder: ViewHolder, position: Int) {
 
             val lastestChat=viewHolder.itemView.findViewById<TextView>(R.id.message_textview_latest_message)
-lastestChat.text = chatMessage.text
-
+            if(chatMessage.type==1) {
+                lastestChat.text = chatMessage.text
+            }else if(chatMessage.type==2){
+                lastestChat.text="Image"
+            }
             val image=viewHolder.itemView.findViewById<CircleImageView>(R.id.imageview_latest_message)
 val username=viewHolder.itemView.findViewById<TextView>(R.id.username_textview_latest_message)
 

@@ -33,15 +33,6 @@ class AlarmBroadCastReceiver:BroadcastReceiver() {
         val intentService = Intent(context, AlarmService::class.java)
         intentService.putExtra("CONTENT", intent!!.getStringExtra(CONTENT))
 
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
-
-        var alarmHour=intent.getIntExtra("HOUR",-1)
-        var alarmMinute=intent.getIntExtra("MINUTE",-1)
-
-        Log.d("ALARM HOUR",alarmHour.toString()+ ": "+alarmMinute.toString())
-        Log.d("HOUR",hour.toString()+ ": "+minute.toString())
 
         if (!intent?.getBooleanExtra(RECURRING, false)!!) {
             if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
