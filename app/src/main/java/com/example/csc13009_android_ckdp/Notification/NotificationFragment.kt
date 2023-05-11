@@ -30,6 +30,8 @@ class NotificationFragment : Fragment() {
     lateinit var userRef : DatabaseReference
     val notificationService = NotificationService()
 
+    lateinit var valueEventListener: ValueEventListener
+
     var notiList = ArrayList<Notification>()
     lateinit var adapter: NotificationAdapter
 
@@ -39,7 +41,7 @@ class NotificationFragment : Fragment() {
         notiRef = FirebaseDatabase.getInstance().reference.child("Notifications")
         userRef = FirebaseDatabase.getInstance().reference.child("Users")
         notificationService.seenNoti(main,user.uid)
-        //createNotiListener()
+        createNotiListener()
     }
 
     override fun onCreateView(
@@ -60,9 +62,14 @@ class NotificationFragment : Fragment() {
         return view
     }
 
+    override fun onPause() {
+        Log.i("phuc4570", "pause")
+        notiRef.child(user.uid).child("lastNotiID").removeEventListener(valueEventListener)
+        super.onPause()
+    }
+
     private fun createNotiListener(){
-        notiRef.child(user.uid).child("lastNotiID").addValueEventListener( object :
-            ValueEventListener {
+        valueEventListener = object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     notiRef.child(user.uid).child("seenNotiID").get()
@@ -81,7 +88,7 @@ class NotificationFragment : Fragment() {
 
             }
         }
-        )
+        notiRef.child(user.uid).child("lastNotiID").addValueEventListener(valueEventListener)
     }
 
     private fun prepareData(){
