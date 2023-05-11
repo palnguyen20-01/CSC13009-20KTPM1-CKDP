@@ -87,10 +87,10 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="bmi_obese_3">Obese Class III"</string>
 
     //Notifications
-    <string name="noti_friendreq">\u0009has sent you a friend request</string>
-    <string name="noti_friendac">\u0009has accepted your friend request</string>
-    <string name="noti_acfriend">You have accepted friend request of\u0009</string>
-    <string name="noti_clock">\u0009remind you to take medicine</string>
+    <string name="noti_friendreq">has sent you a friend request</string>
+    <string name="noti_friendac">has accepted your friend request</string>
+    <string name="noti_acfriend">You have accepted friend request of</string>
+    <string name="noti_clock">remind you to take medicine</string>
 
     //
     <!-- TODO: Remove or change this placeholder text -->

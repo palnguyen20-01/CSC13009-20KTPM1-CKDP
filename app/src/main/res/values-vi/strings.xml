@@ -67,10 +67,10 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="bmi_obese_1">Béo phì loại 1</string>
     <string name="bmi_obese_2">Béo phì loại 2</string>
     <string name="bmi_obese_3">Béo phì loại 3</string>
-    <string name="noti_friendreq">\u0009đã gửi lời mời kết bạn cho bạn</string>
-    <string name="noti_friendac">\u0009đã chấp nhận lời mời kết bạn của bạn</string>
-    <string name="noti_acfriend">Bạn đã chấp nhận lời mời kết bạn của\u0009</string>
-    <string name="noti_clock">\u0009đã nhắc bạn uống thuốc</string>
+    <string name="noti_friendreq">đã gửi lời mời kết bạn cho bạn</string>
+    <string name="noti_friendac">đã chấp nhận lời mời kết bạn của bạn</string>
+    <string name="noti_acfriend">Bạn đã chấp nhận lời mời kết bạn của</string>
+    <string name="noti_clock">đã nhắc bạn uống thuốc</string>
     <string name="create">Tạo</string>
     <string name="title_activity_first_aid">Sơ cứu</string>
     <string name="title_activity_bmi">Đo BMI</string>

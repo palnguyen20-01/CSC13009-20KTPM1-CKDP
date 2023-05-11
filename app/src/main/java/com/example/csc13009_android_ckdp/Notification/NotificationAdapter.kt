@@ -119,8 +119,13 @@ class NotificationAdapter(private var notifications: ArrayList<Notification>): R
             val accept_button = holder.accept_button
             accept_button.setOnClickListener {
                 notifications[position].type = "acFriend"
-                val srcName = notifications[position].content.split(" ").get(0)
-                notifications[position].content = holder_temp.itemView.context.getString(R.string.noti_acfriend) + "${srcName}"
+                var contentList = notifications[position].content.split(" ")
+                var i = contentList.lastIndexOf("has")
+                var srcName = notifications[position].content.split(" ").get(0)
+                for(index in 1..i - 1){
+                    srcName += " " + notifications[position].content.split(" ").get(index)
+                }
+                notifications[position].content = holder_temp.itemView.context.getString(R.string.noti_acfriend) + " " + "${srcName}"
                 this.notifyDataSetChanged()
 
                 var notiMap = HashMap<String, Any>()
