@@ -175,7 +175,7 @@ private var toUserId:String?=null
                 FirebaseDatabase.getInstance().getReference("/Latest_Messages/$toId/$fromId")
             latestMessageToRef.setValue(chatMessage)
         }else if(type==2){
-            storageReference = FirebaseStorage.getInstance().getReference("message-images/" + getRandomString())
+            storageReference = FirebaseStorage.getInstance().getReference("message-images/" + fromId+"/"+toId+"/"+getRandomString())
             storageReference.putFile(imageUri!!).addOnCompleteListener{
                 storageReference.downloadUrl.addOnSuccessListener { uri ->
                     val imageMessage =

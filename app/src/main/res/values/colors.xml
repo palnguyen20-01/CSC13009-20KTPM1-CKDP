@@ -11,7 +11,7 @@
     <color name="blue">#0000FF</color>
     <color name="app_main1">#CAE7B9</color>
     <color name="app_main2">#8BC34A</color>
-
+<color name="dark_mode_app_main">#FF2F5700</color>
     <color name="grey_bac2">#EEEEEE</color>
     <color name="grey_bac">#704E4B4B</color>
     <color name="transparent">#79FFFFFF</color>

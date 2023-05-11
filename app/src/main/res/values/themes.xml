@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
     </style>
 
     <style name="Circular">
@@ -26,6 +27,10 @@
         <item name="android:paddingRight">12dp</item>
         <item name="android:minHeight">48dp</item>
         <item name="android:minWidth">40dp</item>
+    </style>
+
+    <style name="recyclerViewDarkMode" >
+        <item name="background">@color/app_main2</item>
     </style>
 
 </resources>

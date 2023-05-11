@@ -13,6 +13,11 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="buttonIcon">@color/white</item>
-        <item name="android:textColorHint">@color/grey_bac</item>
+        <item name="android:textColorHint">@color/white</item>
+<item name="android:textColor" >@color/white</item>
+    </style>
+
+    <style name="recyclerViewDarkMode" >
+        <item name="background">@color/dark_mode_app_main</item>
     </style>
 </resources>
