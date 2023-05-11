@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.csc13009_android_ckdp.ForgetPassword.ForgetPasswordActivity
 import com.example.csc13009_android_ckdp.Models.Users
+import com.example.csc13009_android_ckdp.utilities.RequestCodeResult
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -33,7 +34,6 @@ import java.util.*
 open class LoginActivity : AppCompatActivity() {
     lateinit var btnSignIn: Button
     lateinit var btnSignInGG: Button
-    lateinit var btnSignInFb: Button
     lateinit var progressBtn: ProgressBar
     lateinit var textEmail: TextView
     lateinit var textPass: TextView
@@ -48,9 +48,6 @@ open class LoginActivity : AppCompatActivity() {
     private lateinit var oneTapClient: SignInClient
     private lateinit var signInRequest: BeginSignInRequest
     private val REQ_ONE_TAP = 3763
-    private val REQ_FORGET_PASSWORD = 3440
-    private var emailFB: String = ""
-    private var nameFB: String = ""
     public
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +55,6 @@ open class LoginActivity : AppCompatActivity() {
 
         btnSignIn = findViewById(R.id.btnLogin)
         btnSignInGG = findViewById(R.id.btnSignInGG)
-        btnSignInFb = findViewById(R.id.btnSignInFb)
         textEmail = findViewById(R.id.textLoginEmail)
         textPass = findViewById(R.id.textLoginPassword)
         textSignUp = findViewById(R.id.txtLoginSignUp)
@@ -106,69 +102,6 @@ open class LoginActivity : AppCompatActivity() {
             loginGG()
 
         }
-        callbackManager = CallbackManager.Factory.create()
-
-        FacebookSdk.sdkInitialize(applicationContext)
-        btnSignInFb.setOnClickListener {
-            LoginManager.getInstance()
-                .logInWithReadPermissions(this, listOf("email","public_profile"))
-
-            LoginManager.getInstance().registerCallback(callbackManager,
-                object : FacebookCallback<LoginResult> {
-                    override fun onSuccess(loginResult: LoginResult) {
-                        var mGraphRequest = GraphRequest.newMeRequest(
-                            loginResult.accessToken,object : GraphRequest.GraphJSONObjectCallback {
-                                override fun onCompleted(me: JSONObject?, response: GraphResponse?) {
-                                    emailFB = me!!.optString("email")
-                                    nameFB = me!!.optString("name")
-                                }
-                        })
-
-                        var paramenters = Bundle()
-                        paramenters.putString("fields", "email, name, birthday")
-                        mGraphRequest.parameters = paramenters
-                        mGraphRequest.executeAsync()
-
-                        Log.d("FB", "facebook:onSuccess:$loginResult")
-                        handleFacebookAccessToken(loginResult.accessToken)
-                    }
-
-                    override fun onCancel() {
-                        Log.d("FB", "facebook:onCancel")
-                    }
-
-                    override fun onError(error: FacebookException) {
-                        Log.d("FB", "facebook:onError", error)
-                    }
-                })
-        }
-    }
-
-    private fun handleFacebookAccessToken(token: AccessToken) {
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
-
-                   Log.d("FACEBOOK",  emailFB)
-                    user!!.updateEmail(emailFB)
-                    val userData = Users(emailFB, nameFB, user!!.photoUrl!!.toString(), user.uid)
-//
-                    database.reference.child("Users").child(user.uid).setValue(userData)
-                        .addOnSuccessListener {
-                            Log.d("firebase", "Login by Facebook success")
-                        }.addOnFailureListener{
-                            Log.d("firebase", "Error getting data")
-                        }
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    updateUI(null)
-                }
-
-            }
     }
 
     public override fun onStart() {
@@ -177,15 +110,11 @@ open class LoginActivity : AppCompatActivity() {
         if (auth.currentUser != null) {
             startActivity(Intent(this, MainActivity::class.java))
         }
-
-
     }
 
     private fun loginGG() {
         val signInIntent = gsc.signInIntent
-        startActivityForResult(signInIntent, 9246)
-
-        Log.d("GOOGLE", "DANG dang nhap")
+        startActivityForResult(signInIntent, RequestCodeResult.LOGIN_GOOGLE_REQUEST)
 
 //        oneTapClient.beginSignIn(signInRequest)
 //            .addOnSuccessListener { result ->
@@ -203,7 +132,6 @@ open class LoginActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager.onActivityResult(requestCode,resultCode,data)
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_ONE_TAP -> {
@@ -226,10 +154,9 @@ open class LoginActivity : AppCompatActivity() {
                     showToast("\n${e.message.toString()}")
                 }
             }
-            9246 -> {
+            RequestCodeResult.LOGIN_GOOGLE_REQUEST -> {
                 val accountTask: Task<GoogleSignInAccount> =
                     GoogleSignIn.getSignedInAccountFromIntent(data)
-                Log.d("Login GG", "Toi dayy!!!")
 
                 var accountGG = accountTask.getResult(ApiException::class.java)
                 var credential = GoogleAuthProvider.getCredential(accountGG.idToken, null)
@@ -245,7 +172,6 @@ open class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(firebaseCredential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-
                     // Sign in success
                     // update UI with the signed-in user's information
                     val user = auth.currentUser

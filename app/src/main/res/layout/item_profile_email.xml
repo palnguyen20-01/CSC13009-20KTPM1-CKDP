@@ -39,7 +39,7 @@
 
         </LinearLayout>
         <TextView
-            android:text="Change email"
+            android:text="@string/change_email"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"

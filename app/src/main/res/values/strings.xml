@@ -133,12 +133,14 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="confirm_password_hint">Confirm your password</string>
     <string name="forget_password_ask">Forgot password?</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="login_google">Login with google</string>
     <string name="login_facebook">Login with facebook</string>
     <string name="next">Next</string>
     <string name="home">Home</string>
     <string name="message">Message</string>
     <string name="profile">Profile</string>
+    <string name="edit_profile">Edit profile</string>
     <string name="notification">Notification</string>
     <string name="email_updated">Email updated</string>
     <string name="email_updated_description">Your email has been updated!</string>
@@ -171,12 +173,17 @@ How do I remove a splinter?\n\u0009\u0009\u0009\u0009Splinters are more of an an
     <string name="connect_us">Connect with us!</string>
     <string name="copyright">Copyright 2023 by CKDP</string>
     <string name="phone_no">Phone number</string>
+    <string name="privacy">Privacy</string>
+    <string name="aboutus">About us</string>
     <string name="_0903612640" translatable="false">0903612640</string>
     <string name="email_contact" translatable="false">ktphanmem20@gmail.com</string>
     <string name="reference" >Our reference</string>
     <string name="google_reference_item1" >API for map:</string>
     <string name="google_reference_item2" >API for list of nearby hospitals:</string>
     <string name="google_reference_item3" >API for calculating distance:</string>
+    <string name="ai_reference_item1" >API for Assistant ChatGPT:</string>
+    <string name="ai_reference_item2" >API FOR detect-skin-disease:</string>
+    <string name="ai_reference_item3" >API for drug:</string>
 
     <!--app  name-->
     <string name="dark_mode">Dark Mode</string>

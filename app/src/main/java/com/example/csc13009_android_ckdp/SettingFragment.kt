@@ -4,6 +4,7 @@ import android.Manifest.permission.CALL_PHONE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -57,6 +58,7 @@ class SettingFragment : Fragment() {
     var profileImage: ByteArray? = null
     var user: FirebaseUser? = null
     lateinit var auth: FirebaseAuth
+
 //    constructor(main: MainActivity?) : super() {
 //        this.main = main
 //    }
@@ -129,7 +131,6 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val settingsFragment: View = inflater.inflate(R.layout.fragment_setting, container, false)
 
         cardPass = settingsFragment.findViewById<CardView>(R.id.card_password)
@@ -155,20 +156,27 @@ class SettingFragment : Fragment() {
         aboutUsScrollView.visibility = View.GONE
         initData()
 
+        informationText.setTypeface(null, Typeface.BOLD)
+        privacyText.setTypeface(null, Typeface.NORMAL)
+        aboutUsText.setTypeface(null, Typeface.NORMAL)
+
         informationText.setOnClickListener {
             profileScrollView.visibility = View.VISIBLE
             privacyScrollView.visibility = View.GONE
             aboutUsScrollView.visibility = View.GONE
+            updateBoldText(1)
         }
         privacyText.setOnClickListener {
             profileScrollView.visibility = View.GONE
             privacyScrollView.visibility = View.VISIBLE
             aboutUsScrollView.visibility = View.GONE
+            updateBoldText(2)
         }
         aboutUsText.setOnClickListener {
             profileScrollView.visibility = View.GONE
             privacyScrollView.visibility = View.GONE
             aboutUsScrollView.visibility = View.VISIBLE
+            updateBoldText(3)
         }
         //txtPrivacyItem1.setMovementMethod(LinkMovementMethod.getInstance());
         cardPass.setOnClickListener {
@@ -193,6 +201,7 @@ class SettingFragment : Fragment() {
 
         }
         phoneAboutUsText.setOnClickListener {
+
             val mIntent = Intent(Intent.ACTION_CALL)
             mIntent.data = Uri.parse("tel:+84 903612640")
             if (ContextCompat.checkSelfPermission(
@@ -215,9 +224,10 @@ class SettingFragment : Fragment() {
             }
         }
         emailAboutUsText.setOnClickListener {
+
             val intent = Intent(Intent.ACTION_SENDTO)
-            val uriText = "mailto:" + Uri.encode("20127007@student.hcmus.edu.vn") + "?subject=" +
-                    Uri.encode("your email id ") + "&body=" + Uri.encode("")
+            val uriText = "mailto:" + Uri.encode("ktphanmem20@gmail.com") + "?subject=" +
+                    Uri.encode(getString(R.string.app_name)) + "&body=" + Uri.encode("")
 
             val uri = Uri.parse(uriText)
             intent.data = uri
@@ -255,6 +265,25 @@ class SettingFragment : Fragment() {
                     // functionality that depends on this permission.
                 }
                 return
+            }
+        }
+    }
+    private fun updateBoldText(n: Int){
+        when (n) {
+            1 -> {
+                informationText.setTypeface(null, Typeface.BOLD)
+                privacyText.setTypeface(null, Typeface.NORMAL)
+                aboutUsText.setTypeface(null, Typeface.NORMAL)
+            }
+            2 -> {
+                informationText.setTypeface(null, Typeface.NORMAL)
+                privacyText.setTypeface(null, Typeface.BOLD)
+                aboutUsText.setTypeface(null, Typeface.NORMAL)
+            }
+            3 -> {
+                informationText.setTypeface(null, Typeface.NORMAL)
+                privacyText.setTypeface(null, Typeface.NORMAL)
+                aboutUsText.setTypeface(null, Typeface.BOLD)
             }
         }
     }

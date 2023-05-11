@@ -12,12 +12,13 @@
 
 
     <include
-        android:layout_gravity="center"
         layout="@layout/item_profile_image"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_width="match_parent" />
+        android:layout_marginRight="16dp" />
+
     <ScrollView
         android:id="@+id/profileScrollView"
         android:layout_width="match_parent"

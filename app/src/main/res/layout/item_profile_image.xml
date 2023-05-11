@@ -71,11 +71,11 @@
                     <TextView
                         android:id="@+id/privacyTextProfile"
                         android:layout_weight="1"
-                        android:text="Privacy"
+                        android:text="@string/privacy"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textSize="15sp"
-                        android:textColor="#636262"
+                        android:textColor="@color/black"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"/>
                     <View
@@ -85,11 +85,11 @@
                     <TextView
                         android:id="@+id/aboutusTextProfile"
                         android:layout_weight="1"
-                        android:text="About us"
+                        android:text="@string/aboutus"
                         android:gravity="center"
                         android:textStyle="bold"
                         android:textSize="15sp"
-                        android:textColor="#636262"
+                        android:textColor="@color/black"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"/>
 

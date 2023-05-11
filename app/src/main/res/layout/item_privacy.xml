@@ -42,6 +42,7 @@
             android:id="@+id/txtPrivacyItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="17sp"
             android:autoLink="web"
             android:text="https://console.cloud.google.com/apis/library/maps-android-backend.googleapis.com" />
         <TextView
@@ -58,6 +59,7 @@
             android:id="@+id/txtPrivacyItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="17sp"
             android:autoLink="web"
             android:text="https://docs.map4d.vn/map4d-service/api/v1.2/#/api_nearby_search" />
         <TextView
@@ -74,7 +76,57 @@
             android:id="@+id/txtPrivacyItem3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="17sp"
             android:autoLink="web"
             android:text="https://docs.map4d.vn/map4d-service/api/v1.2/#/api_matrix" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:autoLink="web"
+            android:text="@string/ai_reference_item1" />
+        <TextView
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:autoLink="web"
+            android:text="https://rapidapi.com/openai-api-openai-api-default/api/openai80/" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:autoLink="web"
+            android:text="@string/ai_reference_item2" />
+        <TextView
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:autoLink="web"
+            android:text="https://rapidapi.com/ailabapi-ailabapi-default/api/detect-skin-disease" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/black"
+            android:autoLink="web"
+            android:text="@string/ai_reference_item3" />
+        <TextView
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:autoLink="web"
+            android:text="https://open.fda.gov" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

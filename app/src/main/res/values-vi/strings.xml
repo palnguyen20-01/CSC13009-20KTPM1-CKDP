@@ -101,12 +101,14 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="confirm_password_hint">Xác nhận mật khẩu của bạn</string>
     <string name="forget_password_ask">Quên mật khẩu</string>
     <string name="login">Đăng nhập</string>
+    <string name="logout">Đăng xuất</string>
     <string name="login_google">Đăng nhập với google</string>
     <string name="login_facebook">Đăng nhập với facebook</string>
     <string name="next">Tiếp tục</string>
     <string name="home">Trang chủ</string>
     <string name="message">Tin nhắn</string>
     <string name="profile">Thông tin</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
     <string name="notification">Thông báo</string>
     <string name="email_updated">Cập nhật email</string>
     <string name="email_updated_description">Email đã được cập nhật</string>
@@ -146,8 +148,13 @@ Những gì nên có trong bộ sơ cứu của tôi?\n
     <string name="connect_us">Liên hệ với chúng tôi!</string>
     <string name="copyright">Bản quyền 2023 bởi CKDP</string>
     <string name="phone_no">Số điện thoại</string>
+    <string name="privacy">Chính sách</string>
+    <string name="aboutus">Về chúng tôi</string>
     <string name="reference" >Các tham khảo của chúng tôi</string>
     <string name="google_reference_item1" >API cho bản đồ:</string>
     <string name="google_reference_item2" >API cho danh sách bệnh viện lân cận:</string>
     <string name="google_reference_item3" >API cho tính toán khoảng cách:</string>
+    <string name="ai_reference_item1" >API cho trợ lý ChatGPT:</string>
+    <string name="ai_reference_item2" >API cho phát hiện bệnh da liễu:</string>
+    <string name="ai_reference_item3" >API cho thuốc:</string>
 </resources>
