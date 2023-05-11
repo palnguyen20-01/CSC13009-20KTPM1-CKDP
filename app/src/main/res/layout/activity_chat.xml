@@ -47,6 +47,7 @@
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:icon="@drawable/image_send_messagebox_24"
+        app:iconGravity="textEnd"
         app:iconPadding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
