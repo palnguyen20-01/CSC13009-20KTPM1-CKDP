@@ -250,6 +250,8 @@ private fun <VH : ViewHolder?> GroupAdapter<VH>.removeItem(id:Int,list:ArrayList
     var myId=if (list[id].chatMessage.fromId == removeItemId) list[id].chatMessage.toId else list[id].chatMessage.fromId
 list.remove(list[id])
     val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/Latest_Messages/$myId/${removeItemId}").removeValue()
+    val messageToRef = FirebaseDatabase.getInstance().getReference("/Users_Messages/$myId/${removeItemId}").removeValue()
+    val messageFromRef = FirebaseDatabase.getInstance().getReference("/Users_Messages/${removeItemId}/$myId").removeValue()
 this.remove(temp)
     this.notifyDataSetChanged()
 }

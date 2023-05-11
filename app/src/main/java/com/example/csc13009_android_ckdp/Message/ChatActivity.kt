@@ -57,8 +57,7 @@ private var toUserId:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         binding.recyclerviewChatLog.adapter=adapter
 
@@ -109,9 +108,7 @@ private var toUserId:String?=null
                         if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
                             val currentUser = MessageActivity.currentUser ?:return
                             adapter.add(ChatToItem(chatMessage,currentUser))
-
                         } else {
-
                             adapter.add(ChatFromItem(chatMessage,toUser))
                         }
                     }
@@ -164,6 +161,9 @@ private var toUserId:String?=null
                     Log.d(TAG, "Saved our chat message: ${reference.key}")
                     binding.recyclerviewChatLog.scrollToPosition(adapter.itemCount - 1)
                 }
+
+            Log.d("Text",chatMessage.text.toString())
+
 
             toReference.setValue(chatMessage)
 
@@ -252,7 +252,11 @@ class ChatFromItem(val chatMessage:ChatMessage, val user: Users?):Item<ViewHolde
         var uri=user?.image
         Picasso.get().load(uri).into(image)
         if(chatMessage.type==1){
+            chatTV.visibility=View.VISIBLE
+            imageMessage.visibility=View.GONE
+
             chatTV.text=chatMessage.text
+
         }else if(chatMessage.type==2){
             chatTV.visibility= View.GONE
 imageMessage.visibility=View.VISIBLE
@@ -277,6 +281,9 @@ val chatTV: TextView =viewHolder.itemView.findViewById(R.id.textview_to_row)
         var uri=user?.image
         Picasso.get().load(uri).into(image)
 if(chatMessage.type==1){
+    chatTV.visibility=View.VISIBLE
+    imageMessage.visibility=View.GONE
+
     chatTV.text=chatMessage.text
 
 }else if(chatMessage.type==2){
