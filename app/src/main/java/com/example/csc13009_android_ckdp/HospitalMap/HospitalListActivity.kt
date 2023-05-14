@@ -5,7 +5,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -17,18 +16,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.csc13009_android_ckdp.R
+import com.google.android.gms.maps.model.LatLng
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Url
-import com.google.android.gms.maps.model.LatLng
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
 
 class HospitalListActivity : AppCompatActivity(), LocationListener{
     lateinit var hospitalListView : RecyclerView
@@ -139,6 +132,7 @@ class HospitalListActivity : AppCompatActivity(), LocationListener{
 
     override fun onLocationChanged(location: Location) {
         oldPostion = LatLng(location.latitude, location.longitude)
+        Log.i("phuc4570", "location change")
         getHospitalList()
     }
 
@@ -151,12 +145,23 @@ class HospitalListActivity : AppCompatActivity(), LocationListener{
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            Log.i("phuc4570","enableLocation")
             locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if(location != null){
-                oldPostion = LatLng(location.latitude, location.longitude)
-                getHospitalList()
+            var location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            val providers: List<String> = locationManager.getProviders(true)
+            var bestLocation: Location? = null
+            for (provider in providers) {
+                val l: Location = locationManager.getLastKnownLocation(provider) ?: continue
+                if (bestLocation == null || l.accuracy < bestLocation.accuracy) {
+                    bestLocation = l
+                }
             }
+            if(location == null){
+                location = bestLocation!!
+            }
+            Log.i("phuc4570", "getLocation")
+            oldPostion = LatLng(location.latitude, location.longitude)
+            getHospitalList()
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0f, this)
         }
         else {
