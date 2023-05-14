@@ -69,7 +69,7 @@ class GPTAPI {
         val body = JSONObject().apply {
             put("model", "gpt-3.5-turbo")
             put("messages", queriesJSON)
-            put("max_tokens", 150)
+            put("max_tokens", 200)
             put("n", 1)
             put("temperature", 0.3)
         }.toString().toRequestBody(mediaType)
@@ -77,7 +77,7 @@ class GPTAPI {
         val request = Request.Builder()
             .url("https://openai80.p.rapidapi.com/chat/completions")
             .post(body)
-            .addHeader("X-RapidAPI-Key", "b71d1f41camsh51cbf0a2df5facap1b9e25jsn2ce94a61f252")
+            .addHeader("X-RapidAPI-Key", "8a673e4186msh12af7b4e676a669p10f791jsndfd5ec06c895")
             .addHeader("X-RapidAPI-Host", "openai80.p.rapidapi.com")
             .build()
 
